@@ -1,0 +1,8 @@
+year_month,event,anchor_months_since,anchor_type,n_baseline,actual_mom_pct,expected_mom_pct,residual_pct,z_score
+2021-06,WoW TBC Classic (2021-06-01),2,p,14,7.3,-7.2,15.6,1.07
+2022-11,WoW Dragonflight (2022-11-28),3,p,12,-13.9,2.8,-16.3,-0.88
+2024-12,PoE2 EA / Marvel Rivals (12-06),1,p,15,-16.4,-6.0,-11.0,-0.88
+2025-02,Monster Hunter Wilds (2025-02-28),3,p,12,-6.0,2.8,-8.6,-0.45
+2025-06,Dune Awakening (2025-06-10),3,p,12,-6.1,2.8,-8.7,-0.45
+2025-10,Blue Protocol:Star Resonance (2025-10),2,p,14,-10.3,-7.2,-3.4,-0.25
+2026-03,WoW Midnight (2026-03-02),3,p,12,-16.2,2.8,-18.6,-1.02

@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# スクリプトの実行ログ（派生物。陳腐化するのでコミットしない）
+out/

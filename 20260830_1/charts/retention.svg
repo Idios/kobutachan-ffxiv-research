@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" width="820" height="380"
+     font-family="Noto Sans CJK JP">
+<style>
+  .bg{fill:#fcfcfb} .ink{fill:#0b0b0b} .sub{fill:#52514e}
+  .grid{stroke:#d8d8d4;stroke-width:1}
+  .s1{fill:#2a78d6} .s2{fill:#eb6834} .s3{fill:#1baf7a} .s4{fill:#eda100}
+  .l1{stroke:#2a78d6} .l2{stroke:#eb6834} .l3{stroke:#1baf7a} .l4{stroke:#eda100}
+  .ring{stroke:#fcfcfb}
+  .ttl{font-size:15px;font-weight:700} .sc{font-size:11.5px} .lb{font-size:12px}
+  .vl{font-size:12.5px;font-weight:700}
+  @media (prefers-color-scheme: dark) {
+    .bg{fill:#1a1a19} .ink{fill:#ffffff} .sub{fill:#c3c2b7}
+    .grid{stroke:#3a3a38} .ring{stroke:#1a1a19}
+    .s1{fill:#3987e5} .s2{fill:#d95926} .s3{fill:#199e70} .s4{fill:#c98500}
+    .l1{stroke:#3987e5} .l2{stroke:#d95926} .l3{stroke:#199e70} .l4{stroke:#c98500}
+  }
+</style>
+<rect class="bg" x="0" y="0" width="820" height="380"/>
+<text x="24.0" y="26.0" class="ink ttl" text-anchor="start" >発売直後のピークから、何割が残っているか</text>
+<text x="24.0" y="44.0" class="sub sc" text-anchor="start" >横軸は発売からの経過月数。同じ経過月どうしで比べないと意味がない</text>
+<line class="grid" x1="62" y1="318.0" x2="642" y2="318.0"/>
+<text x="54.0" y="322.0" class="sub sc" text-anchor="end" >0%</text>
+<line class="grid" x1="62" y1="255.5" x2="642" y2="255.5"/>
+<text x="54.0" y="259.5" class="sub sc" text-anchor="end" >25%</text>
+<line class="grid" x1="62" y1="193.0" x2="642" y2="193.0"/>
+<text x="54.0" y="197.0" class="sub sc" text-anchor="end" >50%</text>
+<line class="grid" x1="62" y1="130.5" x2="642" y2="130.5"/>
+<text x="54.0" y="134.5" class="sub sc" text-anchor="end" >75%</text>
+<line class="grid" x1="62" y1="68.0" x2="642" y2="68.0"/>
+<text x="54.0" y="72.0" class="sub sc" text-anchor="end" >100%</text>
+<text x="62.0" y="350.0" class="sub sc" text-anchor="middle" >0か月</text>
+<text x="144.9" y="350.0" class="sub sc" text-anchor="middle" >3か月</text>
+<text x="227.7" y="350.0" class="sub sc" text-anchor="middle" >6か月</text>
+<text x="310.6" y="350.0" class="sub sc" text-anchor="middle" >9か月</text>
+<text x="393.4" y="350.0" class="sub sc" text-anchor="middle" >12か月</text>
+<text x="476.3" y="350.0" class="sub sc" text-anchor="middle" >15か月</text>
+<text x="559.1" y="350.0" class="sub sc" text-anchor="middle" >18か月</text>
+<text x="642.0" y="350.0" class="sub sc" text-anchor="middle" >21か月</text>
+<polyline points="62.0,107.7 89.6,176.0 117.2,227.9 144.9,243.9 172.5,220.8 200.1,236.7 227.7,246.9 255.3,251.2 283.0,216.1 310.6,231.7 338.2,232.0 365.8,237.2 393.4,258.7 421.0,233.9 448.7,248.8 476.3,255.9 503.9,258.9 531.5,231.1 559.1,229.5 586.8,242.6 614.4,254.8 642.0,221.0" fill="none" class="l1" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="642.0" cy="221.0" r="4" class="s1"/>
+<circle cx="642.0" cy="221.0" r="4" fill="none" class="ring" stroke-width="2"/>
+<text x="652.0" y="225.0" class="ink lb" text-anchor="start" >FFXIV（7.0） 39%</text>
+<polyline points="62.0,68.0 89.6,190.5 117.2,243.7 144.9,277.8 172.5,288.2 200.1,280.5 227.7,287.9 255.3,295.1 283.0,298.9 310.6,303.8 338.2,304.5 365.8,296.7 393.4,299.2 421.0,302.4 448.7,308.2 476.3,309.5 503.9,310.2 531.5,311.0 559.1,311.8 586.8,312.4 614.4,308.3 642.0,310.4" fill="none" class="l2" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="642.0" cy="310.4" r="4" class="s2"/>
+<circle cx="642.0" cy="310.4" r="4" fill="none" class="ring" stroke-width="2"/>
+<text x="652.0" y="300.4" class="ink lb" text-anchor="start" >Throne and Liberty 3%</text>
+<polyline points="62.0,68.0 89.6,137.7 117.2,215.7 144.9,248.6 172.5,258.6 200.1,270.9 227.7,283.3 255.3,278.8 283.0,280.3 310.6,273.3 338.2,263.6 365.8,246.8 393.4,110.3 421.0,279.0 448.7,308.7 476.3,311.1 503.9,312.4 531.5,313.5 559.1,314.0 586.8,314.0 614.4,314.2 642.0,314.8" fill="none" class="l3" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="642.0" cy="314.8" r="4" class="s3"/>
+<circle cx="642.0" cy="314.8" r="4" fill="none" class="ring" stroke-width="2"/>
+<text x="652.0" y="332.8" class="ink lb" text-anchor="start" >New World 1%</text>
+<line class="grid" x1="393.4" y1="68" x2="393.4" y2="318" stroke-dasharray="3 3"/>
+<text x="385.4" y="98.0" class="sub sc" text-anchor="end" >New World が開発終了を発表</text>
+<text x="385.4" y="114.0" class="sub sc" text-anchor="end" >（以降の落ち込みは打ち切りの結果）</text>
+<text x="24.0" y="374.0" class="sub sc" text-anchor="start" >※ Steam の同時接続数。Steam が全プレイヤーの何割を捕まえるかはタイトルで桁が違うので、絶対値の比較には使えない</text>
+</svg>

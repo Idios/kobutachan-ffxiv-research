@@ -1,0 +1,20 @@
+title,region,platform,plan,duration_days,price_local,currency,tax,effective_from,source_url,grade
+DQX,JP,Windows/Switch,3キャラコース,30,1000,JPY,込,2012-08-02..2024-03-20,https://hiroba.dqx.jp/sc/topics/detail/414a7497190eaef6b5d75d5a6a11afcf/,一次
+DQX,JP,Windows/Switch,3キャラコース,30,1200,JPY,込,2024-03-21,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_win/,一次
+DQX,JP,Windows/Switch,4キャラコース,30,1300,JPY,込,..2024-03-20,https://hiroba.dqx.jp/sc/topics/detail/414a7497190eaef6b5d75d5a6a11afcf/,一次
+DQX,JP,Windows/Switch,4キャラコース,30,1400,JPY,込,2024-03-21,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_win/,一次
+DQX,JP,Windows/Switch,5キャラコース,30,1500,JPY,込,変更なし,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_win/,一次
+DQX,JP,Windows/Switch,3キャラコース,60,1950,JPY,込,..2024-03-20,https://hiroba.dqx.jp/sc/topics/detail/414a7497190eaef6b5d75d5a6a11afcf/,一次
+DQX,JP,Windows/Switch,3キャラコース,60,2350,JPY,込,2024-03-21,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_win/,一次
+DQX,JP,Windows/Switch,3キャラコース,90,2900,JPY,込,..2024-03-20,https://hiroba.dqx.jp/sc/topics/detail/414a7497190eaef6b5d75d5a6a11afcf/,一次
+DQX,JP,Windows/Switch,3キャラコース,90,3500,JPY,込,2024-03-21,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_win/,一次
+DQX,JP,PS4,5キャラコースのみ,30,1500,JPY,込,現行,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_ps4/,一次
+DQX,JP,PS4,5キャラコースのみ,60,2950,JPY,込,現行,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_ps4/,一次
+DQX,JP,PS4,5キャラコースのみ,90,4400,JPY,込,現行,https://hiroba.dqx.jp/sc/public/playguide/guide_1_3_ps4/,一次
+FFXI,JP,全PF,サービス基本料金,30,1298,JPY,込,現行,https://www.playonline.com/ff11/envi/charge.html,一次
+FFXI,JP,全PF,キャラクター利用料金(1体),30,110,JPY,込,現行,https://www.playonline.com/ff11/envi/charge.html,一次
+FFXI,JP,全PF,モグワードローブ(1個),30,220,JPY,込,現行,https://www.playonline.com/ff11/envi/charge.html,一次
+FFXIV,KR,PC,30일 이용권,30,19800,KRW,-,現行,https://www.ff14.co.kr/shop/home/detail/3,一次
+FFXIV,KR,PC,90일 이용권,90,47500,KRW,-,現行,https://www.ff14.co.kr/shop/home/detail/3,一次
+FFXIV,TW/HK繁中版,PC,月卡(現金),30,450,TWD,-,2025-12-10,https://kkplay3c.net/ff14-tw-early-bird/,二次
+FFXIV,TW/HK繁中版,PC,月卡(信用卡訂閱),30,420,TWD,-,2025-12-10,https://kkplay3c.net/ff14-tw-early-bird/,二次

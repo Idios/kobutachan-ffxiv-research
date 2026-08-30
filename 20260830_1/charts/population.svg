@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400"
+     font-family="Noto Sans CJK JP">
+<style>
+  .bg{fill:#fcfcfb} .ink{fill:#0b0b0b} .sub{fill:#52514e}
+  .grid{stroke:#d8d8d4;stroke-width:1}
+  .s1{fill:#2a78d6} .s2{fill:#eb6834} .s3{fill:#1baf7a} .s4{fill:#eda100}
+  .l1{stroke:#2a78d6} .l2{stroke:#eb6834} .l3{stroke:#1baf7a} .l4{stroke:#eda100}
+  .ring{stroke:#fcfcfb}
+  .ttl{font-size:15px;font-weight:700} .sc{font-size:11.5px} .lb{font-size:12px}
+  .vl{font-size:12.5px;font-weight:700}
+  @media (prefers-color-scheme: dark) {
+    .bg{fill:#1a1a19} .ink{fill:#ffffff} .sub{fill:#c3c2b7}
+    .grid{stroke:#3a3a38} .ring{stroke:#1a1a19}
+    .s1{fill:#3987e5} .s2{fill:#d95926} .s3{fill:#199e70} .s4{fill:#c98500}
+    .l1{stroke:#3987e5} .l2{stroke:#d95926} .l3{stroke:#199e70} .l4{stroke:#c98500}
+  }
+</style>
+<rect class="bg" x="0" y="0" width="880" height="400"/>
+<text x="62.0" y="24.0" class="ink ttl" text-anchor="start" >活動キャラクター数の推移（64日換算・レベル下限を統一）</text>
+<text x="62.0" y="40.0" class="sub sc" text-anchor="start" >有志の国勢調査を、調査の間隔と集計対象のレベル下限で揃え直したもの</text>
+<line class="grid" x1="62" y1="324.0" x2="856" y2="324.0"/>
+<text x="54.0" y="328.0" class="sub sc" text-anchor="end" >0万</text>
+<line class="grid" x1="62" y1="285.1" x2="856" y2="285.1"/>
+<text x="54.0" y="289.1" class="sub sc" text-anchor="end" >20万</text>
+<line class="grid" x1="62" y1="246.3" x2="856" y2="246.3"/>
+<text x="54.0" y="250.3" class="sub sc" text-anchor="end" >40万</text>
+<line class="grid" x1="62" y1="207.4" x2="856" y2="207.4"/>
+<text x="54.0" y="211.4" class="sub sc" text-anchor="end" >60万</text>
+<line class="grid" x1="62" y1="168.6" x2="856" y2="168.6"/>
+<text x="54.0" y="172.6" class="sub sc" text-anchor="end" >80万</text>
+<line class="grid" x1="62" y1="129.7" x2="856" y2="129.7"/>
+<text x="54.0" y="133.7" class="sub sc" text-anchor="end" >100万</text>
+<line class="grid" x1="62" y1="90.9" x2="856" y2="90.9"/>
+<text x="54.0" y="94.9" class="sub sc" text-anchor="end" >120万</text>
+<line class="grid" x1="62" y1="52.0" x2="856" y2="52.0"/>
+<text x="54.0" y="56.0" class="sub sc" text-anchor="end" >140万</text>
+<line class="grid" x1="449.4" y1="52" x2="449.4" y2="324" stroke-dasharray="3 3"/>
+<text x="453.4" y="340.0" class="sub sc" text-anchor="start" >6.0 暁月</text>
+<line class="grid" x1="675.6" y1="52" x2="675.6" y2="324" stroke-dasharray="3 3"/>
+<text x="679.6" y="340.0" class="sub sc" text-anchor="start" >7.0 黄金</text>
+<polyline points="62.0,198.0 80.8,206.2 95.5,221.3 136.3,232.3 150.0,230.6 165.0,224.8 176.8,232.6 191.0,226.2 200.7,215.1 230.4,204.8 241.4,160.5 262.2,154.4 273.5,155.6 289.0,160.7 302.7,185.1 331.2,169.5 343.0,149.1 360.8,176.7 376.3,171.5 391.5,163.3 415.1,146.8 441.6,113.6 455.9,93.1 479.3,71.7 498.1,110.4 511.1,89.1 524.8,67.7 543.2,109.8 558.9,91.6 592.1,132.1 611.0,124.8 629.5,132.1 653.2,129.0 670.8,109.1 689.1,75.5 705.7,118.0 719.0,137.7 754.5,155.8 784.6,163.4 800.0,175.1 820.5,167.3 833.8,181.5 856.0,158.2" fill="none" class="l1" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="524.8" cy="67.7" r="4.5" class="s1"/>
+<circle cx="524.8" cy="67.7" r="4.5" fill="none" class="ring" stroke-width="2"/>
+<text x="518.8" y="55.7" class="ink vl" text-anchor="end" >6.0ピーク 132万</text>
+<circle cx="689.1" cy="75.5" r="4.5" class="s1"/>
+<circle cx="689.1" cy="75.5" r="4.5" fill="none" class="ring" stroke-width="2"/>
+<text x="695.1" y="63.5" class="ink vl" text-anchor="start" >7.0ピーク 128万</text>
+<circle cx="856.0" cy="158.2" r="4.5" class="s1"/>
+<circle cx="856.0" cy="158.2" r="4.5" fill="none" class="ring" stroke-width="2"/>
+<text x="848.0" y="180.2" class="ink vl" text-anchor="end" >直近 85.4万</text>
+<text x="62.0" y="356.0" class="sub sc" text-anchor="start" >2017年</text>
+<text x="856.0" y="356.0" class="sub sc" text-anchor="end" >2026年7月</text>
+<text x="62.0" y="394.0" class="sub sc" text-anchor="start" >※ 調査の間隔は35〜123日とばらつくので、すべて64日相当に換算してある。公表値（直近95万）をそのまま並べてはいけない</text>
+</svg>

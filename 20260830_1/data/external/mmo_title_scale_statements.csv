@@ -1,0 +1,11 @@
+title,date,speaker_or_source,venue,statement,metric_definition,grade,source_url
+DQX,2026-03-20,堀井雄二,ドラゴンクエストX 春祭り2026 Day1(立川ステージガーデン/ニコ生・YouTube配信),"14年目でも毎晩ですね、10万人くらいが遊んでくれて凄くありがたいですね",不明(同接/DAU/延べのいずれとも明示なし),準一次(配信の書き起こし),https://w.atwiki.jp/ff14incident/pages/314.html
+DQX,2026-03-23,週刊アスキー(堀井雄二談として),記事,"現在もアクティブユーザーは10万人を越えている",媒体が「アクティブユーザー」と表記(定義は非開示),準一次,https://weekly.ascii.jp/elem/000/004/383/4383210/
+DQX,2026-05-14,スクウェア・エニックスHD,2026年3月期決算説明会 質疑応答,"「ドラゴンクエストX オンライン」は国内を中心に安定的に推移",定性,一次,https://www.hd.square-enix.com/jpn/ir/library/pdf/26q4outlineJPN.pdf
+DQX,2026-05-14,スクウェア・エニックスHD,2026年3月期決算説明会,"追加パッケージを発表しており、ビジネスのモメンタムは堅調に推移",定性,一次,https://www.hd.square-enix.com/jpn/ir/library/pdf/26q4outlineJPN.pdf
+FFXI,2025-05-17,藤戸洋司P/D,ファミ通 23周年インタビュー,"『FFXI』のプレイヤー数としても、この1年間くらいは横ばいから微増へと推移",定性(プレイヤー数トレンド),準一次,https://www.famitsu.com/article/202505/42186
+FFXI,2026-05-18,藤戸洋司P/D,ファミ通 24周年インタビュー,"全般としては高水準で横ばいの推移。一部のワールドでは新規キャラクターの受け入れを停止する状況になるほど活性化",定性,準一次,https://www.famitsu.com/article/202605/75074
+FFXI,2026-03-03,スクウェア・エニックス公式,お知らせ,"Odinワールドで新規キャラクター作成・ワールド移転転入・冒険者紹介を2026-03-10より停止(Asura 2025-07、Bahamut 2025-10に続き3ワールド目)。全16ワールド",運用制限(規模の代理指標),準一次(AUTOMATON経由),https://automaton-media.com/articles/newsjp/final-fantasy-xi-20260304-426243/
+FFXI,2026-08-10,スクウェア・エニックスHD,2027年3月期Q1決算説明会,"「ファイナルファンタジーXI」は長期運営ながら安定して推移",定性,一次,https://www.hd.square-enix.com/jpn/ir/pdf/27q1outlineJPN.pdf
+MMO3タイトル,2026-05-14,スクウェア・エニックスHD,2026年3月期決算説明会 質疑応答,"MMOには「FFXIV」「DQX オンライン」「FFXI」の3タイトルがあり、それぞれ異なる役割を担っている",サブセグメント構成の一次確認,一次,https://www.hd.square-enix.com/jpn/ir/library/pdf/26q4outlineJPN.pdf
+FFXI,2024-12,個人ブログ(FFXIAH集計),コミュニティ推計,"競売利用キャラ 通常時約7万キャラ(2023/8-12)→2024年は7万を下回る傾向。モグボナンザ購入数 2023/05 127420個→2024/05 118576個",キャラ数(アカウント数ではない),二次(コミュニティ推計),https://sharks-diary.blogspot.com/2024/12/ffxiah20238202412.html

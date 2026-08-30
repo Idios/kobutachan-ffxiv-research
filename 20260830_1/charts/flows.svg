@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="760" height="300"
+     font-family="Noto Sans CJK JP">
+<style>
+  .bg{fill:#fcfcfb} .ink{fill:#0b0b0b} .sub{fill:#52514e}
+  .grid{stroke:#d8d8d4;stroke-width:1}
+  .s1{fill:#2a78d6} .s2{fill:#eb6834} .s3{fill:#1baf7a} .s4{fill:#eda100}
+  .l1{stroke:#2a78d6} .l2{stroke:#eb6834} .l3{stroke:#1baf7a} .l4{stroke:#eda100}
+  .ring{stroke:#fcfcfb}
+  .ttl{font-size:15px;font-weight:700} .sc{font-size:11.5px} .lb{font-size:12px}
+  .vl{font-size:12.5px;font-weight:700}
+  @media (prefers-color-scheme: dark) {
+    .bg{fill:#1a1a19} .ink{fill:#ffffff} .sub{fill:#c3c2b7}
+    .grid{stroke:#3a3a38} .ring{stroke:#1a1a19}
+    .s1{fill:#3987e5} .s2{fill:#d95926} .s3{fill:#199e70} .s4{fill:#c98500}
+    .l1{stroke:#3987e5} .l2{stroke:#d95926} .l3{stroke:#199e70} .l4{stroke:#c98500}
+  }
+</style>
+<rect class="bg" x="0" y="0" width="760" height="300"/>
+<text x="24.0" y="28.0" class="ink ttl" text-anchor="start" >7.x サイクルは 6.x サイクルの何割か</text>
+<text x="24.0" y="48.0" class="sub sc" text-anchor="start" >分母は「6.x サイクルでの同じ項目の数」。新規38〜56% ＝ 7.x の新規キャラ数 ÷ 6.x の新規キャラ数</text>
+<text x="24.0" y="65.0" class="sub sc" text-anchor="start" >減り方には序列がある： 新規 ≫ 復帰 ＞ 継続</text>
+<line class="grid" x1="576.0" y1="74" x2="576.0" y2="252" stroke-dasharray="4 3"/>
+<text x="576.0" y="68.0" class="sub sc" text-anchor="middle" >6.x と同じ = 100%</text>
+<line class="grid" x1="176" y1="74" x2="176" y2="252"/>
+<text x="162.0" y="102.0" class="ink lb" text-anchor="end" >新規キャラクター</text>
+<rect x="176" y="84" width="152.0" height="26" rx="4" class="s2"/>
+<rect x="328.0" y="95.5" width="72.0" height="3" class="s2" opacity="0.55"/>
+<line x1="400.0" y1="88" x2="400.0" y2="106" class="l2" stroke-width="2"/>
+<text x="412.0" y="102.0" class="ink vl" text-anchor="start" >38%〜56%</text>
+<text x="162.0" y="160.0" class="ink lb" text-anchor="end" >復帰キャラクター</text>
+<rect x="176" y="142" width="252.0" height="26" rx="4" class="s4"/>
+<rect x="428.0" y="153.5" width="24.0" height="3" class="s4" opacity="0.55"/>
+<line x1="452.0" y1="146" x2="452.0" y2="164" class="l4" stroke-width="2"/>
+<text x="464.0" y="160.0" class="ink vl" text-anchor="start" >63%〜69%</text>
+<text x="162.0" y="218.0" class="ink lb" text-anchor="end" >継続キャラクター</text>
+<rect x="176" y="200" width="340.0" height="26" rx="4" class="s3"/>
+<rect x="516.0" y="211.5" width="8.0" height="3" class="s3" opacity="0.55"/>
+<line x1="524.0" y1="204" x2="524.0" y2="222" class="l3" stroke-width="2"/>
+<text x="536.0" y="218.0" class="ink vl" text-anchor="start" >85%〜87%</text>
+<text x="176.0" y="270.0" class="sub sc" text-anchor="middle" >0%</text>
+<text x="376.0" y="270.0" class="sub sc" text-anchor="middle" >50%</text>
+<text x="576.0" y="270.0" class="sub sc" text-anchor="middle" >100%</text>
+<text x="24.0" y="290.0" class="sub sc" text-anchor="start" >※ 塗りが下限、細い線が上限。幅は3通りの補正のしかたによる範囲</text>
+</svg>

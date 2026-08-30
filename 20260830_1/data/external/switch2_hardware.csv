@@ -1,0 +1,19 @@
+period,scope,metric,value_units_10k,source,grade,note
+FY2026.3 Q1(2025-04..06),global,switch2_hw_units,582,nintendo 260806_2.pdf p24,primary,発売2025-06-05。実質4週間
+FY2026.3 Q2(2025-07..09),global,switch2_hw_units,454,nintendo 251104_4.pdf(上期1036-Q1 582),primary,資料本文に「454万台」明記
+FY2026.3 通期,global,switch2_hw_units,1986,nintendo 260508.pdf/260508_4.pdf,primary,
+FY2027.3 Q1(2026-04..06),global,switch2_hw_units,382,nintendo 260806_2.pdf p24,primary,前年同期比 -34.4%
+累計 2026-06-30,global,switch2_hw_cumulative,2368,nintendo ir/finance/hard_soft,primary,
+累計 2026-06-30,global,switch2_sw_cumulative,5817,nintendo ir/finance/hard_soft,primary,ソフト本数
+FY2026.3 通期,japan,switch2_hw_units,570,nintendo 260508_4.pdf 販売数量表,primary,4地域合計1986と整合
+FY2026.3 通期,americas,switch2_hw_units,673,nintendo 260508_4.pdf 販売数量表,primary,
+FY2026.3 通期,europe,switch2_hw_units,566,nintendo 260508_4.pdf 販売数量表,primary,
+FY2026.3 通期,other,switch2_hw_units,177,nintendo 260508_4.pdf 販売数量表,primary,
+FY2027.3 Q1,japan,switch2_hw_units,96,nintendo 260806_2.pdf p24,primary,4地域合計381≒382と整合
+FY2027.3 Q1,americas,switch2_hw_units,59,nintendo 260806_2.pdf p24,primary,
+FY2027.3 Q1,europe,switch2_hw_units,104,nintendo 260806_2.pdf p24,primary,
+FY2027.3 Q1,other,switch2_hw_units,122,nintendo 260806_2.pdf p24,primary,
+FY2027.3 会社予想,global,switch2_hw_units,1650,nintendo 260806_2.pdf,primary,前期比 -16.9%
+FY2027.3 会社予想,global,switch2_sw_units,6000,nintendo 260806_2.pdf,primary,同梱ソフト除く。前期比 +23.2%
+2025暦年,japan,switch2_sellthrough_cumulative,378,ファミ通(gamesdata.info集計),secondary,実売。2025-06-05発売
+2026-08上旬,japan,switch2_sellthrough_cumulative,620,ファミ通(gamesdata.info集計 619.8万),secondary,実売。任天堂の日本向け出荷累計666万と整合的

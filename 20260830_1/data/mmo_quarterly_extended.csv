@@ -1,0 +1,44 @@
+fiscal_year,quarter,cumulative_or_standalone,mmo_revenue_oku,mmo_op_oku,source,confidence,note
+FY2017.3,Q1,standalone,56,未取得,18q1slidesJPN.pdf p.MMO 棒グラフ印字ラベル,high,営業利益は折れ線のみ・数値ラベルなし
+FY2017.3,Q2,standalone,54,未取得,18q1slidesJPN.pdf p.MMO 棒グラフ印字ラベル,high,同上
+FY2017.3,Q3,standalone,56,未取得,18q1slidesJPN.pdf p.MMO 棒グラフ印字ラベル,high,同上
+FY2017.3,Q4,standalone,59,未取得,18q1slidesJPN.pdf p.MMO 棒グラフ印字ラベル,high,4Q合計225 vs 通期227（丸め差2）
+FY2018.3,Q1,standalone,93,未取得,19q1slidesJPN.pdf(=18q1の第5棒と一致),high,紅蓮のリベレーター発売四半期
+FY2018.3,Q2,standalone,80,未取得,19q1slidesJPN.pdf 棒グラフ印字ラベル,high,
+FY2018.3,Q3,standalone,76,未取得,19q1slidesJPN.pdf 棒グラフ印字ラベル,high,
+FY2018.3,Q4,standalone,68,未取得,19q1slidesJPN.pdf 棒グラフ印字ラベル,high,4Q合計317 vs 通期318（丸め差1）
+FY2019.3,Q1,standalone,63,未取得,20q1slidesJPN.pdf(=19q1の第5棒と一致),high,
+FY2019.3,Q2,standalone,64,未取得,20q1slidesJPN.pdf 棒グラフ印字ラベル,high,
+FY2019.3,Q3,standalone,65,未取得,20q1slidesJPN.pdf 棒グラフ印字ラベル,high,
+FY2019.3,Q4,standalone,77,未取得,20q1slidesJPN.pdf 棒グラフ印字ラベル,high,4Q合計269 vs 通期271（丸め差2）
+FY2020.3,Q1,standalone,88,未取得,21q1slidesJPN.pdf(=20q1の第5棒と一致),high,
+FY2020.3,Q2,standalone,136,未取得,21q1slidesJPN.pdf 棒グラフ印字ラベル,high,漆黒のヴィランズ発売四半期
+FY2020.3,Q3,standalone,86,未取得,21q1slidesJPN.pdf 棒グラフ印字ラベル,high,
+FY2020.3,Q4,standalone,90,未取得,21q1slidesJPN.pdf 棒グラフ印字ラベル,high,4Q合計400 vs 通期401（丸め差1）
+FY2021.3,Q1,standalone,101,未取得（報道目測60前後）,21q1slidesJPN.pdf 棒グラフ印字ラベル / gamebiz 2020-08-06,high(売上)/low(利益),gamebizの「60億円近く」は無ラベル折れ線の目測と判断
+FY2021.3,Q2,standalone,108,未取得,Phase1（累計資料の差分算出）,medium,本調査では未再検証
+FY2021.3,Q3,standalone,86,未取得,Phase1（累計資料の差分算出）,medium,本調査では未再検証
+FY2021.3,Q4,standalone,103,未取得,Phase1（累計資料の差分算出）,medium,通期398
+FY2022.3,Q1,standalone,116,未取得,22q1slidesJPN.pdf 棒グラフ印字ラベル,high,
+FY2022.3,Q2,standalone,161,未取得,Phase1,medium,
+FY2022.3,Q3,standalone,205,未取得,Phase1,medium,暁月のフィナーレ発売四半期
+FY2022.3,Q4,standalone,140,未取得,Phase1,medium,通期622（ピーク）
+FY2023.3,FY,annual,533,291,24q4slidesJPN.pdf 前期欄（印字ラベル）,high,MMO営業利益の最古の開示値
+FY2023.3,Q1,standalone,141,未取得,Phase1,medium,四半期営業利益の開示なし
+FY2023.3,Q2,standalone,145,未取得,Phase1,medium,
+FY2023.3,Q3,standalone,119,未取得,Phase1,medium,
+FY2023.3,Q4,standalone,128,未取得,Phase1,medium,
+FY2024.3,FY,annual,473,193,24q4slidesJPN.pdf 当期欄（印字ラベル）,high,
+FY2024.3,Q1,standalone,110,44,25q1slidesJPN.pdf 前年同期欄（印字ラベル）,high,四半期MMO営業利益の最古の開示値
+FY2024.3,Q2,standalone,129,49,Phase1（25q2前年同期欄）,medium,
+FY2024.3,Q3,standalone,109,51,Phase1,medium,
+FY2024.3,Q4,standalone,125,49,Phase1,medium,
+FY2025.3,Q1,standalone,125,66,25q1slidesJPN.pdf・26q1slidesJPN.pdf（両者一致）,high,
+FY2025.3,Q2,standalone,199,65,Phase1,medium,黄金のレガシー発売四半期
+FY2025.3,Q3,standalone,116,42,Phase1,medium,
+FY2025.3,Q4,standalone,115,46,Phase1,medium,通期555
+FY2026.3,Q1,standalone,96,36,26q1slidesJPN.pdf 当期欄（印字ラベル）,high,
+FY2026.3,Q2,standalone,103,42,Phase1,medium,
+FY2026.3,Q3,standalone,105,41,Phase1,medium,
+FY2026.3,Q4,standalone,106,32,Phase1,medium,通期410
+FY2027.3,Q1,standalone,127,36,Phase1,medium,本調査では未再検証

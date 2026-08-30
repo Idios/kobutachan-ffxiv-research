@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" width="720" height="340"
+     font-family="Noto Sans CJK JP">
+<style>
+  .bg{fill:#fcfcfb} .ink{fill:#0b0b0b} .sub{fill:#52514e}
+  .grid{stroke:#d8d8d4;stroke-width:1}
+  .s1{fill:#2a78d6} .s2{fill:#eb6834} .s3{fill:#1baf7a} .s4{fill:#eda100}
+  .l1{stroke:#2a78d6} .l2{stroke:#eb6834} .l3{stroke:#1baf7a} .l4{stroke:#eda100}
+  .ring{stroke:#fcfcfb}
+  .ttl{font-size:15px;font-weight:700} .sc{font-size:11.5px} .lb{font-size:12px}
+  .vl{font-size:12.5px;font-weight:700}
+  @media (prefers-color-scheme: dark) {
+    .bg{fill:#1a1a19} .ink{fill:#ffffff} .sub{fill:#c3c2b7}
+    .grid{stroke:#3a3a38} .ring{stroke:#1a1a19}
+    .s1{fill:#3987e5} .s2{fill:#d95926} .s3{fill:#199e70} .s4{fill:#c98500}
+    .l1{stroke:#3987e5} .l2{stroke:#d95926} .l3{stroke:#199e70} .l4{stroke:#c98500}
+  }
+</style>
+<rect class="bg" x="0" y="0" width="720" height="340"/>
+<text x="24.0" y="26.0" class="ink ttl" text-anchor="start" >コンテンツ供給はなぜ減ったのか</text>
+<text x="24.0" y="44.0" class="sub sc" text-anchor="start" >『紅蓮のリベレーター』期（4.x）を 100 としたときの、『黄金のレガシー』期（7.x）</text>
+<text x="24.0" y="62.0" class="ink sc" text-anchor="start" >時間あたりの供給 ＝ 1パッチあたりの本数 ÷ パッチ間隔</text>
+<text x="198.0" y="112.0" class="ink lb" text-anchor="end" >パッチ間隔</text>
+<line class="grid" x1="210" y1="86" x2="210" y2="128"/>
+<rect x="210" y="92" width="336.7" height="30" rx="4" class="s4"/>
+<text x="556.7" y="112.0" class="ink vl" text-anchor="start" >123</text>
+<text x="592.7" y="112.0" class="sub sc" text-anchor="start" >（+23%）  長いほど供給は減る</text>
+<text x="198.0" y="186.0" class="ink lb" text-anchor="end" >1パッチあたりの本数</text>
+<line class="grid" x1="210" y1="160" x2="210" y2="202"/>
+<rect x="210" y="166" width="268.9" height="30" rx="4" class="s3"/>
+<text x="488.9" y="186.0" class="ink vl" text-anchor="start" >98</text>
+<text x="524.9" y="186.0" class="sub sc" text-anchor="start" >（-2%）  ほぼ変わっていない</text>
+<text x="198.0" y="260.0" class="ink lb" text-anchor="end" >時間あたりの供給</text>
+<line class="grid" x1="210" y1="234" x2="210" y2="276"/>
+<rect x="210" y="240" width="218.5" height="30" rx="4" class="s2"/>
+<text x="438.5" y="260.0" class="ink vl" text-anchor="start" >80</text>
+<text x="474.5" y="260.0" class="sub sc" text-anchor="start" >（-20%）  ＝ 上の2つの割り算</text>
+<line class="grid" x1="483.6" y1="78" x2="483.6" y2="288" stroke-dasharray="4 3"/>
+<text x="483.6" y="72.0" class="sub sc" text-anchor="middle" >4.x = 100</text>
+<text x="24.0" y="310.0" class="sub sc" text-anchor="start" >※ 「本数」はダンジョン・討滅戦・レイド・絶・アライアンスレイドの実装本数を数えたもの。</text>
+<text x="24.0" y="326.0" class="sub sc" text-anchor="start" >　 プレイ時間で測ってはいない（公開資料が存在しない）。メインクエストは別に数える必要がある</text>
+</svg>

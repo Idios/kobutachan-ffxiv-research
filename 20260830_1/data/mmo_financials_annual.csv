@@ -1,0 +1,17 @@
+fiscal_year,mmo_revenue_oku,mmo_op_oku,source_pdf,confidence,note
+FY2011.3,,,11q4slidesJPN.pdf,none,MMOサブセグメントの数値開示なし
+FY2012.3,,,12q4/13q4slidesJPN.pdf,none,積上げ棒はあるが数値ラベルなし
+FY2013.3,111,,16q4/17q4slidesJPN.pdf,high,グラフ印字ラベル。MMO系列の開示開始年
+FY2014.3,200,,16q4/17q4/18q4slidesJPN.pdf,high,グラフ印字ラベル。3資料一致
+FY2015.3,233,,16q4/17q4/18q4/19q4slidesJPN.pdf,high,グラフ印字ラベル。4資料一致
+FY2016.3,316,,16q4-20q4slidesJPN.pdf,high,グラフ印字ラベル。5資料一致。DQX/FFXIV拡張発売年
+FY2017.3,227,,17q4-20q4slidesJPN.pdf,high,グラフ印字ラベル。4資料一致。追加ディスクなし
+FY2018.3,318,,18q4/19q4/20q4slidesJPN.pdf,high,グラフ印字ラベル。紅蓮。課金会員数の増加に言及
+FY2019.3,271,,19q4/20q4/21q4slidesJPN.pdf,high,グラフ印字ラベル。拡張反動減
+FY2020.3,401,,20q4/21q4slidesJPN.pdf,high,グラフ印字ラベル。漆黒。月額課金会員数の大幅増に言及
+FY2021.3,398,,21q4/22q4/23q4slidesJPN.pdf,high,グラフ印字ラベル。3資料一致
+FY2022.3,622,,22q4/23q4slidesJPN.pdf,high,グラフ印字ラベル。暁月
+FY2023.3,533,291,23q4slidesJPN.pdf p9 / 24q4slidesJPN.pdf p11,high,営業利益は24q4本文の前期欄のみ（単一出典）
+FY2024.3,473,193,24q4/25q4slidesJPN.pdf p11,high,本文明記。2資料一致
+FY2025.3,555,219,25q4/26q4slidesJPN.pdf p11,high,本文明記。2資料一致。黄金のレガシー
+FY2026.3,410,151,26q4slidesJPN.pdf p11,high,本文明記
