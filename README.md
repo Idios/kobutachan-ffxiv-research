@@ -1,0 +1,1 @@
+# kobutachan-ffxiv-research
