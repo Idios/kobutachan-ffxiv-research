@@ -1,0 +1,30 @@
+# Claude Code 用スキルのミラー（sync-skills.sh が生成する派生物）
+.claude/skills/
+
+# スキル実行時の生成物（再生成される）
+.agents/skills/*/charts/
+.agents/skills/*/out/
+
+# 第三者著作物（Lodestone国勢調査）— スキル側のデータコピーも公開しない
+.agents/skills/*/data/census_world/*.csv
+
+# Python の一時生成物（バイトコード・キャッシュ。再生成されるためコミットしない）
+__pycache__/
+*.py[cod]
+*$py.class
+
+# テスト・静的解析・型検査のキャッシュ
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pytype/
+.pyre/
+
+# カバレッジ計測の生成物
+.coverage
+.coverage.*
+htmlcov/
+
+# 仮想環境
+.venv/
+venv/

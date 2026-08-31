@@ -1,0 +1,31 @@
+quarter,blizzard_mau_millions,grade,note
+2015_annual,26,S,ATVI Q4'16 PR「2016は前年比+37%」からの逆算
+2016_annual,36,P,ATVI Q4 2016 PR「highest annual MAUs in 2016 at 36 million」
+2016Q4,41,P,ATVI Q4 2016 PR「record fourth-quarter MAUs of 41 million」
+2017Q1,,NOT_OBTAINED,,四半期別テーブル未取得
+2017Q2,,NOT_OBTAINED,,
+2017Q3,,NOT_OBTAINED,,
+2017Q4,,NOT_OBTAINED,,
+2018Q1,38,Q,ATVI四半期PRテーブル (MassivelyOP集計経由)
+2018Q2,37,Q,同上
+2018Q3,37,Q,同上
+2018Q4,35,Q,同上
+2019Q1,32,Q,同上
+2019Q2,32,Q,同上
+2019Q3,33,Q,同上
+2019Q4,32,P,ATVI Q4 2020 PR セグメントMAU表に直接記載
+2020Q1,32,P,同上
+2020Q2,32,P,同上
+2020Q3,30,P,同上
+2020Q4,29,P,同上 ★Shadowlands発売四半期なのに前Qから減少
+2021Q1,27,Q,ATVI Q1 2021 PR
+2021Q2,26,Q,ATVI Q2 2021 PR
+2021Q3,26,Q,ATVI Q3 2021 PR
+2021Q4,24,S,要検証（独立確認できず）
+2022Q1,22,Q,ATVI PRテーブル（最低値）
+2022Q2,27,Q,同上
+2022Q3,31,Q,同上
+2022Q4,45,Q,同上 ★但し下記の重大な交絡あり
+2023Q1,27,Q,同上（中国停止は1月末のため大半が計上済）
+2023Q2,26,Q,ATVI Q2 2023 PR
+2023Q3,,NOT_OBTAINED,,Microsoft買収完了(2023-10-13)直前の最終四半期

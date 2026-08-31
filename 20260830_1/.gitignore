@@ -5,5 +5,20 @@ __pycache__/
 venv/
 .venv/
 
+# テスト・静的解析・型検査のキャッシュ
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pytype/
+.pyre/
+
+# カバレッジ計測の生成物
+.coverage
+.coverage.*
+htmlcov/
+
 # スクリプトの実行ログ（派生物。陳腐化するのでコミットしない）
 out/
+
+# 第三者著作物（Lodestone国勢調査）— データは公開しない（取得手順 SOURCE.txt のみ公開）
+data/census_world/*.csv

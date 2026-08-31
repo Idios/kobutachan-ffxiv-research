@@ -1,0 +1,11 @@
+date,announce_date,lead_days_existing,title,region,change,pct,stated_reason,observed_player_effect,source,grade
+2014-04-01,,,FFXIV,JP,消費税5→8%転嫁,+2.9%,消費税改定,未取得,-,-
+2019-10-01,,,FFXIV,JP,消費税8→10%転嫁,+1.9%,消費税改定,未取得,-,-
+2024-03-20,2023-11-14,127,DQX,JP,3キャラ30日 1000→1200円,+20.0%,公式告知に理由の記載なし,SE非開示(DQX単独の数値開示なし)→証拠なし,hiroba.dqx.jp,primary
+2024-03-20,2023-11-14,127,DQX,JP,4キャラ30日 1300→1400円,+7.7%,同上,同上,hiroba.dqx.jp,primary
+2024-06-25,,,FFXIV,NA,州・地方売上税の適用開始,+0〜+10%程度(州により),税法対応,未取得,na.finalfantasyxiv.com 公式ニュース,primary
+2024-09,2024-08-29,29,RuneScape/OSRS,Global,月額→13.99ドル,不明,Jagex売却後のコスト,未取得,PC Gamer,secondary
+2026-04-09,2026-03-10,30,RuneScape/OSRS,Global,月額13.99→14.99ドル/年額99.48→131.88ドル(既存会員は2026-04-09の更新日から。新規契約のみ2026-03-10から),+7.1%/+32.6%,「野心的な開発ロードマップ」支援,OSRS Steam同接 3月1180→7月1227(平均)。崩落は観測されず。ただしSteamはOSRSの少数クライアント,steamcharts/1343370,secondary
+2026-06-22,2026-04-23,60,WoW,UK/KZ/GE/TR,英1か月 9.99→10.99ポンド 他,+10%(英)〜+33%(KZ),「グローバル・地域の市場環境を含む様々な要因」,未取得,Blizzard EU公式フォーラム,primary
+2026-08-04,,,FFXIV,JP/NA/EU,Switch 2版に「PF専用」サービス利用料金を新設(他PF契約中は半額),他PF併用者で実質+50%,公式に理由の記載なし,未観測(次回国勢調査待ち),jp.finalfantasyxiv.com/product/,primary
+2022-05-17,2022-04-22,25,EVE Online,Global,Omega 1か月 14.99→19.99ドル,+33.4%,2004年以来据え置きだった1か月プランの改定,未取得,CCP公式 eveonline.com/news/view/plex-and-omega-price-changes,primary

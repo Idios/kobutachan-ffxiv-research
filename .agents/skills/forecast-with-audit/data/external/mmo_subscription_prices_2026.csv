@@ -1,0 +1,27 @@
+title,region,currency,course,days,price,price_jpy_at_2026_08_26,tax_note,as_of,source,grade
+FFXIV,JP,JPY,エントリー,30,1408,1408,税込(本体1280),2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV,JP,JPY,スタンダード,30,1628,1628,税込(本体1480),2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV,JP,JPY,スタンダード,90,4554,4554,税込(クレカ等),2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV,JP,JPY,スタンダード90(ゲームカード),90,4653,4653,税込,2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV,NA,USD,Entry,30,12.99,2071,州・地方売上税は別途加算(2024-06-25開始),2026-08,na.finalfantasyxiv.com/product/,primary
+FFXIV,NA,USD,Standard,30,14.99,2390,同上,2026-08,na.finalfantasyxiv.com/product/,primary
+FFXIV,NA,USD,Standard,90,13.99,2230,月あたり。同上,2026-08,na.finalfantasyxiv.com/product/,primary
+FFXIV,NA,USD,Standard,180,12.99,2071,月あたり。同上,2026-08,na.finalfantasyxiv.com/product/,primary
+FFXIV,EU,EUR,Entry,30,10.99,2041,VAT込,2026-08,eu.finalfantasyxiv.com/product/,primary
+FFXIV,EU,EUR,Standard,30,12.99,2412,VAT込,2026-08,eu.finalfantasyxiv.com/product/,primary
+FFXIV,EU,GBP,Entry,30,7.69,,VAT込,2026-08,eu.finalfantasyxiv.com/product/,primary
+FFXIV,EU,GBP,Standard,30,8.99,,VAT込,2026-08,eu.finalfantasyxiv.com/product/,primary
+FFXIV_Switch2,JP,FFXIVコイン,エントリー,30,1300,,他PF契約中なら650,2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV_Switch2,JP,FFXIVコイン,スタンダード,30,1500,,他PF契約中なら750,2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV_Switch2,JP,FFXIVコイン,スタンダード,90,4200,,他PF契約中なら2100,2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV_Xbox,JP,FFXIVコイン,エントリー,30,1300,,Game Pass Essential以上が別途必要,2026-08,jp.finalfantasyxiv.com/product/,primary
+FFXIV_Xbox,JP,FFXIVコイン,スタンダード,30,1500,,同上,2026-08,jp.finalfantasyxiv.com/product/,primary
+DQX,JP,JPY,3キャラ,30,1200,1200,税込。2024-03-20に1000→1200,2026-08,hiroba.dqx.jp 公式告知,primary
+DQX,JP,JPY,4キャラ,30,1400,1400,税込。2024-03-20に1300→1400,2026-08,hiroba.dqx.jp 公式告知,primary
+DQX,JP,JPY,5キャラ,30,1500,1500,税込。据え置き,2026-08,hiroba.dqx.jp 公式告知,primary
+WoW,US,USD,1-month,30,14.99,2389,,2026-08,Blizzard公式フォーラム／二次,secondary
+WoW,UK,GBP,1-month,30,10.99,,2026-06-22に9.99→10.99,2026-08,Blizzard EU公式フォーラム,primary
+WoW,EU(Turkey移行後),EUR,1-month,30,12.99,2412,,2026-08,Blizzard EU公式フォーラム,primary
+ESO_Plus,US,USD,1-month,30,14.99,2389,,2026-08,PlayStation Store公式,primary
+RuneScape/OSRS,US,USD,1-month,30,14.99,2389,2026-03-10に13.99→14.99,2026-08,PC Gamer/MassivelyOP,secondary
+RuneScape/OSRS,US,USD,12-month(月換算),30,10.99,1752,2026-04に8.29→10.99(+32.6%),2026-08,MassivelyOP,secondary

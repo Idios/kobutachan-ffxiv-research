@@ -1,0 +1,10 @@
+expansion,release,metascore,critic_n,user_score,user_n,grade
+Cataclysm,2010-12-07,90,53,5.9,1411,P(Metacritic直接)
+Mists_of_Pandaria,2012-09-25,82,,,,S(二次リスト。Metacritic直接取得失敗)
+Warlords_of_Draenor,2014-11-13,87,49,5.7,1545,P
+Legion,2016-08-29,88,62,7.4,1364,P
+Battle_for_Azeroth,2018-08-14,79,,3.0,,S(二次リスト。時点不明)
+Shadowlands,2020-11-23,83,37,4.7,~1530,P(OpenCritic: 80/31critics/86%推奨)
+Dragonflight,2022-11-28,82,26,5.1,714,P
+The_War_Within,2024-08-26,85,33,5.5,389,P
+Midnight,2026-03-02,,,,,NOT_OBTAINED

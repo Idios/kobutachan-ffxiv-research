@@ -1,0 +1,6 @@
+returncode=0
+図を生成:
+  charts/population.svg
+  charts/flows.svg
+  charts/supply.svg
+  charts/retention.svg

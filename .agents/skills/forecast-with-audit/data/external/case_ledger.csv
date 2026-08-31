@@ -1,0 +1,17 @@
+title,publisher,launch,end,status,years_to_first_consolidation,consolidation_group,monetization_change_month,monetization_change_type,announce_to_implement_months,announce_to_shutdown_months,shutdown_cause_category,source_grade
+Final Fantasy XI,Square Enix,2002-05-16,,survive,7.9,B,,none(24y sub maintained),,,,S
+Dragon Quest X,Square Enix,2012-08-02,,survive,,C,138,price_increase,4.2,,,P
+FFXIV 1.0,Square Enix,2010-09-30,2012-11-11,rebuilt,,,15,billing_start_after_15mo_free,,,decision_maker_change,P
+FFXIV 2.0+,Square Enix,2013-08-27,,survive,,C,,none,,,,P
+SWTOR,EA/BioWare,2011-12-20,,survive,0.6,A,11,sub_to_F2P_hybrid,3.5,,,S
+ESO,ZeniMax Online,2014-04-04,,survive,,C,11.5,sub_to_B2P,2.0,,,S
+Guild Wars 2,NCSoft/ArenaNet,2012-08-28,,survive,,C,,B2P from launch,,,,P
+Old School RuneScape,Jagex,2013-02-22,,survive,,C,,none,,,,S
+EVE Online,CCP,2003-05-06,,survive,,C,,sub+PLEX,,,,S
+WildStar,NCSoft/Carbine,2014-06-03,2018-11-28,shutdown,1.7,A,15.9,sub_to_F2P,4.0,2.7,decision_maker_change,S
+Monster Hunter Frontier,Capcom,2007-07-05,2019-12-18,shutdown,6.2,B,,none(F2P from launch),,5.9,tech_platform_obsolescence,P
+Blue Protocol,Bandai Namco,2023-06-14,2025-01-18,shutdown,,none,,none(F2P from launch),,4.7,decision_maker_change,P
+Warhammer Online,EA/Mythic,2008-09-18,2013-12-18,shutdown,0.4,A,,F2P planned then cancelled,,3.0,license_expiry,S
+Rift,Trion/Gamigo,2011-03-01,,maintenance,,,28,sub_to_F2P,,,,S
+Destiny 2,Bungie,2017-09-06,2026-06-09,content_end,,C,25,P2P_to_F2P(New Light),,,decision_maker_change,S
+New World,Amazon Games,2021-09-28,2026-01-01,content_end,,C,,none(B2P),,,decision_maker_change,S

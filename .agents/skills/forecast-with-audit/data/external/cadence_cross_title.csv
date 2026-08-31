@@ -1,0 +1,30 @@
+title,generation,launch_date,n_major_patches,mean_interval_days,generation_gap_days,source_grade,note
+FFXIV,2.x 新生,2013-08-27,6,103,,P,Phase3 §1。中央値103
+FFXIV,3.x 蒼天,2015-06-23,6,112,,P,Phase3 §1 中央値(平均116)
+FFXIV,4.x 紅蓮,2017-06-20,6,112,,P,Phase3 §1 中央値(平均114)
+FFXIV,5.x 漆黒,2019-07-02,6,120,,P,Phase3 §1 COVID遅延(5.3=175日)除外後。平均131/中央値123
+FFXIV,6.x 暁月,2021-12-07,6,133,,P,Phase3 §1 中央値133(平均134)。実測列 130/133/140/133/133
+FFXIV,7.x 黄金,2024-07-02,6,133,,P,Phase3 §1 中央値133(平均134)。実測列 137/133/133/133/133 = 固定
+DQX,Ver.1,2012-08-02,7,66.0,490,S,yamatAbode集計。Ver.8=2026-06-25の既知値一致で妥当性確認
+DQX,Ver.2,2013-12-05,8,56.5,511,S,同上。最短
+DQX,Ver.3,2015-04-30,11,72.5,931,S,同上
+DQX,Ver.4,2017-11-16,6,97.8,707,S,本分析で日付から再計算し一致
+DQX,Ver.5,2019-10-24,6,103.8,749,S,同上
+DQX,Ver.6,2021-11-11,6,115.5,861,S,本分析で再計算し一致。DQX最長
+DQX,Ver.7,2024-03-21,7,104.9,826,S,本分析で再計算し一致。Ver.6比 -9.2% の反転
+WoW,Cataclysm,2010-12-07,3,119.0,658,P,公式パッチ日付から再計算し一致
+WoW,Mists of Pandaria,2012-09-25,4,87.5,779,P,同上。WoW最短(資料表記88は四捨五入)
+WoW,Warlords of Draenor,2014-11-13,2,111.0,656,P,同上。6.3は存在しない
+WoW,Legion,2016-08-30,3,121.3,714,P,同上
+WoW,Battle for Azeroth,2018-08-14,3,172.7,832,P,同上
+WoW,Shadowlands,2020-11-23,2,228.0,735,P,同上。WoW最長。MoP比 2.61x
+WoW,Dragonflight,2022-11-28,2,172.0,637,P,同上。SL比 -24.6% の反転
+WoW,The War Within,2024-08-26,2,172.0,553,P,同上
+Guild Wars 2,Heart of Thorns,2015-10-23,,,1151,P,拡張間隔のみ(前作比)
+Guild Wars 2,Path of Fire,2017-09-22,,,700,P,
+Guild Wars 2,End of Dragons,2022-02-28,,,1620,P,最長
+Guild Wars 2,Secrets of the Obscure,2023-08-22,,~90,540,P,四半期リリース制へ移行
+Guild Wars 2,Janthir Wilds,2024-08-20,,~90,364,P,最短。EoD比 22.5%
+Guild Wars 2,Visions of Eternity,2025-10-28,,~90,434,P,
+ESO,2015-2024,,4/年,~90,365,S,ESO-Hub/UESP。10年間フラット
+ESO,Seasons制,2026-03-31,4/年,~90,,S,チャプター制廃止。約90日維持

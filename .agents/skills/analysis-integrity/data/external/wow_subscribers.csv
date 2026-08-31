@@ -1,0 +1,42 @@
+date,subs_millions,type,grade,source
+2005-03-17,1.5,milestone,S,Blizzard PR (via Gamasutra/Game Developer "Seven Years of WoW")
+2005-06-14,2.0,milestone,S,Blizzard PR (via Gamasutra)
+2005-07-21,3.5,milestone,S,Blizzard PR (うち中国1.5M)
+2005-12-19,5.0,milestone,S,Blizzard PR (via Gamasutra)
+2006-01-23,5.5,milestone,S,Blizzard PR (via Gamasutra)
+2006-03-01,6.0,milestone,S,Blizzard PR (via Gamasutra)
+2007-01-11,8.0,milestone,S,Blizzard PR (TBC発売直前)
+2007-07-24,9.0,milestone,S,Blizzard PR (via Gamasutra)
+2008-01-22,10.0,milestone,S,Blizzard PR (via Gamasutra)
+2008-10-28,11.0,milestone,P,Vivendi/ATVI プレスリリース PDF
+2008-12-23,11.5,milestone,P,ATVI 8-K 2009-02-11 EX-99.1
+2009-03-31,,NOT_DISCLOSED,,2009年の8-K EX-99.1にサブスク記載なし
+2009-06-30,,NOT_DISCLOSED,,同上
+2009-09-30,,NOT_DISCLOSED,,同上
+2009-12-31,,NOT_DISCLOSED,,同上
+2010-03-31,,NOT_DISCLOSED,,同上
+2010-06-30,,NOT_DISCLOSED,,同上
+2010-09-30,,NOT_DISCLOSED,,同上
+2010-10-07,12.0,milestone_PEAK,P,ATVI PR "Subscriber Base Reaches 12 Million Worldwide"
+2010-12-31,12.0,quarter_end,P,ATVI 8-K 2011-02-09 「more than 12 million」
+2011-03-31,11.4,quarter_end,Q,決算コール (2011-05-09)。PRには記載なし
+2011-06-30,11.1,quarter_end,Q,決算コール (2011-08-03)。PRには記載なし
+2011-09-30,10.3,quarter_end,Q,決算コール (2011-11-08)。PRには記載なし
+2011-12-31,10.2,quarter_end,P,ATVI 8-K 2012-02-09 EX-99.1
+2012-03-31,10.2,quarter_end,P,ATVI 8-K 2012-05-09 EX-99.1
+2012-06-30,9.1,quarter_end,P,ATVI 8-K 2012-08-02 EX-99.1
+2012-09-30,10.0,quarter_end_FLOOR,P,ATVI 8-K 2012-11-07「more than 10 million」※下限値
+2012-12-31,9.6,quarter_end_FLOOR,P,ATVI 8-K 2013-02-07「more than 9.6 million」
+2013-03-31,8.3,quarter_end,P,ATVI 8-K 2013-05-08 EX-99.1
+2013-06-30,7.7,quarter_end,P,ATVI 8-K 2013-08-01 EX-99.1
+2013-09-30,7.6,quarter_end,P,ATVI 8-K 2013-11-06 EX-99.1
+2013-12-31,7.8,quarter_end,P,ATVI 8-K 2014-02-06 EX-99.1
+2014-03-31,7.6,quarter_end,P,ATVI 8-K 2014-05-06 EX-99.1
+2014-06-30,6.8,quarter_end,P,ATVI 8-K 2014-08-05 EX-99.1
+2014-09-30,7.4,quarter_end_FLOOR,P,ATVI 8-K 2014-11-04「more than 7.4 million」
+2014-11-19,10.0,milestone_FLOOR,P,Blizzard PR "Surpasses 10 Million as WoD Launch Begins"
+2014-12-31,10.0,quarter_end_FLOOR,P,ATVI 8-K 2015-02-05「more than 10 million global subscribers」
+2015-03-31,7.1,quarter_end,P,ATVI 8-K 2015-05-06 EX-99.1
+2015-06-30,5.6,quarter_end,P,ATVI 8-K 2015-08-04 EX-99.1
+2015-09-30,5.5,quarter_end_FINAL,P,ATVI 8-K 2015-11-02 EX-99.2 ← 最終開示
+2015-12-31,,NEVER_DISCLOSED,,開示終了後のため永久に不明

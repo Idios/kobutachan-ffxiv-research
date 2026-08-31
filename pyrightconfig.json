@@ -1,0 +1,4 @@
+{
+  "exclude": ["**/20260830_1", "**/reports"],
+  "typeCheckingMode": "basic"
+}

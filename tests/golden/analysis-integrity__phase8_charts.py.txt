@@ -1,0 +1,5 @@
+returncode=0
+charts/cycle-curves.svg
+charts/forecast.svg
+charts/tornado.svg
+charts/backcast.svg

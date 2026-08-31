@@ -1,0 +1,6 @@
+date,interval_days,total_active,new_10k,returning_10k,continuing_10k,source
+2025-09-27,62,881374,,,,article/CSV
+2025-11-30,64,824073,4,13,65,article
+2026-02-23,85,934552,6,21,65,article
+2026-04-19,55,771486,4,6,64,article
+2026-07-20,92,955708,5,28,61,article

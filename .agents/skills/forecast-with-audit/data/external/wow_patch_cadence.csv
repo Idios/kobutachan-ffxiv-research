@@ -1,0 +1,9 @@
+expansion,launch,majors,intervals_days,mean_interval_days,launch_to_next_xpac_days,last_patch_to_next_xpac_days
+Cataclysm,2010-12-07,4.1/4.2/4.3,"140,63,154",119,658,301
+Mists_of_Pandaria,2012-09-25,5.1/5.2/5.3/5.4,"49,112,77,112",88,779,429
+Warlords_of_Draenor,2014-11-13,6.1/6.2,"103,119",111,656,434
+Legion,2016-08-30,7.1/7.2/7.3,"56,154,154",121,714,350
+Battle_for_Azeroth,2018-08-14,8.1/8.2/8.3,"119,196,203",173,832,314
+Shadowlands,2020-11-23,9.1/9.2,"218,238",228,735,279
+Dragonflight,2022-11-28,10.1/10.2,"155,189",172,637,293
+The_War_Within,2024-08-26,11.1/11.2,"183,161",172,553,209

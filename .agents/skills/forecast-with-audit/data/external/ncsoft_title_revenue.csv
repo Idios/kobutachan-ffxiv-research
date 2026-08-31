@@ -1,0 +1,128 @@
+company,title,fiscal_quarter,revenue_krw_bn,source,confidence
+# --- 四半期・当時発表ベース（as-reported）。原単位 KRW MN を /1000 ---
+NCSoft,Guild Wars 2,CY2022Q3,24.822,primary:NCSOFT 3Q23 Earnings Release PDF (static-brand.ncsoft.com/.../3Q23_PT_ENG.pdf) "Sales by Game",high
+NCSoft,Guild Wars 2,CY2022Q4,22.704,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Guild Wars 2,CY2023Q1,20.442,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Guild Wars 2,CY2023Q2,19.248,primary:NCSOFT 3Q23 Earnings Release PDF / cross-checked NCSOFT IR Presentation Sep 2024,high
+NCSoft,Guild Wars 2,CY2023Q3,20.977,primary:NCSOFT 3Q23 Earnings Release PDF / cross-checked Sep 2024 IR PT,high
+NCSoft,Guild Wars 2,CY2023Q4,23.860,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Guild Wars 2,CY2024Q1,25.370,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Guild Wars 2,CY2024Q2,23.480,primary:NCSOFT IR Presentation Sep 2024 / cross-checked Aug 2025 IR PT,high
+NCSoft,Guild Wars 2,CY2024Q3,19.016,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Guild Wars 2,CY2024Q4,24.720,primary:NCSOFT IR Presentation Aug 2025 / cross-checked 4Q25 PT,high
+NCSoft,Guild Wars 2,CY2025Q1,19.259,primary:NCSOFT IR Presentation Aug 2025 / cross-checked 4Q25 PT,high
+NCSoft,Guild Wars 2,CY2025Q2,15.803,primary:NCSOFT IR Presentation Aug 2025 / cross-checked 4Q25 PT,high
+NCSoft,Guild Wars 2,CY2025Q3,18.387,primary:NCSOFT 4Q25 Earnings Release PDF,high
+NCSoft,Guild Wars 2,CY2025Q4,28.940,primary:NCSOFT 4Q25 Earnings Release PDF,high
+NCSoft,Lineage,CY2022Q3,25.467,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage,CY2022Q4,29.317,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage,CY2023Q1,24.506,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage,CY2023Q2,24.314,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage,CY2023Q3,26.402,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage,CY2023Q4,21.324,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Lineage,CY2024Q1,24.250,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Lineage,CY2024Q2,24.554,primary:NCSOFT IR Presentation Sep 2024 / Aug 2025 IR PT,high
+NCSoft,Lineage,CY2024Q3,26.455,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Lineage,CY2024Q4,22.943,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Lineage,CY2025Q1,22.300,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Lineage,CY2025Q2,20.737,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Lineage,CY2025Q3,25.157,primary:NCSOFT 4Q25 Earnings Release PDF,high
+NCSoft,Lineage,CY2025Q4,25.049,primary:NCSOFT 4Q25 Earnings Release PDF,high
+NCSoft,Lineage II,CY2022Q3,23.355,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage II,CY2022Q4,24.620,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage II,CY2023Q1,21.476,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage II,CY2023Q2,22.965,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage II,CY2023Q3,20.527,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Lineage II,CY2023Q4,22.310,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Lineage II,CY2024Q1,23.460,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Lineage II,CY2024Q2,21.221,primary:NCSOFT IR Presentation Sep 2024 / Aug 2025 IR PT,high
+NCSoft,Lineage II,CY2024Q3,20.216,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Lineage II,CY2024Q4,20.569,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Lineage II,CY2025Q1,19.089,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Lineage II,CY2025Q2,22.708,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Lineage II,CY2025Q3,21.610,primary:NCSOFT 4Q25 Earnings Release PDF,high
+NCSoft,Lineage II,CY2025Q4,22.866,primary:NCSOFT 4Q25 Earnings Release PDF,high
+NCSoft,Aion,CY2022Q3,17.511,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Aion,CY2022Q4,20.474,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Aion,CY2023Q1,17.618,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Aion,CY2023Q2,15.816,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Aion,CY2023Q3,19.257,primary:NCSOFT 3Q23 Earnings Release PDF,high
+NCSoft,Aion,CY2023Q4,15.203,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Aion,CY2024Q1,14.256,primary:NCSOFT IR Presentation Sep 2024,high
+NCSoft,Aion,CY2024Q2,13.113,primary:NCSOFT IR Presentation Sep 2024 / Aug 2025 IR PT,high
+NCSoft,Aion,CY2024Q3,11.820,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Aion,CY2024Q4,11.195,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Aion,CY2025Q1,8.499,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Aion,CY2025Q2,12.984,primary:NCSOFT IR Presentation Aug 2025 / 4Q25 PT,high
+NCSoft,Aion,CY2025Q3,8.995,primary:NCSOFT 4Q25 Earnings Release PDF,high
+NCSoft,Aion,CY2025Q4,5.326,primary:NCSOFT 4Q25 Earnings Release PDF,high
+# --- 四半期・2026年5月遡及修正ベース（restated）。上の as-reported と重複期間あり ---
+NCSoft,Guild Wars 2,CY2025Q1_restated,19.788,primary:NC IR Presentation May 2026,high
+NCSoft,Guild Wars 2,CY2025Q2_restated,16.353,primary:NC IR Presentation May 2026,high
+NCSoft,Guild Wars 2,CY2025Q3_restated,19.088,primary:NC IR Presentation May 2026,high
+NCSoft,Guild Wars 2,CY2025Q4_restated,30.384,primary:NC IR Presentation May 2026,high
+NCSoft,Guild Wars 2,CY2026Q1,32.625,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage,CY2025Q1_restated,24.512,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage,CY2025Q2_restated,22.296,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage,CY2025Q3_restated,27.436,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage,CY2025Q4_restated,26.674,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage,CY2026Q1,99.826,primary:NC IR Presentation May 2026 (incl. Lineage Classic launch),high
+NCSoft,Lineage II,CY2025Q1_restated,27.101,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage II,CY2025Q2_restated,29.297,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage II,CY2025Q3_restated,28.461,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage II,CY2025Q4_restated,31.008,primary:NC IR Presentation May 2026,high
+NCSoft,Lineage II,CY2026Q1,28.791,primary:NC IR Presentation May 2026,high
+NCSoft,Aion,CY2025Q1_restated,11.630,primary:NC IR Presentation May 2026,high
+NCSoft,Aion,CY2025Q2_restated,16.193,primary:NC IR Presentation May 2026,high
+NCSoft,Aion,CY2025Q3_restated,12.461,primary:NC IR Presentation May 2026,high
+NCSoft,Aion,CY2025Q4_restated,7.798,primary:NC IR Presentation May 2026,high
+NCSoft,Aion,CY2026Q1,8.706,primary:NC IR Presentation May 2026,high
+NCSoft,Aion 2,CY2025Q4,77.361,primary:NCSOFT 4Q25 Earnings Release PDF & NC IR May 2026 (gross billings 94.1bn),high
+NCSoft,Aion 2,CY2026Q1,136.751,primary:NC IR Presentation May 2026,high
+# --- 年次（通期）。2016-2020は韓国メディアが NCSoft IR を引用（二次） ---
+NCSoft,Lineage,CY2016,375.5,secondary:Inven 2017-02 (NCSoft IR引用) 3755억원,medium
+NCSoft,Lineage II,CY2016,77.1,secondary:Inven 2017-02 771억원,medium
+NCSoft,Aion,CY2016,71.7,secondary:Inven 2017-02 717억원,medium
+NCSoft,Guild Wars 2,CY2016,76.6,secondary:Inven 2017-02 766억원,medium
+NCSoft,Lineage,CY2017,154.4,secondary:Herald Biz 2018-02 1544억원,medium
+NCSoft,Lineage II,CY2017,65.8,secondary:Herald Biz 2018-02 658억원,medium
+NCSoft,Aion,CY2017,47.0,secondary:Herald Biz 2018-02 470억원,medium
+NCSoft,Guild Wars 2,CY2017,82.8,secondary:Herald Biz 2018-02 828억원,medium
+NCSoft,Lineage,CY2018,149.7,secondary:ZDNet Korea 2019-02-12 1497억원,medium
+NCSoft,Lineage II,CY2018,63.9,secondary:ZDNet Korea 2019-02-12 639억원,medium
+NCSoft,Aion,CY2018,63.4,secondary:ZDNet Korea 2019-02-12 634억원,medium
+NCSoft,Guild Wars 2,CY2018,80.2,secondary:ZDNet Korea 2019-02-12 802억원,medium
+NCSoft,Lineage,CY2019,174.1,secondary:Gamemeca 2020-02 1741억원,medium
+NCSoft,Lineage II,CY2019,93.6,secondary:Gamemeca 2020-02 936억원,medium
+NCSoft,Aion,CY2019,46.0,secondary:Gamemeca 2020-02 460억원,medium
+NCSoft,Guild Wars 2,CY2019,58.7,secondary:Gamemeca 2020-02 587억원,medium
+NCSoft,Lineage,CY2020,175.7,secondary:ZDNet Korea 2021-02-05 / SEN TV 1757억원,medium
+NCSoft,Lineage II,CY2020,104.5,secondary:ZDNet Korea 2021-02-05 1045억원,medium
+NCSoft,Aion,CY2020,45.6,secondary:ZDNet Korea 2021-02-05 456억원,medium
+NCSoft,Guild Wars 2,CY2020,61.2,secondary:ZDNet Korea 2021-02-05 612억원,medium
+NCSoft,Lineage,CY2021,,NOT_OBTAINED,none
+NCSoft,Lineage II,CY2021,,NOT_OBTAINED,none
+NCSoft,Aion,CY2021,,NOT_OBTAINED,none
+NCSoft,Guild Wars 2,CY2021,,NOT_OBTAINED,none
+NCSoft,Lineage,CY2022,106.714,primary:NCSOFT IR Presentation Aug 2025 (yearly by title) / cross-checked Dealsite 2023-02,high
+NCSoft,Lineage II,CY2022,94.057,primary:NCSOFT IR Presentation Aug 2025 / Dealsite 941억,high
+NCSoft,Aion,CY2022,68.292,primary:NCSOFT IR Presentation Aug 2025 / Dealsite 683억,high
+NCSoft,Guild Wars 2,CY2022,94.973,primary:NCSOFT IR Presentation Aug 2025 / Dealsite 950억,high
+NCSoft,Lineage,CY2023,96.546,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Lineage II,CY2023,87.278,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Aion,CY2023,67.893,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Guild Wars 2,CY2023,84.527,primary:NCSOFT IR Presentation Aug 2025 (=四半期合計と一致),high
+NCSoft,Lineage,CY2024,98.202,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Lineage II,CY2024,85.466,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Aion,CY2024,50.385,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Guild Wars 2,CY2024,92.586,primary:NCSOFT IR Presentation Aug 2025,high
+NCSoft,Lineage,CY2025,100.918,primary:NC IR Presentation May 2026 (restated basis),high
+NCSoft,Lineage II,CY2025,115.867,primary:NC IR Presentation May 2026 (restated basis),high
+NCSoft,Aion,CY2025,48.083,primary:NC IR Presentation May 2026 (restated basis),high
+NCSoft,Guild Wars 2,CY2025,85.612,primary:NC IR Presentation May 2026 (restated basis),high
+NCSoft,Aion 2,CY2025,77.361,primary:NC IR Presentation May 2026,high
+# --- WildStar（大半が未取得） ---
+NCSoft,WildStar,CY2016Q1,1.282,secondary:MMO Fallout (NCsoft IR "1282 KRW MN"引用),medium
+NCSoft,WildStar,CY2016Q2,2.2,secondary:MMORPG.com forum thread quoting NCsoft IR (2.2 billion KRW),low
+NCSoft,WildStar,CY2016Q3,,NOT_OBTAINED (MMO Fallout reports approx USD 940k only),none
+NCSoft,WildStar,CY2016Q4_onward,,NOT_DISCLOSED: NCsoft folded WildStar into "other sales" from 4Q2016 (Massively OP 2017-02-07),none
