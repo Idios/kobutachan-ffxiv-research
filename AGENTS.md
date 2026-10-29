@@ -8,6 +8,7 @@
 
 - `analysis-integrity` — 複数文書にまたがる分析の整合性（数値・訂正・撤回の伝播）
 - `forecast-with-audit` — 監査つき予測（尺度規約・バイアス測定・識別検査・査読ラウンド）
+- `frontline-maintenance` — FF14 フロントライン早見表（`frontline/`）の値台帳の調査・検証・パッチ後の更新
 
 ## 常に守る規約
 

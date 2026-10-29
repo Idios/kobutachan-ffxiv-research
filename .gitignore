@@ -28,3 +28,11 @@ htmlcov/
 # 仮想環境
 .venv/
 venv/
+
+# フロントライン早見表: 調査メモ（第三者の文の引用を含む。plan.md §11 A5「コピーが問題になるものは出典だけを残す」により公開しない）、
+# 捨て前提のモック、確認用ページの生成物、ローカルの状態
+reports/20261027_1/prelim-survey.*
+reports/20261027_1/ledger-build/
+reports/20261027_1/mock/
+reports/20261027_1/review/index.html
+.claude/state/

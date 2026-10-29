@@ -1,0 +1,765 @@
+{
+ "ledger_generated": "1793151296040386000",
+ "decisions": {
+  "COM-META-NEXT-EXPANSION": {
+   "verdict": "○",
+   "comment": "",
+   "value": "2027-01"
+  },
+  "COM-LBB-NIN": {
+   "verdict": "○",
+   "comment": "",
+   "value": "90"
+  },
+  "COM-LBB-DNC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "90"
+  },
+  "SEC-FLAG-COUNT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "9"
+  },
+  "SEC-FLAG-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "SEC-FLAG-RATE-1": {
+   "verdict": "○",
+   "comment": "",
+   "value": "2"
+  },
+  "SEC-FLAG-RATE-2": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "SEC-FLAG-RATE-3": {
+   "verdict": "○",
+   "comment": "",
+   "value": "6"
+  },
+  "SEC-FLAG-RATE-4": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10"
+  },
+  "SEC-FLAG-RATE-5": {
+   "verdict": "○",
+   "comment": "",
+   "value": "12"
+  },
+  "SEC-FLAG-RATE-6": {
+   "verdict": "○",
+   "comment": "",
+   "value": "14"
+  },
+  "SEC-FLAG-RATE-7": {
+   "verdict": "○",
+   "comment": "",
+   "value": "18"
+  },
+  "SEC-FLAG-RATE-8": {
+   "verdict": "○",
+   "comment": "",
+   "value": "20"
+  },
+  "SEC-FLAG-RATE-9": {
+   "verdict": "○",
+   "comment": "",
+   "value": "22"
+  },
+  "SEC-FLAG-CAPTURE-BONUS": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "SEC-FLAG-CAPTURE-TIME": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "SEC-SHEER-WILL-MULT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "1.5"
+  },
+  "SEC-DRONE-COUNT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "18"
+  },
+  "SEC-DRONE-ALPHA-RATE": {
+   "verdict": "×",
+   "comment": "体感では1/6。",
+   "value": "不明"
+  },
+  "SEC-CMDR-PTS-UNIT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "予兆1か所の受け止めごとに24"
+  },
+  "SEC-CMDR-SPLIT": {
+   "verdict": "×",
+   "comment": "",
+   "value": "24を受け止めた部隊の数で等分（1部隊24／2部隊12ずつ／3部隊8ずつ）"
+  },
+  "SEC-CMDR-SPOTS": {
+   "verdict": "○",
+   "comment": "",
+   "value": "18"
+  },
+  "SEC-NODE-PTS-UNIT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "HPが0になるたびに150（全快5回＋撃破で最大6回）"
+  },
+  "SEC-BH-DRONE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "SEC-BH-ALPHA": {
+   "verdict": "○",
+   "comment": "",
+   "value": "8"
+  },
+  "SEC-BH-CMDR": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "SEC-BH-NODE": {
+   "verdict": "×",
+   "comment": "邀撃システムは撃破不能",
+   "value": "不明"
+  },
+  "SEC-EVT-FIRST": {
+   "verdict": "○",
+   "comment": "最初は邀撃システムか邀撃ドローン。邀撃コマンダーは初回出ない。",
+   "value": "40"
+  },
+  "SEC-EVT-DUR-DRONE": {
+   "verdict": "×",
+   "comment": "",
+   "value": "50"
+  },
+  "SEC-EVT-DUR-CMDR": {
+   "verdict": "×",
+   "comment": "",
+   "value": "70"
+  },
+  "SEC-EVT-DUR-NODE": {
+   "verdict": "×",
+   "comment": "",
+   "value": "120"
+  },
+  "SEC-EVT-GAP-AFTER-CMDR": {
+   "verdict": "×",
+   "comment": "",
+   "value": "175"
+  },
+  "SEC-EVT-GAP-AFTER-DRONE": {
+   "verdict": "×",
+   "comment": "",
+   "value": "110〜130"
+  },
+  "SEC-EVT-GAP-AFTER-NODE": {
+   "verdict": "×",
+   "comment": "",
+   "value": "150〜210"
+  },
+  "SEC-EVT-ORDER": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "SEC-EVT-HUD": {
+   "verdict": "○",
+   "comment": "",
+   "value": "中央のモンスターの出現状況は専用UIで確認できる"
+  },
+  "SEC-EVT-HUD-NEXT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "次の出現までの残り時間（と次の種類）が表示される"
+  },
+  "SEC-EVT-PANEL-COUNT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "SEC-EVT-PANEL-ONEWAY": {
+   "verdict": "○",
+   "comment": "",
+   "value": "外周から中央への一方通行"
+  },
+  "SEC-EVT-PANEL-INVULN": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "SEI-KO-GAIN": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "SEI-KO-LOSS": {
+   "verdict": "○",
+   "comment": "",
+   "value": "-5"
+  },
+  "SEI-TOME-B-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "80"
+  },
+  "SEI-TOME-A-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "120"
+  },
+  "SEI-TOME-S-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "160"
+  },
+  "SEI-TOME-B-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "2"
+  },
+  "SEI-TOME-A-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "SEI-TOME-S-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "SEI-TOME-TICK-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "SEI-TOME-NEUTRAL-DRAIN": {
+   "verdict": "○",
+   "comment": "減らない。",
+   "value": "不明（推定: 減らない）"
+  },
+  "SEI-TOME-STACK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "各リスの加算の合計（上乗せなし）"
+  },
+  "SEI-SPAWN-FIRST-TIME": {
+   "verdict": "○",
+   "comment": "",
+   "value": "19:30"
+  },
+  "SEI-SPAWN-FIRST-COUNT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "SEI-SPAWN-REFILL-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "15"
+  },
+  "SEI-CAP-1": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "SEI-CAP-2": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "SEI-CAP-SWITCH": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10:00"
+  },
+  "SEI-OCC-LOCKOUT-SEC": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "SEI-OCC-CAST-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "SEI-OCC-INTERRUPT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "キャスト中に攻撃を受けると中断する"
+  },
+  "SEI-OCC-CAPTURE-BONUS": {
+   "verdict": "○",
+   "comment": "",
+   "value": "0"
+  },
+  "SEI-RANK-PROB": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "SEI-RANK-NO-B-LATE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "起動しない（AとSだけ）"
+  },
+  "SEI-RANK-MAP-SYMBOL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "B＝三角形（△）／A＝ひし形（◇。四角形とも呼ぶ）／S＝五角形（⬠）"
+  },
+  "SEI-RANK-COLOR": {
+   "verdict": "○",
+   "comment": "",
+   "value": "B＝青／A＝赤（頂上に赤い球）／S＝黄（頂上に細い突起）"
+  },
+  "SHA-DRAW-RULE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "2部隊以上が同時に1600へ達すると引き分け"
+  },
+  "SHA-DEATH-LOSS": {
+   "verdict": "○",
+   "comment": "",
+   "value": "-8"
+  },
+  "SHA-MAP-STATES": {
+   "verdict": "○",
+   "comment": "",
+   "value": "表示なし（破壊直後）→ 黒い影（再出現済み・停止中）→ 縁取り／光る影（予告。30秒後に起動）→ 氷のアイコン（起動中・攻撃できる）"
+  },
+  "SHA-L-SPOTS": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "SHA-L-FIRST-WARN": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "SHA-L-REACT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "SHA-S-DATA": {
+   "verdict": "○",
+   "comment": "",
+   "value": "50"
+  },
+  "SHA-S-SPOTS": {
+   "verdict": "○",
+   "comment": "",
+   "value": "15"
+  },
+  "SHA-S-FIRST-ACTIVE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "12:30"
+  },
+  "SHA-S-REACT-RULE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "小が1個壊れるたびに、その420秒後に、黒い影が出ている地点の中から抽選で1か所に予告が出て、30秒後に起動する（2巡目は一斉ではなく順次）"
+  },
+  "NAA-OVOO-B-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "50"
+  },
+  "NAA-OVOO-A-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "100"
+  },
+  "NAA-OVOO-S-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "200"
+  },
+  "NAA-OVOO-B-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "NAA-OVOO-A-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10"
+  },
+  "NAA-OVOO-S-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "20"
+  },
+  "NAA-OVOO-TICK-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "NAA-CLAIM-DURATION": {
+   "verdict": "○",
+   "comment": "",
+   "value": "30"
+  },
+  "NAA-WARN-MAPGAUGE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "マップの記号の枠線がゲージになり、満ちると有効。契約済みの土地は部隊の紋章入り、未契約は枠だけ"
+  },
+  "NAA-SPAWN-FIRST": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "NAA-WARN-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "30"
+  },
+  "NAA-SPAWN-REFILL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "契約が終わって待機に戻ると、別の地点の待機中の土地が予告状態になる"
+  },
+  "NAA-REFILL-DELAY": {
+   "verdict": "×",
+   "comment": "",
+   "value": "0"
+  },
+  "NAA-CAP-SWITCH-1": {
+   "verdict": "○",
+   "comment": "",
+   "value": "15"
+  },
+  "NAA-CAP-SWITCH-2": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10"
+  },
+  "NAA-CAP-SWITCH-3": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "NAA-CAP-1": {
+   "verdict": "○",
+   "comment": "",
+   "value": "6"
+  },
+  "NAA-CAP-2": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "NAA-CAP-3": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "NAA-CAP-4": {
+   "verdict": "○",
+   "comment": "",
+   "value": "2"
+  },
+  "NAA-NOREPEAT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "直前に契約が終わった地点には、続けて出ない"
+  },
+  "NAA-SITES": {
+   "verdict": "○",
+   "comment": "",
+   "value": "13"
+  },
+  "NAA-RANK-PROB": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "NAA-RANK-SYMBOL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "B＝青い三角形／A＝赤いひし形／S＝黄（金）色の五角形"
+  },
+  "NAA-RANK-MAPICON": {
+   "verdict": "○",
+   "comment": "",
+   "value": "上空と同じ形（B三角形・Aひし形・S五角形）"
+  },
+  "NAA-CLAIM-GUARDIAN": {
+   "verdict": "×",
+   "comment": "かばうでリスにアクセス中キャラクターが受けるダメージを吸収するがリスの操作は中断する。",
+   "value": "オブジェクトにアクセス中の味方には、ナイトのガーディアンの肩代わりが働かない（契約を実行中の味方をかばえない）"
+  },
+  "NAA-CLAIM-CAST": {
+   "verdict": "○",
+   "comment": "4秒。",
+   "value": "4〜7"
+  },
+  "NAA-CLAIM-MULTI": {
+   "verdict": "○",
+   "comment": "",
+   "value": "人数を増やしても契約は速くならない"
+  },
+  "TRI-KO-GAIN": {
+   "verdict": "○",
+   "comment": "",
+   "value": "8"
+  },
+  "TRI-KO-LOSS": {
+   "verdict": "○",
+   "comment": "",
+   "value": "-8"
+  },
+  "TRI-SPAWN-OPEN-COUNT": {
+   "verdict": "○",
+   "comment": "",
+   "value": "6"
+  },
+  "TRI-SPAWN-OPEN-SEC": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "TRI-ACTIVATING-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "30"
+  },
+  "TRI-SPAWN-REFILL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "制圧状態が終わって無効に戻ると、別の地点の無効な目標地が移行状態になる"
+  },
+  "TRI-REFILL-DELAY": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "TRI-CAP-SWITCH-1": {
+   "verdict": "○",
+   "comment": "",
+   "value": "15"
+  },
+  "TRI-CAP-SWITCH-2": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10"
+  },
+  "TRI-CAP-SWITCH-3": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "TRI-CAP-1": {
+   "verdict": "○",
+   "comment": "",
+   "value": "6"
+  },
+  "TRI-CAP-2": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "TRI-CAP-3": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "TRI-CAP-4": {
+   "verdict": "○",
+   "comment": "",
+   "value": "2"
+  },
+  "TRI-SPAWN-SITES": {
+   "verdict": "○",
+   "comment": "",
+   "value": "15"
+  },
+  "TRI-SPAWN-NOREPEAT": {
+   "verdict": "×",
+   "comment": "",
+   "value": "制圧が終わった地点は、しばらく次の出現の候補から外れる"
+  },
+  "TRI-RANK-PROB": {
+   "verdict": "×",
+   "comment": "",
+   "value": "不明"
+  },
+  "TRI-RANK-SHAPE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "B＝青い三角形／A＝赤いひし形／S＝金色の五角形"
+  },
+  "TRI-OBJ-B-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "50"
+  },
+  "TRI-OBJ-A-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "100"
+  },
+  "TRI-OBJ-S-TOTAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "200"
+  },
+  "TRI-OBJ-B-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "TRI-OBJ-A-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10"
+  },
+  "TRI-OBJ-S-TICK": {
+   "verdict": "○",
+   "comment": "",
+   "value": "20"
+  },
+  "TRI-OBJ-TICK-SEC": {
+   "verdict": "×",
+   "comment": "",
+   "value": "3"
+  },
+  "TRI-CLAIM-DURATION": {
+   "verdict": "○",
+   "comment": "",
+   "value": "30"
+  },
+  "TRI-CIRCLE-B": {
+   "verdict": "○",
+   "comment": "",
+   "value": "3"
+  },
+  "TRI-CIRCLE-A": {
+   "verdict": "○",
+   "comment": "",
+   "value": "4"
+  },
+  "TRI-CIRCLE-S": {
+   "verdict": "○",
+   "comment": "",
+   "value": "5"
+  },
+  "TRI-CIRCLE-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "8"
+  },
+  "TRI-CIRCLE-CONTEST": {
+   "verdict": "○",
+   "comment": "",
+   "value": "他部隊のプレイヤーがサークル内にいる間は、占拠が進まない"
+  },
+  "TRI-CIRCLE-RESET": {
+   "verdict": "○",
+   "comment": "",
+   "value": "確定する前にサークルが無人になると、進みは最初に戻る"
+  },
+  "TRI-CIRCLE-KEEP": {
+   "verdict": "○",
+   "comment": "",
+   "value": "確定した後はサークルを離れてよい（次のサークルへ移れる）"
+  },
+  "TRI-CIRCLE-OVERWRITE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "目標地の制圧が確定するまでは、他部隊が占拠したサークルを塗り替えられる"
+  },
+  "TRI-WX-ORDER": {
+   "verdict": "×",
+   "comment": "雪は複数回発生する気がする。",
+   "value": "変化なし → 雪 → 変化なし → オーロラ → 変化なし（各1回。順番は固定）"
+  },
+  "TRI-WX-SNOW-START": {
+   "verdict": "○",
+   "comment": "",
+   "value": "16〜15"
+  },
+  "TRI-WX-SNOW-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "300"
+  },
+  "TRI-WX-AURORA-START": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10〜9"
+  },
+  "TRI-WX-AURORA-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "150"
+  },
+  "TRI-SNOW-STATUE-CENTER": {
+   "verdict": "○",
+   "comment": "",
+   "value": "雪の間は、中央の盆地の三叉路が大きな雪像でふさがれ、遠回りが要る"
+  },
+  "TRI-SNOW-STATUE-WARN": {
+   "verdict": "○",
+   "comment": "",
+   "value": "雪像が出る場所に赤い範囲が出る。中にいるとダメージを受ける"
+  },
+  "TRI-SNOW-BARRIER-PCT": {
+   "verdict": "○",
+   "comment": "50%",
+   "value": "50〜60"
+  },
+  "TRI-SNOW-BARRIER-SEC": {
+   "verdict": "○",
+   "comment": "",
+   "value": "30"
+  },
+  "TRI-SNOW-BARRIER-REFRESH": {
+   "verdict": "○",
+   "comment": "",
+   "value": "効果中に受け直すと上書きされる（時間が戻る）"
+  },
+  "TRI-SNOW-BLESS-INTERVAL": {
+   "verdict": "○",
+   "comment": "",
+   "value": "10"
+  },
+  "TRI-AURORA-NO-B": {
+   "verdict": "○",
+   "comment": "",
+   "value": "オーロラ中はランクBが出ず、AかSだけが出る"
+  },
+  "TRI-AURORA-LB-RATE": {
+   "verdict": "○",
+   "comment": "",
+   "value": "2"
+  },
+  "TRI-AURORA-LB-STACK": {
+   "verdict": "○",
+   "comment": "ファイナルファンタジアではなく、吟遊詩人のリミットブレイク「英雄のファンタジア」",
+   "value": "順位によるLB補正や、ファイナルファンタジアと重なって効く"
+  },
+  "TRI-START-FIXED": {
+   "verdict": "○",
+   "comment": "",
+   "value": "部隊（グランドカンパニー）ごとに出撃地点が固定"
+  }
+ }
+}

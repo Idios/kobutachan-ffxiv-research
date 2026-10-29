@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>外縁遺跡群（制圧戦）｜フロントライン早見表</title><link rel="stylesheet" href="../assets/site.css"></head><body class=""><svg width="0" height="0" style="position:absolute" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="gd-body" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#5a6372"/><stop offset=".55" stop-color="#262b33"/><stop offset="1" stop-color="#0f1115"/></radialGradient>
+  <radialGradient id="gd-body-gold" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#fff1b8"/><stop offset=".5" stop-color="#d9a21b"/><stop offset="1" stop-color="#7a5200"/></radialGradient>
+  <linearGradient id="gd-pillar" x1="0" x2="1"><stop offset="0" stop-color="#1b1f26"/><stop offset=".5" stop-color="#4a5260"/><stop offset="1" stop-color="#1b1f26"/></linearGradient>
+  <linearGradient id="gd-ice" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8f8ff"/><stop offset=".45" stop-color="#9adcff"/><stop offset="1" stop-color="#3f9ad8"/></linearGradient>
+  <linearGradient id="gd-ice2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4f1ff"/><stop offset="1" stop-color="#2f7fc0"/></linearGradient>
+  <radialGradient id="gd-glow-green" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#7dffb0"/><stop offset="1" stop-color="#1fbf63"/></radialGradient>
+</defs>
+
+<!-- 等級アイコン（公式は無印） -->
+<symbol id="g-ext" viewBox="0 0 16 16"><rect x="1.5" y="3.5" width="11" height="11" rx="2" fill="none" stroke="#c3c2b7" stroke-width="1.5"/><path d="M8 8 L14 2 M10 2 H14 V6" fill="none" stroke="#c3c2b7" stroke-width="1.5" stroke-linecap="round"/></symbol>
+<symbol id="g-obs" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#0ca30c"/><path d="M4.5 8.2 L7 10.6 L11.5 5.6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="g-calc" viewBox="0 0 16 16"><rect x="1.5" y="1.5" width="13" height="13" rx="3" fill="none" stroke="#898781" stroke-width="1.5"/><path d="M5 6.5 H11 M5 9.5 H11" stroke="#898781" stroke-width="1.5" stroke-linecap="round"/></symbol>
+<symbol id="g-unk" viewBox="0 0 16 16"><path d="M8 1.5 L15 14.5 H1 Z" fill="#fab219"/><text x="8" y="13" font-size="9" font-weight="700" text-anchor="middle" fill="#0b0b0b" font-family="sans-serif">?</text></symbol>
+
+<!-- ランクの図形（B 青の三角形／A 赤のひし形／S 黄の五角形）。色だけに頼らないよう文字も入れる -->
+<symbol id="r-B" viewBox="0 0 48 48"><path d="M24 4 L45 41 H3 Z" fill="#3987e5" stroke="#cde2fb" stroke-width="2" stroke-linejoin="round"/><text x="24" y="35" font-size="17" font-weight="800" text-anchor="middle" fill="#fff" font-family="sans-serif">B</text></symbol>
+<symbol id="r-A" viewBox="0 0 48 48"><path d="M24 2.5 L45.5 24 L24 45.5 L2.5 24 Z" fill="#e34948" stroke="#ffd2d2" stroke-width="2" stroke-linejoin="round"/><text x="24" y="30" font-size="17" font-weight="800" text-anchor="middle" fill="#fff" font-family="sans-serif">A</text></symbol>
+<symbol id="r-S" viewBox="0 0 48 48"><path d="M24 3 L45 18.5 L37 44 H11 L3 18.5 Z" fill="#f2c230" stroke="#fff3c4" stroke-width="2" stroke-linejoin="round"/><text x="24" y="33" font-size="17" font-weight="800" text-anchor="middle" fill="#0b0b0b" font-family="sans-serif">S</text></symbol>
+
+<!-- 邀撃ドローン（黒い球体に緑に光る枝角） -->
+<symbol id="i-drone" viewBox="0 0 64 64">
+  <ellipse cx="32" cy="58" rx="17" ry="3.5" fill="#3ddc84" opacity=".22"/>
+  <g stroke="#3ddc84" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M23 24 L16 12 L9 10 M16 12 L15 4"/>
+    <path d="M41 24 L48 12 L55 10 M48 12 L49 4"/>
+    <path d="M32 19 L32 6"/>
+  </g>
+  <circle cx="32" cy="37" r="17" fill="url(#gd-body)" stroke="#3ddc84" stroke-width="2"/>
+  <circle cx="32" cy="37" r="9.5" fill="none" stroke="#3ddc84" stroke-opacity=".45" stroke-width="2"/>
+  <circle cx="32" cy="37" r="5.5" fill="url(#gd-glow-green)"/>
+  <circle cx="25" cy="30" r="3" fill="#fff" opacity=".18"/>
+</symbol>
+
+<!-- 邀撃ドローンα（金色） -->
+<symbol id="i-drone-alpha" viewBox="0 0 64 64">
+  <ellipse cx="32" cy="58" rx="17" ry="3.5" fill="#f5c242" opacity=".28"/>
+  <g stroke="#ffd34d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M23 24 L16 12 L9 10 M16 12 L15 4"/>
+    <path d="M41 24 L48 12 L55 10 M48 12 L49 4"/>
+    <path d="M32 19 L32 6"/>
+  </g>
+  <circle cx="32" cy="37" r="17" fill="url(#gd-body-gold)" stroke="#fff1b8" stroke-width="2"/>
+  <circle cx="32" cy="37" r="5.5" fill="#fffbe6"/>
+  <path d="M52 30 L54 34 L58 36 L54 38 L52 42 L50 38 L46 36 L50 34 Z" fill="#fff4c2"/>
+</symbol>
+
+<!-- 邀撃コマンダー（六角形の障壁の中の大きな球体。下に受け止める着弾点） -->
+<symbol id="i-commander" viewBox="0 0 64 64">
+  <path d="M32 2 L53 14 L53 38 L32 50 L11 38 L11 14 Z" fill="#8b7cf6" fill-opacity=".14" stroke="#a99cff" stroke-width="2.4" stroke-linejoin="round"/>
+  <circle cx="32" cy="26" r="12.5" fill="url(#gd-body)" stroke="#c9c2ff" stroke-width="2"/>
+  <circle cx="32" cy="26" r="4.2" fill="#c9c2ff"/>
+  <path d="M34 49 L30.5 54.5 L33.5 54.5 L31 60" stroke="#ffd34d" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="32" cy="59" rx="15" ry="4" fill="none" stroke="#ff9f43" stroke-width="2.6"/>
+</symbol>
+
+<!-- 邀撃システム（黒い柱に緑の輪） -->
+<symbol id="i-system" viewBox="0 0 64 64">
+  <path d="M10 56 L32 50 L54 56 L32 62 Z" fill="#2b6cb0" opacity=".35"/>
+  <rect x="21" y="5" width="22" height="52" rx="7" fill="url(#gd-pillar)" stroke="#6b7482" stroke-width="2"/>
+  <rect x="25" y="9" width="14" height="5" rx="2.5" fill="#6b7482"/>
+  <rect x="16" y="27" width="32" height="10" rx="5" fill="url(#gd-glow-green)" stroke="#a7f3c4" stroke-width="1.5"/>
+  <rect x="27" y="42" width="10" height="3" rx="1.5" fill="#6b7482"/>
+</symbol>
+
+<!-- アイスドトームリス：大（氷の結晶の大きな塊） -->
+<symbol id="i-ice-large" viewBox="0 0 64 64">
+  <ellipse cx="32" cy="58" rx="24" ry="4" fill="#9adcff" opacity=".22"/>
+  <path d="M13 24 L21 33 L21 57 L10 57 L7 35 Z" fill="url(#gd-ice2)" stroke="#e8f8ff" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M49 18 L57 31 L55 57 L42 57 L41 31 Z" fill="url(#gd-ice2)" stroke="#e8f8ff" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M31 4 L41 22 L37 57 L25 57 L21 23 Z" fill="url(#gd-ice)" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M31 4 L33 22 L31 57" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.2" fill="none"/>
+</symbol>
+
+<!-- アイスドトームリス：小（小さな結晶） -->
+<symbol id="i-ice-small" viewBox="0 0 64 64">
+  <!-- 小は氷のかけら1つ（2026-10-29 ユーザーの指示） -->
+  <ellipse cx="32" cy="58" rx="13" ry="3.5" fill="#9adcff" opacity=".22"/>
+  <path d="M32 14 L43 33 L40 57 L24 57 L21 33 Z" fill="url(#gd-ice)" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M32 14 L33.5 33 L32 57" stroke="#ffffff" stroke-opacity=".7" stroke-width="1.2" fill="none"/>
+</symbol>
+
+<!-- 天候「雪」（うさぎ耳のような頭の雪像） -->
+<symbol id="i-snow" viewBox="0 0 64 64">
+  <ellipse cx="24" cy="11" rx="4" ry="9" fill="#eef6ff" stroke="#b8d4f0" stroke-width="1.2"/>
+  <ellipse cx="40" cy="11" rx="4" ry="9" fill="#eef6ff" stroke="#b8d4f0" stroke-width="1.2"/>
+  <circle cx="32" cy="25" r="11" fill="#f7fbff" stroke="#b8d4f0" stroke-width="1.2"/>
+  <circle cx="32" cy="47" r="15" fill="#eaf3ff" stroke="#b8d4f0" stroke-width="1.2"/>
+  <circle cx="28" cy="24" r="1.7" fill="#2a3340"/><circle cx="36" cy="24" r="1.7" fill="#2a3340"/>
+  <path d="M30 29 Q32 30.5 34 29" stroke="#2a3340" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <path d="M32 41 L36 47 L32 53 L28 47 Z" fill="#3987e5" stroke="#cde2fb" stroke-width="1"/>
+  <g fill="#ffffff" opacity=".9"><circle cx="10" cy="20" r="1.6"/><circle cx="54" cy="30" r="1.4"/><circle cx="8" cy="44" r="1.2"/><circle cx="56" cy="12" r="1.2"/></g>
+</symbol>
+
+<!-- 天候「オーロラ」 -->
+<symbol id="i-aurora" viewBox="0 0 64 64">
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#101828" stroke="#2c3a55" stroke-width="1.5"/>
+  <path d="M6 30 C18 14, 30 40, 42 22 S56 18, 58 20" stroke="#4ade80" stroke-width="6" fill="none" stroke-linecap="round" opacity=".9"/>
+  <path d="M6 42 C20 28, 32 50, 46 34 S56 30, 58 32" stroke="#a78bfa" stroke-width="5" fill="none" stroke-linecap="round" opacity=".85"/>
+  <circle cx="14" cy="12" r="1.5" fill="#fff"/><circle cx="48" cy="10" r="1.2" fill="#fff"/><circle cx="52" cy="50" r="1" fill="#fff"/>
+  <path d="M8 56 L20 46 L30 54 L42 44 L56 56 Z" fill="#1e293b"/>
+</symbol>
+</svg>
+<div id="stage"><div class="panel" data-rule="secure"><header class="hdr"><div class="title"><img class="badge" src="../assets/img/hdr_secure.png" alt=""><h1>外縁遺跡群<small>制圧戦</small></h1><span class="today" data-today-badge="secure" hidden>今日</span></div><div class="goal"><span class="v gnum" data-src="SEC-WIN-TARGET">2,400</span><span class="gcap">戦術値で勝利<span class="t to" data-src="COM-MATCH-TIMEOUT">時間切れは多い順</span></span></div><div class="ko"><div class="k"><span class="l">撃破</span><span class="kv"><span class="v" data-src="SEC-KO-GAIN">+10</span><small>戦術値</small></span></div><div class="k"><span class="l">被撃破</span><span class="kv"><span class="v" data-src="SEC-KO-LOSS">−10</span><small>戦術値</small></span></div></div><div class="navbox"><nav class="nav"><a data-go="secure" class="on" href="../secure/">制圧戦</a><a data-go="seize" class="" href="../seize/">争奪戦</a><a data-go="shatter" class="" href="../shatter/">砕氷戦</a><a data-go="naadam" class="" href="../naadam/">終節戦</a><a data-go="triumph" class="" href="../triumph/">演習戦</a></nav><div class="meta"><a href="../jobs/" class="">ジョブ補正</a><a href="../sources/" class="">出典</a><span>データ <span data-src="COM-META-PATCH">7.57</span> 時点</span></div></div></header><main class="main"><section class="col rule"><section class="card "><h2><span class="ttl">拠点の占拠</span><span class="sub">横: 占拠している拠点の数 ・ 部隊全体に入る戦術値</span></h2><div class="bases"><div class="chart"><div class="bc"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-1 SEC-FLAG-TICK">40/分</span><small><span class="v" data-src="SEC-FLAG-RATE-1">2</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:7px"></div><div class="xl" data-src="SEC-FLAG-RATE-1">1</div></div><div class="bc"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-2 SEC-FLAG-TICK">80/分</span><small><span class="v" data-src="SEC-FLAG-RATE-2">4</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:15px"></div><div class="xl" data-src="SEC-FLAG-RATE-2">2</div></div><div class="bc"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-3 SEC-FLAG-TICK">120/分</span><small><span class="v" data-src="SEC-FLAG-RATE-3">6</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:22px"></div><div class="xl" data-src="SEC-FLAG-RATE-3">3</div></div><div class="bc jump"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-4 SEC-FLAG-TICK">200/分</span><small><span class="v" data-src="SEC-FLAG-RATE-4">10</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:36px"></div><div class="xl" data-src="SEC-FLAG-RATE-4">4</div></div><div class="bc"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-5 SEC-FLAG-TICK">240/分</span><small><span class="v" data-src="SEC-FLAG-RATE-5">12</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:44px"></div><div class="xl" data-src="SEC-FLAG-RATE-5">5</div></div><div class="bc"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-6 SEC-FLAG-TICK">280/分</span><small><span class="v" data-src="SEC-FLAG-RATE-6">14</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:51px"></div><div class="xl" data-src="SEC-FLAG-RATE-6">6</div></div><div class="bc jump"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-7 SEC-FLAG-TICK">360/分</span><small><span class="v" data-src="SEC-FLAG-RATE-7">18</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:65px"></div><div class="xl" data-src="SEC-FLAG-RATE-7">7</div></div><div class="bc"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-8 SEC-FLAG-TICK">400/分</span><small><span class="v" data-src="SEC-FLAG-RATE-8">20</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:73px"></div><div class="xl" data-src="SEC-FLAG-RATE-8">8</div></div><div class="bc"><div class="lab"><span class="v calc" data-src="SEC-FLAG-RATE-9 SEC-FLAG-TICK">440/分</span><small><span class="v" data-src="SEC-FLAG-RATE-9">22</span>/<span class="v" data-src="SEC-FLAG-TICK">3秒毎</span></small></div><div class="bar" style="height:80px"></div><div class="xl" data-src="SEC-FLAG-RATE-9">9</div></div></div></div><div class="below"><span class="big2"><span data-src="SEC-FLAG-RATE-4">4</span>・<span data-src="SEC-FLAG-RATE-7">7</span><small>か所目で大きく伸びる（青）</small></span><span>全 <span class="v" data-src="SEC-FLAG-COUNT">9か所</span></span><span><span class="t" data-src="SEC-SHEER-WILL">拠点エリアの中は「不退転」で与ダメージが大幅に上がる</span>（<span class="v" data-src="SEC-SHEER-WILL-MULT">×1.5</span>）</span></div></section><section class="card "><h2><span class="ttl">中央の中立モンスター</span><span class="sub">戦意値: ドローン・αは<span class="t" data-src="SEC-BH-DRONE-WHO SEC-BH-ALPHA-WHO">最多ダメのパーティ全員</span>、コマンダーは<span class="t" data-src="SEC-BH-CMDR-WHO">着弾点にいた全員</span></span></h2><div class="events n4 "><div class="ev"><div class="top"><svg class="ill" role="img" aria-label="邀撃ドローン"><title>邀撃ドローン</title><use href="#i-drone"/></svg><div class="nm">邀撃ドローン<div class="nt"><span class="t" data-src="SEC-DRONE-DIST">部隊に与ダメ割合で分配</span></div></div></div><div class="big"><span class="v" data-src="SEC-DRONE-PTS">10</span><small>戦術値/体</small></div><div class="ln"><span class="v" data-src="SEC-DRONE-COUNT">18体</span>で 計 <span class="v calc" data-src="SEC-DRONE-PTS SEC-DRONE-COUNT">180戦術値</span></div><div class="ln">戦意値 <span class="v" data-src="SEC-BH-DRONE">+4</span></div></div><div class="ev"><div class="top"><svg class="ill" role="img" aria-label="邀撃ドローンα"><title>邀撃ドローンα</title><use href="#i-drone-alpha"/></svg><div class="nm">邀撃ドローンα<div class="nt">金色・<span class="t" data-src="SEC-DRONE-DIST">部隊に与ダメ割合で分配</span></div></div></div><div class="big"><span class="v" data-src="SEC-DRONE-ALPHA-PTS">30</span><small>戦術値/体</small></div><div class="ln">戦意値 <span class="v" data-src="SEC-BH-ALPHA">+8</span></div></div><div class="ev"><div class="top"><svg class="ill" role="img" aria-label="邀撃コマンダー"><title>邀撃コマンダー</title><use href="#i-commander"/></svg><div class="nm">邀撃コマンダー<div class="nt"><span class="t" data-src="SEC-CMDR-PTS-UNIT">予兆1か所ごと</span>・<span class="t" data-src="SEC-CMDR-DIST">受け止めた部隊へ</span></div></div></div><div class="big"><span class="v" data-src="SEC-CMDR-PTS">24</span><small>戦術値/か所</small></div><div class="ln"><span class="v" data-src="SEC-CMDR-SPOTS">18か所</span>で 計 <span class="v calc" data-src="SEC-CMDR-PTS SEC-CMDR-SPOTS">432戦術値</span></div><div class="ln">戦意値 <span class="v" data-src="SEC-BH-CMDR">+4</span></div></div><div class="ev"><div class="top"><svg class="ill" role="img" aria-label="邀撃システム"><title>邀撃システム</title><use href="#i-system"/></svg><div class="nm">邀撃システム<div class="nt"><span class="t" data-src="SEC-NODE-DIST">HP0ごとに与ダメ割合</span></div></div></div><div class="big"><span class="v" data-src="SEC-NODE-PTS">150</span><small><span class="u" data-src="SEC-NODE-PTS-UNIT">戦術値/HP0</span></small></div><div class="ln">最大<span class="v calc" data-src="SEC-NODE-REFILLS SEC-NODE-PTS-UNIT">6回</span>で 計 <span class="v calc" data-src="SEC-NODE-PTS SEC-NODE-REFILLS SEC-NODE-PTS-UNIT">900戦術値</span></div><div class="ln">HP <span class="v" data-src="SEC-NODE-HP">1,500,000（1本）</span></div></div></div><div class="chips "><span class="chip">最初は 残り <b><span class="v calc" data-src="COM-MATCH-TIME SEC-EVT-FIRST">19:20</span></b>（<span class="t" data-src="SEC-EVT-FIRST-KIND">システムかドローン</span>）</span><span class="chip">2回目から: <span class="t" data-src="SEC-EVT-HUD-NEXT">戦況情報に次の出現の時間（と種類）</span></span><span class="chip">転移装置: 出現の <span class="v" data-src="SEC-EVT-PANEL-LEAD">30秒前</span>〜<span class="t" data-src="SEC-EVT-PANEL-STOP">出現の終わりまで</span>（最初は 残り <b><span class="v calc" data-src="COM-MATCH-TIME SEC-EVT-FIRST SEC-EVT-PANEL-LEAD">19:50</span></b> から）・<span class="t" data-src="SEC-EVT-PANEL-ONEWAY">中央への一方通行</span>・着いて無敵 <span class="v" data-src="SEC-EVT-PANEL-INVULN">3秒</span></span></div></section></section><section class="col common"><section class="card "><h2><img class="hi" src="../assets/img/icon_limit_break.png" alt=""><span class="ttl">リミットゲージ</span><span class="sub"><span class="t" data-src="COM-LB-RULE">順位で溜まる量に倍率</span></span></h2><div class="lbrank"><div class="t"><span class="l" data-src="COM-LB-RANK1">1位</span><span class="v" data-src="COM-LB-RANK1">×0.75</span></div><div class="t"><span class="l" data-src="COM-LB-RANK2">2位</span><span class="v" data-src="COM-LB-RANK2">×1</span></div><div class="t"><span class="l" data-src="COM-LB-RANK3">3位</span><span class="v" data-src="COM-LB-RANK3">×1.25</span></div></div></section><section class="card "><h2><span class="ttl">戦意高揚</span><span class="sub">戦闘不能: <span class="t" data-src="COM-BH-DEATH">減らない</span></span></h2><table class="bh"><tr><th></th><th class="none">なし</th><th><img src="../assets/img/bh1.png" alt="戦意高揚I"></th><th><img src="../assets/img/bh2.png" alt="戦意高揚II"></th><th><img src="../assets/img/bh3.png" alt="戦意高揚III"></th><th><img src="../assets/img/bh4.png" alt="戦意高揚IV"></th><th><img src="../assets/img/bh5.png" alt="戦意高揚V"></th></tr><tr class="eff"><th>効果</th><td class="none">—</td><td><span class="v" data-src="COM-BH-L1-EFF">+10%</span></td><td><span class="v" data-src="COM-BH-L2-EFF">+20%</span></td><td><span class="v" data-src="COM-BH-L3-EFF">+30%</span></td><td><span class="v" data-src="COM-BH-L4-EFF">+40%</span></td><td><span class="v" data-src="COM-BH-L5-EFF">+50%</span></td></tr><tr><th>戦意値</th><td class="none">—</td><td><span class="v" data-src="COM-BH-L1-MIN">20</span></td><td><span class="v" data-src="COM-BH-L2-MIN">40</span></td><td><span class="v" data-src="COM-BH-L3-MIN">60</span></td><td><span class="v" data-src="COM-BH-L4-MIN">80</span></td><td><span class="v" data-src="COM-BH-L5-MIN">100</span></td></tr><tr class="sep"><td colspan="7">倒した相手の段階で、得る戦意値が決まる</td></tr><tr><th>撃破</th><td><span class="v" data-src="COM-BHG-KO-L0">+4</span></td><td><span class="v" data-src="COM-BHG-KO-L1">+6</span></td><td><span class="v" data-src="COM-BHG-KO-L2">+8</span></td><td><span class="v" data-src="COM-BHG-KO-L3">+12</span></td><td><span class="v" data-src="COM-BHG-KO-L4">+16</span></td><td><span class="v" data-src="COM-BHG-KO-L5">+20</span></td></tr><tr><th>アシスト</th><td><span class="v" data-src="COM-BHG-AS-L0">+2</span></td><td><span class="v" data-src="COM-BHG-AS-L1">+3</span></td><td><span class="v" data-src="COM-BHG-AS-L2">+4</span></td><td><span class="v" data-src="COM-BHG-AS-L3">+6</span></td><td><span class="v" data-src="COM-BHG-AS-L4">+8</span></td><td><span class="v" data-src="COM-BHG-AS-L5">+10</span></td></tr></table></section><section class="card myjobs"><h2><span class="ttl">ジョブ補正</span><span class="sub"><a class="more" href="../jobs/">一覧</a></span></h2><div class="picker"><button type="button" class="pick" data-pick="PLD" title="ナイト"><img src="../assets/img/job_PLD.png" alt="ナイト"></button><button type="button" class="pick" data-pick="WAR" title="戦士"><img src="../assets/img/job_WAR.png" alt="戦士"></button><button type="button" class="pick" data-pick="DRK" title="暗黒騎士"><img src="../assets/img/job_DRK.png" alt="暗黒騎士"></button><button type="button" class="pick" data-pick="GNB" title="ガンブレイカー"><img src="../assets/img/job_GNB.png" alt="ガンブレイカー"></button><button type="button" class="pick" data-pick="WHM" title="白魔道士"><img src="../assets/img/job_WHM.png" alt="白魔道士"></button><button type="button" class="pick" data-pick="SCH" title="学者"><img src="../assets/img/job_SCH.png" alt="学者"></button><button type="button" class="pick" data-pick="AST" title="占星術師"><img src="../assets/img/job_AST.png" alt="占星術師"></button><button type="button" class="pick" data-pick="SGE" title="賢者"><img src="../assets/img/job_SGE.png" alt="賢者"></button><button type="button" class="pick" data-pick="MNK" title="モンク"><img src="../assets/img/job_MNK.png" alt="モンク"></button><button type="button" class="pick" data-pick="DRG" title="竜騎士"><img src="../assets/img/job_DRG.png" alt="竜騎士"></button><button type="button" class="pick" data-pick="NIN" title="忍者"><img src="../assets/img/job_NIN.png" alt="忍者"></button><button type="button" class="pick" data-pick="SAM" title="侍"><img src="../assets/img/job_SAM.png" alt="侍"></button><button type="button" class="pick" data-pick="RPR" title="リーパー"><img src="../assets/img/job_RPR.png" alt="リーパー"></button><button type="button" class="pick" data-pick="VPR" title="ヴァイパー"><img src="../assets/img/job_VPR.png" alt="ヴァイパー"></button><button type="button" class="pick" data-pick="BRD" title="吟遊詩人"><img src="../assets/img/job_BRD.png" alt="吟遊詩人"></button><button type="button" class="pick" data-pick="MCH" title="機工士"><img src="../assets/img/job_MCH.png" alt="機工士"></button><button type="button" class="pick" data-pick="DNC" title="踊り子"><img src="../assets/img/job_DNC.png" alt="踊り子"></button><button type="button" class="pick" data-pick="BLM" title="黒魔道士"><img src="../assets/img/job_BLM.png" alt="黒魔道士"></button><button type="button" class="pick" data-pick="SMN" title="召喚士"><img src="../assets/img/job_SMN.png" alt="召喚士"></button><button type="button" class="pick" data-pick="RDM" title="赤魔道士"><img src="../assets/img/job_RDM.png" alt="赤魔道士"></button><button type="button" class="pick" data-pick="PCT" title="ピクトマンサー"><img src="../assets/img/job_PCT.png" alt="ピクトマンサー"></button></div><table class="mine"><tr><th></th><th>与ダメ</th><th>被ダメ</th><th title="基準の蓄積時間＋ジョブ補正。順位の倍率が1（2位）のとき">LB(<span data-src="COM-LB-RANK2">2位</span>)</th></tr><tr class="empty"><td colspan="4">ジョブを押すと、ここに補正が出ます（<span data-ui="3">3</span>つまで）</td></tr><tr data-job="PLD" hidden><td class="jn"><img src="../assets/img/job_PLD.png" alt="">ナイト</td><td><span class="v zero" data-src="COM-JOB-PLD-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-PLD-TAKEN">−45%</span></td><td><span class="v calc" data-src="COM-LBB-PLD COM-JOB-PLD-LB">150秒</span></td></tr><tr data-job="WAR" hidden><td class="jn"><img src="../assets/img/job_WAR.png" alt="">戦士</td><td><span class="v" data-src="COM-JOB-WAR-DMG">−10%</span></td><td><span class="v" data-src="COM-JOB-WAR-TAKEN">−50%</span></td><td><span class="v calc" data-src="COM-LBB-WAR COM-JOB-WAR-LB">90秒</span></td></tr><tr data-job="DRK" hidden><td class="jn"><img src="../assets/img/job_DRK.png" alt="">暗黒騎士</td><td><span class="v" data-src="COM-JOB-DRK-DMG">−15%</span></td><td><span class="v" data-src="COM-JOB-DRK-TAKEN">−40%</span></td><td><span class="v calc" data-src="COM-LBB-DRK COM-JOB-DRK-LB">150秒</span></td></tr><tr data-job="GNB" hidden><td class="jn"><img src="../assets/img/job_GNB.png" alt="">ガンブレイカー</td><td><span class="v zero" data-src="COM-JOB-GNB-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-GNB-TAKEN">−55%</span></td><td><span class="v calc" data-src="COM-LBB-GNB COM-JOB-GNB-LB">75秒</span></td></tr><tr data-job="WHM" hidden><td class="jn"><img src="../assets/img/job_WHM.png" alt="">白魔道士</td><td><span class="v" data-src="COM-JOB-WHM-DMG">−10%</span></td><td><span class="v" data-src="COM-JOB-WHM-TAKEN">−25%</span></td><td><span class="v calc" data-src="COM-LBB-WHM COM-JOB-WHM-LB">75秒</span></td></tr><tr data-job="SCH" hidden><td class="jn"><img src="../assets/img/job_SCH.png" alt="">学者</td><td><span class="v" data-src="COM-JOB-SCH-DMG">−10%</span></td><td><span class="v" data-src="COM-JOB-SCH-TAKEN">−30%</span></td><td><span class="v calc" data-src="COM-LBB-SCH COM-JOB-SCH-LB">90秒</span></td></tr><tr data-job="AST" hidden><td class="jn"><img src="../assets/img/job_AST.png" alt="">占星術師</td><td><span class="v" data-src="COM-JOB-AST-DMG">−15%</span></td><td><span class="v" data-src="COM-JOB-AST-TAKEN">−25%</span></td><td><span class="v calc" data-src="COM-LBB-AST COM-JOB-AST-LB">120秒</span></td></tr><tr data-job="SGE" hidden><td class="jn"><img src="../assets/img/job_SGE.png" alt="">賢者</td><td><span class="v zero" data-src="COM-JOB-SGE-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-SGE-TAKEN">−35%</span></td><td><span class="v calc" data-src="COM-LBB-SGE COM-JOB-SGE-LB">120秒</span></td></tr><tr data-job="MNK" hidden><td class="jn"><img src="../assets/img/job_MNK.png" alt="">モンク</td><td><span class="v zero" data-src="COM-JOB-MNK-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-MNK-TAKEN">−55%</span></td><td><span class="v calc" data-src="COM-LBB-MNK COM-JOB-MNK-LB">75秒</span></td></tr><tr data-job="DRG" hidden><td class="jn"><img src="../assets/img/job_DRG.png" alt="">竜騎士</td><td><span class="v" data-src="COM-JOB-DRG-DMG">−10%</span></td><td><span class="v" data-src="COM-JOB-DRG-TAKEN">−50%</span></td><td><span class="v calc" data-src="COM-LBB-DRG COM-JOB-DRG-LB">105秒</span></td></tr><tr data-job="NIN" hidden><td class="jn"><img src="../assets/img/job_NIN.png" alt="">忍者</td><td><span class="v zero" data-src="COM-JOB-NIN-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-NIN-TAKEN">−45%</span></td><td><span class="v calc" data-src="COM-LBB-NIN COM-JOB-NIN-LB">105秒</span></td></tr><tr data-job="SAM" hidden><td class="jn"><img src="../assets/img/job_SAM.png" alt="">侍</td><td><span class="v" data-src="COM-JOB-SAM-DMG">−5%</span></td><td><span class="v" data-src="COM-JOB-SAM-TAKEN">−55%</span></td><td><span class="v calc" data-src="COM-LBB-SAM COM-JOB-SAM-LB">135秒</span></td></tr><tr data-job="RPR" hidden><td class="jn"><img src="../assets/img/job_RPR.png" alt="">リーパー</td><td><span class="v zero" data-src="COM-JOB-RPR-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-RPR-TAKEN">−50%</span></td><td><span class="v calc" data-src="COM-LBB-RPR COM-JOB-RPR-LB">75秒</span></td></tr><tr data-job="VPR" hidden><td class="jn"><img src="../assets/img/job_VPR.png" alt="">ヴァイパー</td><td><span class="v" data-src="COM-JOB-VPR-DMG">−5%</span></td><td><span class="v" data-src="COM-JOB-VPR-TAKEN">−55%</span></td><td><span class="v calc" data-src="COM-LBB-VPR COM-JOB-VPR-LB">90秒</span></td></tr><tr data-job="BRD" hidden><td class="jn"><img src="../assets/img/job_BRD.png" alt="">吟遊詩人</td><td><span class="v zero" data-src="COM-JOB-BRD-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-BRD-TAKEN">−30%</span></td><td><span class="v calc" data-src="COM-LBB-BRD COM-JOB-BRD-LB">105秒</span></td></tr><tr data-job="MCH" hidden><td class="jn"><img src="../assets/img/job_MCH.png" alt="">機工士</td><td><span class="v zero" data-src="COM-JOB-MCH-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-MCH-TAKEN">−30%</span></td><td><span class="v calc" data-src="COM-LBB-MCH COM-JOB-MCH-LB">90秒</span></td></tr><tr data-job="DNC" hidden><td class="jn"><img src="../assets/img/job_DNC.png" alt="">踊り子</td><td><span class="v zero" data-src="COM-JOB-DNC-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-DNC-TAKEN">−35%</span></td><td><span class="v calc" data-src="COM-LBB-DNC COM-JOB-DNC-LB">120秒</span></td></tr><tr data-job="BLM" hidden><td class="jn"><img src="../assets/img/job_BLM.png" alt="">黒魔道士</td><td><span class="v" data-src="COM-JOB-BLM-DMG">−5%</span></td><td><span class="v" data-src="COM-JOB-BLM-TAKEN">−30%</span></td><td><span class="v calc" data-src="COM-LBB-BLM COM-JOB-BLM-LB">60秒</span></td></tr><tr data-job="SMN" hidden><td class="jn"><img src="../assets/img/job_SMN.png" alt="">召喚士</td><td><span class="v" data-src="COM-JOB-SMN-DMG">−10%</span></td><td><span class="v" data-src="COM-JOB-SMN-TAKEN">−30%</span></td><td><span class="v calc" data-src="COM-LBB-SMN-BAHAMUT COM-LBB-SMN-PHOENIX COM-JOB-SMN-LB">105秒</span></td></tr><tr data-job="RDM" hidden><td class="jn"><img src="../assets/img/job_RDM.png" alt="">赤魔道士</td><td><span class="v zero" data-src="COM-JOB-RDM-DMG">0%</span></td><td><span class="v" data-src="COM-JOB-RDM-TAKEN">−45%</span></td><td><span class="v calc" data-src="COM-LBB-RDM COM-JOB-RDM-LB">90秒</span></td></tr><tr data-job="PCT" hidden><td class="jn"><img src="../assets/img/job_PCT.png" alt="">ピクトマンサー</td><td><span class="v" data-src="COM-JOB-PCT-DMG">−10%</span></td><td><span class="v" data-src="COM-JOB-PCT-TAKEN">−30%</span></td><td><span class="v calc" data-src="COM-LBB-PCT COM-JOB-PCT-LB">105秒</span></td></tr></table></section></section></main><footer class="ftr"><span>© SQUARE ENIX</span><span class="right"><a href="https://github.com/Idios/kobutachan-ffxiv-research/blob/main/frontline/README.md" rel="noopener">このサイトについて（権利・出典）</a> ・ 確認 <span data-src="sources.md">2026-10-27〜10-29</span></span></footer></div></div><script>
+(function () {
+  var W = 1920, H = 912, st = document.getElementById('stage');
+  function fit() {
+    var s = Math.min(innerWidth / W, innerHeight / H);
+    st.style.transform = 'scale(' + s + ')';
+    st.style.left = Math.max(0, (innerWidth - W * s) / 2) + 'px';
+    document.documentElement.style.setProperty('--scale', s);
+  }
+  addEventListener('resize', fit); fit();
+  var CYCLE = ["seize", "shatter", "naadam", "triumph", "seize", "secure", "naadam", "triumph"], ANCHOR = [2026, 4, 29], ANCHOR_RULE = "secure";
+  function todayRule() {
+    // 切替は毎日 0:00 JST（= 15:00 UTC）。閲覧者の時間帯によらず JST の日付で数える
+    var day = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000);
+    var a = Math.floor(Date.UTC(ANCHOR[0], ANCHOR[1] - 1, ANCHOR[2]) / 86400000);
+    var n = CYCLE.length, base = CYCLE.indexOf(ANCHOR_RULE);
+    return CYCLE[((base + day - a) % n + n) % n];
+  }
+  var panels = document.querySelectorAll('.panel[data-rule]');
+  function show(rule) { panels.forEach(function (p) { p.hidden = p.dataset.rule !== rule; }); }
+  var today = todayRule();
+  document.querySelectorAll('[data-today-badge]').forEach(function (b) { b.hidden = b.dataset.todayBadge !== today; });
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    if (a.dataset.go === today) { var d = document.createElement('span'); d.className = 'dot'; d.title = '今日'; a.appendChild(d); }
+    if (panels.length > 1) a.addEventListener('click', function (e) { e.preventDefault(); show(a.dataset.go); });
+  });
+  if (panels.length > 1) {
+    var has = Array.prototype.some.call(panels, function (p) { return p.dataset.rule === today; });
+    show(has ? today : panels[0].dataset.rule);
+  }
+  var KEY = 'fl-myjobs', MAX = 3, mem = null;
+  var KNOWN = Array.prototype.map.call(document.querySelectorAll('[data-pick]'), function (b) { return b.dataset.pick; });
+  if (!KNOWN.length) KNOWN = Array.prototype.map.call(document.querySelectorAll('tr[data-job]'), function (t) { return t.dataset.job; });
+  function clean(a) {
+    var out = [];
+    (Array.isArray(a) ? a : []).forEach(function (x) { if (KNOWN.indexOf(x) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out.slice(-MAX);
+  }
+  function load() {
+    if (mem) return mem.slice();
+    try { return clean(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) { mem = []; return []; }
+  }
+  function save(a) { try { localStorage.setItem(KEY, JSON.stringify(a)); mem = null; } catch (e) { mem = a.slice(); } }
+  function toggle(code) {
+    var a = load(), i = a.indexOf(code);
+    if (i >= 0) a.splice(i, 1); else { a.push(code); while (a.length > MAX) a.shift(); }
+    save(a); paint();
+  }
+  function paint() {
+    var a = load();
+    document.querySelectorAll('[data-pick]').forEach(function (b) { b.classList.toggle('on', a.indexOf(b.dataset.pick) >= 0); });
+    document.querySelectorAll('.myjobs').forEach(function (box) {
+      // 選んだ順に並べる
+      var tb = box.querySelector('table.mine tbody') || box.querySelector('table.mine');
+      a.forEach(function (code) { var tr = box.querySelector('tr[data-job="' + code + '"]'); if (tr) tb.appendChild(tr); });
+      box.querySelectorAll('tr[data-job]').forEach(function (tr) { tr.hidden = a.indexOf(tr.dataset.job) < 0; });
+      var em = box.querySelector('tr.empty'); if (em) em.hidden = a.length > 0;
+    });
+    document.querySelectorAll('.jobtable tr[data-job]').forEach(function (tr) { tr.classList.toggle('me', a.indexOf(tr.dataset.job) >= 0); });
+  }
+  document.querySelectorAll('[data-pick]').forEach(function (b) { b.addEventListener('click', function () { toggle(b.dataset.pick); }); });
+  document.querySelectorAll('.jobtable tr[data-job]').forEach(function (tr) { tr.addEventListener('click', function () { toggle(tr.dataset.job); }); });
+  paint();
+})();
+</script></body></html>
