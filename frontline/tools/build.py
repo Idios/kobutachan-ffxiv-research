@@ -5,10 +5,13 @@
     python frontline/tools/build.py --check   # 生成物が台帳と合っているかだけ確かめる（違えば終了コード 1）
 
 生成するもの:
-    frontline/index.html            トップ（今日のルールを表示。5ルール分を内包し、タブで切り替える）
-    frontline/<rule>/index.html     ルール別のページ（secure / seize / shatter / naadam / triumph）
-    frontline/jobs/index.html       ジョブ補正の一覧（自分のジョブを選ぶ）
-    frontline/sources/index.html    ページに出している値の出典の一覧
+    frontline/index.html                  入口。ブラウザの言語（選んだ言語があればそれ）の版へ移る
+    frontline/<lang>/index.html           トップ（今日のルールを表示。5ルール分を内包し、タブで切り替える）
+    frontline/<lang>/<rule>/index.html    ルール別のページ（secure / seize / shatter / naadam / triumph）
+    frontline/<lang>/jobs/index.html      ジョブ補正の一覧（自分のジョブを選ぶ）
+    frontline/<lang>/sources/index.html   ページに出している値の出典の一覧
+    lang は ja / en / de / fr（訳は frontline/data/i18n/）。2026-10-29 まで日本語版があった frontline/<rule>/ などは、
+    ja/ の同じページへ移る案内のページにする（公開済みの URL を切らない）
 
 守ること（frontline-maintenance スキル、リポジトリの AGENTS.md 規約1）:
 - 値は値台帳（frontline/data/ledger/*.md）からだけ取る。採否が ○ の行しか使えない。× や空欄の行を参照すると止まる。
@@ -28,7 +31,9 @@ from collections.abc import Callable, Iterable
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import i18n
 import ledger
+from i18n import F, H, L, U
 
 FRONT = ledger.ROOT  # frontline/
 ASSETS = FRONT / "assets"
@@ -115,8 +120,9 @@ class Data:
         return vals[0], vals[-1]
 
     def text(self, rid: str) -> str:
+        """文章の値（表示文があればそれ）。日本語以外は訳の表（frontline/data/i18n/text.md）から。"""
         r = self.row(rid)
-        return r.display or r.value
+        return i18n.text(rid, r.display or r.value)
 
     def grade(self, rid: str) -> str:
         return self.row(rid).grade
@@ -129,16 +135,8 @@ def esc(s: object) -> str:
     return html.escape(str(s), quote=True)
 
 
-def fmt(x: float) -> str:
-    """桁区切り。小数は2桁まで（末尾の0は落とす）。"""
-    if abs(x - round(x)) < 1e-9:
-        return f"{round(x):,}"
-    return f"{x:,.2f}".rstrip("0").rstrip(".")
-
-
-def fmt1(x: float) -> str:
-    """小数1桁（10万HPあたりなどの目安値）。"""
-    return f"{x:,.1f}".rstrip("0").rstrip(".")
+fmt = i18n.fmt  # 桁区切り。小数は2桁まで（言語ごとの書き方）
+fmt1 = i18n.fmt1  # 小数1桁
 
 
 def signed(x: float) -> str:
@@ -161,7 +159,7 @@ def worst(grades: Iterable[str]) -> str:
 def icon(grade: str) -> str:
     if grade not in GRADE_ICON:
         return ""
-    t = esc(GRADE_TITLE[grade])
+    t = esc(L(GRADE_TITLE[grade]))
     return f'<svg class="g" role="img" aria-label="{t}"><title>{t}</title><use href="#{GRADE_ICON[grade]}"/></svg>'
 
 
@@ -211,7 +209,7 @@ class Card:
     ) -> str:
         """数の値。"""
         x = self.d.num(rid, unit)
-        return self.wrap(show(x) + suffix, [rid], self.d.grade(rid), cls)
+        return self.wrap(show(x) + U(suffix), [rid], self.d.grade(rid), cls)
 
     def raw(self, rid: str, shown: str, *, unit: str, cls: str = "v") -> str:
         """値を整形済みの文字で出す（分:秒・範囲など）。単位を照合する。"""
@@ -228,7 +226,7 @@ class Card:
         if len(rids) < 2:
             raise BuildError(f"{rids}: 1行だけの換算は v(show=...) で出す（計算の印を付けない）")
         g = worst(self.d.grade(r) for r in rids)
-        return self.wrap(show(x) + suffix, rids, "計算" if g == "公式" else g, cls + " calc")
+        return self.wrap(show(x) + U(suffix), rids, "計算" if g == "公式" else g, cls + " calc")
 
     def t(self, rid: str, *, cls: str = "t") -> str:
         """文章の値（表示文があればそれ）。"""
@@ -245,7 +243,7 @@ class Card:
 def card(title: str, body: str, *, sub: str = "", cls: str = "", head_icon: str = "", badge: str = "") -> str:
     sub_html = f'<span class="sub">{sub}</span>' if sub else ""
     return (
-        f'<section class="card {cls}"><h2>{head_icon}<span class="ttl">{esc(title)}</span>{badge}{sub_html}</h2>'
+        f'<section class="card {cls}"><h2>{head_icon}<span class="ttl">{esc(L(title))}</span>{badge}{sub_html}</h2>'
         f"{body}</section>"
     )
 
@@ -277,10 +275,10 @@ def rank_tiles(d: Data, symbol_rows: list[str], items: list[dict]) -> str:
     out = []
     for it in items:
         lines = "".join(f'<div class="ln">{x}</div>' for x in it["lines"])
-        shape = svg_use("r-" + it["rank"], "shape", "ランク" + it["rank"]).replace("<svg ", f'<svg data-src="{srcs}" ', 1)
+        shape = svg_use("r-" + it["rank"], "shape", F("ランク{0}", it["rank"])).replace("<svg ", f'<svg data-src="{srcs}" ', 1)
         out.append(
             f'<div class="rk rk-{it["rank"]}">{shape}'
-            f'<div class="tot">{it["total"]}<small>{esc(it["unit"])}</small>'
+            f'<div class="tot">{it["total"]}<small>{esc(L(it["unit"]))}</small>'
             + (f'<span class="ex">{it["extra"]}</span>' if it.get("extra") else "")
             + f"</div>{lines}</div>"
         )
@@ -294,7 +292,7 @@ def event_tiles(items: list[dict], cls: str = "") -> str:
         lines = "".join(f'<div class="ln">{x}</div>' for x in e["lines"])
         note = f'<div class="nt">{e["note"]}</div>' if e.get("note") else ""
         out.append(
-            f'<div class="ev"><div class="top">{svg_use(e["svg"], "ill", e["name"])}<div class="nm">{esc(e["name"])}{note}</div></div>'
+            f'<div class="ev"><div class="top">{svg_use(e["svg"], "ill", L(e["name"]))}<div class="nm">{esc(L(e["name"]))}{note}</div></div>'
             f'<div class="big">{e["big"]}</div>{lines}</div>'
         )
     return f'<div class="events n{len(items)} {cls}">{"".join(out)}</div>'
@@ -349,8 +347,13 @@ MYJOB_MAX = 3  # ルールのページに出す自分のジョブの数（画面
 
 
 def job_name(d: Data, code: str) -> str:
-    """ジョブ名は補正の行の項目名（「ナイト 与ダメージ補正」）から取る。"""
-    return d.row(f"COM-JOB-{code}-DMG").label.split(" ")[0]
+    """ジョブ名は補正の行の項目名（「ナイト 与ダメージ補正」）から取る。日本語以外は用語の表（公式の表記）。"""
+    return L(d.row(f"COM-JOB-{code}-DMG").label.split(" ")[0])
+
+
+def lb_name(d: Data, code: str) -> str:
+    """LB の名前（条件の「LB: ファランクス」から）。日本語以外は用語の表（公式の表記）。"""
+    return i18n.SLASH().join(L(d.row(b).condition.removeprefix("LB: ")) for b in lb_ids(code))
 
 
 def lb_ids(code: str) -> list[str]:
@@ -361,8 +364,9 @@ def lb_header(d: Data) -> str:
     """LB の列の見出し。秒数は順位の倍率が1のときの値なので、その順位を台帳から探して書く。"""
     for i in (1, 2, 3):
         if d.num(f"COM-LB-RANK{i}", "倍") == 1:
-            return (f'<th title="基準の蓄積時間＋ジョブ補正。順位の倍率が1（{i}位）のとき">'
-                    f'LB(<span data-src="COM-LB-RANK{i}">{i}位</span>){icon("計算") if SHOW_GRADES else ""}</th>')
+            title = esc(F("基準の蓄積時間＋ジョブ補正。順位の倍率が1（{0}）のとき", L(f"{i}位")))
+            rank = f'<span data-src="COM-LB-RANK{i}">{esc(L(f"{i}位"))}</span>'
+            return f'<th title="{title}">{H("LB({0})", rank)}{icon("計算") if SHOW_GRADES else ""}</th>'
     raise BuildError("順位の倍率が1の順位がない。LB の秒数の前提を見直す")
 
 
@@ -377,7 +381,7 @@ def job_cells(cd: Card, code: str) -> tuple[str, str, str]:
     adj_id = f"COM-JOB-{code}-LB"
     adj = d.num(adj_id, "秒")
     secs = list(dict.fromkeys(d.num(b, "秒") + adj for b in lb_ids(code)))  # 台帳の順。同じ秒数は1つにまとめる
-    lb = lbc.c(secs[0], lb_ids(code) + [adj_id], suffix="秒") if len(secs) == 1 else "／".join(
+    lb = lbc.c(secs[0], lb_ids(code) + [adj_id], suffix="秒") if len(secs) == 1 else i18n.SLASH().join(
         lbc.c(s, lb_ids(code) + [adj_id], suffix="秒") for s in secs
     )
     return pct(f"COM-JOB-{code}-DMG"), pct(f"COM-JOB-{code}-TAKEN"), lb
@@ -388,12 +392,12 @@ def common_column(d: Data, prefix: str) -> str:
     lb_ids_rank = [f"COM-LB-RANK{i}" for i in (1, 2, 3)]
     c1 = Card(d, lb_ids_rank)
     tiles = "".join(
-        f'<div class="t"><span class="l" data-src="COM-LB-RANK{i}">{i}位</span>'
+        f'<div class="t"><span class="l" data-src="COM-LB-RANK{i}">{esc(L(f"{i}位"))}</span>'
         f'{c1.v(f"COM-LB-RANK{i}", unit="倍", show=lambda x: "×" + fmt(x))}</div>'
         for i in (1, 2, 3)
     )
     lb_card = card("リミットゲージ", f'<div class="lbrank">{tiles}</div>', sub=c1.t("COM-LB-RULE"),
-                   head_icon=f'<img class="hi" src="{prefix}assets/img/icon_limit_break.png" alt="">', badge=c1.badge())
+                   head_icon=f'<img class="hi" src="{ap(prefix)}assets/img/icon_limit_break.png" alt="">', badge=c1.badge())
 
     # 戦意高揚
     levels = range(1, 6)
@@ -402,27 +406,27 @@ def common_column(d: Data, prefix: str) -> str:
     ]
     c2 = Card(d, bh_rows)
     roman = ["I", "II", "III", "IV", "V"]
-    head = '<th></th><th class="none">なし</th>' + "".join(
-        f'<th><img src="{prefix}assets/img/bh{i}.png" alt="戦意高揚{roman[i - 1]}"></th>' for i in levels
+    head = f'<th></th><th class="none">{H("なし")}</th>' + "".join(
+        f'<th><img src="{ap(prefix)}assets/img/bh{i}.png" alt="{esc(F("戦意高揚{0}", roman[i - 1]))}"></th>' for i in levels
     )
-    eff = '<th>効果</th><td class="none">—</td>' + "".join(
+    eff = f'<th>{H("効果")}</th><td class="none">—</td>' + "".join(
         f'<td>{c2.v(f"COM-BH-L{i}-EFF", unit="%", show=lambda x: "+" + fmt(x), suffix="%")}</td>' for i in levels
     )
-    need = '<th>戦意値</th><td class="none">—</td>' + "".join(
+    need = f'<th>{esc(i18n.C("戦意高揚の表の行", "戦意値"))}</th><td class="none">—</td>' + "".join(
         f'<td>{c2.v(f"COM-BH-L{i}-MIN", unit="戦意値")}</td>' for i in levels
     )
-    ko = "<th>撃破</th>" + "".join(f'<td>{c2.v(f"COM-BHG-KO-L{i}", unit="戦意値", show=lambda x: "+" + fmt(x))}</td>' for i in range(6))
-    asst = "<th>アシスト</th>" + "".join(
+    ko = f"<th>{H('撃破')}</th>" + "".join(f'<td>{c2.v(f"COM-BHG-KO-L{i}", unit="戦意値", show=lambda x: "+" + fmt(x))}</td>' for i in range(6))
+    asst = f"<th>{H('アシスト')}</th>" + "".join(
         f'<td>{c2.v(f"COM-BHG-AS-L{i}", unit="戦意値", show=lambda x: "+" + fmt(x))}</td>' for i in range(6)
     )
-    sep = '<tr class="sep"><td colspan="7">倒した相手の段階で、得る戦意値が決まる</td></tr>'
+    sep = f'<tr class="sep"><td colspan="7">{H("倒した相手の段階で、得る戦意値が決まる")}</td></tr>'
     bh_table = (
         f'<table class="bh"><tr>{head}</tr><tr class="eff">{eff}</tr><tr>{need}</tr>{sep}<tr>{ko}</tr><tr>{asst}</tr></table>'
     )
     bh_card = card(
         "戦意高揚",
         bh_table,
-        sub=f'戦闘不能: {c2.t("COM-BH-DEATH")}',
+        sub=H("戦闘不能: {0}", c2.t("COM-BH-DEATH")),
         badge=c2.badge(),
     )
 
@@ -432,26 +436,26 @@ def common_column(d: Data, prefix: str) -> str:
     c3 = Card(d, jrows)
     picks = "".join(
         f'<button type="button" class="pick" data-pick="{c}" title="{esc(job_name(d, c))}">'
-        f'<img src="{prefix}assets/img/job_{c}.png" alt="{esc(job_name(d, c))}"></button>'
+        f'<img src="{ap(prefix)}assets/img/job_{c}.png" alt="{esc(job_name(d, c))}"></button>'
         for c in all_codes
     )
     rows_html = []
     for code in all_codes:
         dmg, taken, lb = job_cells(c3, code)
         rows_html.append(
-            f'<tr data-job="{code}" hidden><td class="jn"><img src="{prefix}assets/img/job_{code}.png" alt="">{esc(job_name(d, code))}</td>'
+            f'<tr data-job="{code}" hidden><td class="jn"><img src="{ap(prefix)}assets/img/job_{code}.png" alt="">{esc(job_name(d, code))}</td>'
             f"<td>{dmg}</td><td>{taken}</td><td>{lb}</td></tr>"
         )
-    empty = (f'<tr class="empty"><td colspan="4">ジョブを押すと、ここに補正が出ます'
-             f'（<span data-ui="{MYJOB_MAX}">{MYJOB_MAX}</span>つまで）</td></tr>')
+    empty = (f'<tr class="empty"><td colspan="4">'
+             f'{H("ジョブを押すと、ここに補正が出ます（{0}つまで）", f"<span data-ui={chr(34)}{MYJOB_MAX}{chr(34)}>{MYJOB_MAX}</span>")}</td></tr>')
     jobs_body = (
         f'<div class="picker">{picks}</div>'
-        f'<table class="mine"><tr><th></th><th>与ダメ</th><th>被ダメ</th>{lb_header(d)}</tr>{empty}{"".join(rows_html)}</table>'
+        f'<table class="mine"><tr><th></th><th>{H("与ダメ")}</th><th>{H("被ダメ")}</th>{lb_header(d)}</tr>{empty}{"".join(rows_html)}</table>'
     )
     job_card = card(
         "ジョブ補正",
         jobs_body,
-        sub=f'<a class="more" href="{prefix}jobs/">一覧</a>',
+        sub=f'<a class="more" href="{prefix}jobs/">{H("一覧")}</a>',
         cls="myjobs",
         badge=c3.badge(),
     )
@@ -461,8 +465,8 @@ def common_column(d: Data, prefix: str) -> str:
 # ---------------------------------------------------------------- ページの組み立て
 
 
-def rule_names(rule: str) -> tuple[str, str]:
-    """「外縁遺跡群（制圧戦）」を (外縁遺跡群, 制圧戦) にする（ledger.RULES の名前から）。"""
+def rule_names_ja(rule: str) -> tuple[str, str]:
+    """「外縁遺跡群（制圧戦）」を (外縁遺跡群, 制圧戦) にする（ledger.RULES の名前から。台帳との照合に使う）。"""
     full = ledger.RULES[rule][1]
     m = re.fullmatch(r"(.+)（(.+)）", full)
     if not m:
@@ -470,7 +474,38 @@ def rule_names(rule: str) -> tuple[str, str]:
     return m.group(1), m.group(2)
 
 
-def header(d: Data, rule: str, spec: dict, prefix: str) -> str:
+def rule_names(rule: str) -> tuple[str, str]:
+    """ページに出すマップ名とルール名（日本語以外は用語の表の公式の表記）。"""
+    name, sub = rule_names_ja(rule)
+    return L(name), L(sub)
+
+
+def ap(prefix: str) -> str:
+    """assets/ への道（どの言語のページも frontline/<lang>/ の下にあるので1段深い）。"""
+    return prefix + "../"
+
+
+FLAGS = {"ja": "flag-ja", "en": "flag-en", "de": "flag-de", "fr": "flag-fr"}  # 自作の国旗（icons.svg）。英語は米国旗（ユーザーの指示）
+
+
+def flag(lg: str) -> str:
+    """言語の切り替えに付ける国旗（飾り。言語は隣の文字で示す）。"""
+    return f'<svg class="flag" aria-hidden="true"><use href="#{FLAGS[lg]}"/></svg>'
+
+
+def lang_switch(here: str, prefix: str) -> str:
+    """言語の切り替え（同じページの各言語版へ）。選んだ言語はブラウザに記憶し、トップでの自動の切り替えより優先する。"""
+    root = ap(prefix)  # frontline/ への道
+    out = []
+    for lg in i18n.LANGS:
+        href = root + lg + "/" + here
+        on = " on" if lg == i18n.lang() else ""
+        out.append(f'<a class="lg{on}" data-lang="{lg}" lang="{lg}" hreflang="{lg}" href="{href}" '
+                   f'title="{esc(i18n.LANG_NAMES[lg])}">{flag(lg)}{lg.upper()}</a>')
+    return f'<span class="langs">{"".join(out)}</span>'
+
+
+def header(d: Data, rule: str, spec: dict, prefix: str, here: str) -> str:
     name, sub = rule_names(rule)
     c = Card(d, [], base="公式")  # ヘッダには見出しの印がないので、公式でない値には必ず印を付ける
     goal_row = d.row(spec["goal"])
@@ -479,26 +514,30 @@ def header(d: Data, rule: str, spec: dict, prefix: str) -> str:
         raise BuildError(f"{spec['ko']}: 撃破は正、被撃破は負の数で書く")
     ko_gain = c.v(spec["ko"][0], unit=unit, show=signed)
     ko_loss = c.v(spec["ko"][1], unit=unit, show=signed)
+    today = f'<span class="today" data-today-badge="{rule}" hidden>{H("今日")}</span>'
     return (
-        f'<header class="hdr"><div class="title"><img class="badge" src="{prefix}assets/img/hdr_{rule}.png" alt="">'
-        f'<h1>{esc(name)}<small>{esc(sub)}</small></h1><span class="today" data-today-badge="{rule}" hidden>今日</span></div>'
-        f'<div class="goal">{c.v(spec["goal"], unit=unit, cls="v gnum")}<span class="gcap">{esc(goal_row.unit)}で勝利{c.t(spec["timeout"], cls="t to")}</span></div>'
-        f'<div class="ko"><div class="k"><span class="l">撃破</span><span class="kv">{ko_gain}<small>{esc(unit)}</small></span></div>'
-        f'<div class="k"><span class="l">被撃破</span><span class="kv">{ko_loss}<small>{esc(unit)}</small></span></div></div>'
-        f"{nav(d, rule, prefix)}</header>"
+        f'<header class="hdr"><div class="title"><img class="badge" src="{ap(prefix)}assets/img/hdr_{rule}.png" alt="">'
+        + (f'<h1>{esc(name)}<small>{esc(sub)}</small></h1>{today}</div>' if i18n.lang() == "ja"
+           # 英・独・仏: マップ名が長いので、「今日」の印はルール名の行に置く（マップ名の幅を取らない）
+           else f'<h1>{esc(name)}<small>{esc(sub)}{today}</small></h1></div>')
+        + f'<div class="goal">{c.v(spec["goal"], unit=unit, cls="v gnum")}<span class="gcap">{H("{0}で勝利", esc(L(goal_row.unit)))}{c.t(spec["timeout"], cls="t to")}</span></div>'
+        f'<div class="ko"><div class="k"><span class="l">{H("撃破")}</span><span class="kv">{ko_gain}<small>{esc(L(unit))}</small></span></div>'
+        f'<div class="k"><span class="l">{H("被撃破")}</span><span class="kv">{ko_loss}<small>{esc(L(unit))}</small></span></div></div>'
+        f"{nav(d, rule, prefix, here)}</header>"
     )
 
 
-def nav(d: Data, current: str, prefix: str) -> str:
+def nav(d: Data, current: str, prefix: str, here: str) -> str:
     tabs = "".join(
         f'<a data-go="{r}" class="{"on" if r == current else ""}" href="{prefix}{r}/">{esc(rule_names(r)[1])}</a>' for r in RULE_ORDER
     )
     patch = d.row("COM-META-PATCH").value
     return (
         f'<div class="navbox"><nav class="nav">{tabs}</nav>'
-        f'<div class="meta"><a href="{prefix}jobs/" class="{"on" if current == "jobs" else ""}">ジョブ補正</a>'
-        f'<a href="{prefix}sources/" class="{"on" if current == "sources" else ""}">出典</a>'
-        f'<span>データ <span data-src="COM-META-PATCH">{esc(patch)}</span> 時点</span></div></div>'
+        f'<div class="meta"><a href="{prefix}jobs/" class="{"on" if current == "jobs" else ""}">{H("ジョブ補正")}</a>'
+        f'<a href="{prefix}sources/" class="{"on" if current == "sources" else ""}">{H("出典")}</a>'
+        f'<span>{H("データ {0} 時点", f"<span data-src={chr(34)}COM-META-PATCH{chr(34)}>{esc(patch)}</span>")}</span>'
+        "</div></div>"
     )
 
 
@@ -510,16 +549,19 @@ def fetched_range(d: Data) -> str:
     sids = {s for rid in d.used for s in d.rows[rid].sources}
     days = sorted({m for sid in sids for m in re.findall(r"\d{4}-\d{2}-\d{2}", d.sources.get(sid, {}).get("取得日", ""))})
     if not days:
-        return "不明"
-    return days[0] if days[0] == days[-1] else f"{days[0]}〜{days[-1][5:]}"
+        return L("不明")
+    return days[0] if days[0] == days[-1] else F("{0}〜{1}", days[0], days[-1][5:])
 
 
-def footer(d: Data) -> str:
+def footer(d: Data, here: str, prefix: str) -> str:
     """© SQUARE ENIX（公式の画像・情報を使う条件。著作物利用条件 3-1）と、README（権利・出典・使い方）へのリンク。"""
     return (
         '<footer class="ftr"><span>© SQUARE ENIX</span>'
-        f'<span class="right"><a href="{README_URL}" rel="noopener">このサイトについて（権利・出典）</a>'
-        f' ・ 確認 <span data-src="sources.md">{FETCHED_MARK}</span></span></footer>'
+        # 日本語以外: 訳は機械翻訳で、ゲームの用語だけが公式の表記（2026-10-29 ユーザーに伝えた既定）
+        + lang_switch(here, prefix)
+        + ("" if i18n.lang() == "ja" else f'<span class="mt">{H("自動翻訳（ゲームの用語は公式の表記）")}</span>')
+        + f'<span class="right"><a href="{README_URL}" rel="noopener">{H("このサイトについて（権利・出典）")}</a>'
+        f'{i18n.SEP()}{H("確認 {0}", f"<span data-src={chr(34)}sources.md{chr(34)}>{FETCHED_MARK}</span>")}</span></footer>'
     )
 
 
@@ -548,7 +590,7 @@ JS = """<script>
   var today = todayRule();
   document.querySelectorAll('[data-today-badge]').forEach(function (b) { b.hidden = b.dataset.todayBadge !== today; });
   document.querySelectorAll('.nav a').forEach(function (a) {
-    if (a.dataset.go === today) { var d = document.createElement('span'); d.className = 'dot'; d.title = '今日'; a.appendChild(d); }
+    if (a.dataset.go === today) { var d = document.createElement('span'); d.className = 'dot'; d.title = __TODAY__; a.appendChild(d); }
     if (panels.length > 1) a.addEventListener('click', function (e) { e.preventDefault(); show(a.dataset.go); });
   });
   if (panels.length > 1) {
@@ -588,13 +630,32 @@ JS = """<script>
   document.querySelectorAll('[data-pick]').forEach(function (b) { b.addEventListener('click', function () { toggle(b.dataset.pick); }); });
   document.querySelectorAll('.jobtable tr[data-job]').forEach(function (tr) { tr.addEventListener('click', function () { toggle(tr.dataset.job); }); });
   paint();
+  document.querySelectorAll('[data-lang]').forEach(function (a) {
+    a.addEventListener('click', function () { try { localStorage.setItem('fl-lang', a.dataset.lang); } catch (e) {} });
+  });
+})();
+</script>"""
+
+# 入口（frontline/index.html）: 言語を選んだことがなければ、ブラウザの言語の版へ移る（対応していない言語なら英語）。
+# 選んだ言語（記憶）があればそれに従う。本文より先に動かす
+LANG_REDIRECT = """<script>
+(function () {
+  var LANGS = __LANGS__, c = null;
+  try { c = localStorage.getItem('fl-lang'); } catch (e) {}
+  if (LANGS.indexOf(c) < 0) {
+    c = null;
+    var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'ja'];
+    for (var i = 0; i < prefs.length && !c; i++) { var b = String(prefs[i]).slice(0, 2).toLowerCase(); if (LANGS.indexOf(b) >= 0) c = b; }
+    if (!c) c = 'en';
+  }
+  location.replace(c + '/' + location.search + location.hash);
 })();
 </script>"""
 
 
 def rotation(d: Data) -> tuple[list[str], list[int], str]:
     """日替わりの周期・起点の日・起点のルールを台帳から取る。"""
-    by_name = {rule_names(r)[0]: r for r in RULE_ORDER}
+    by_name = {rule_names_ja(r)[0]: r for r in RULE_ORDER}
     order = d.row("COM-ROT-ORDER").value
     cycle = []
     for part in re.split(r"→", order):
@@ -615,30 +676,32 @@ def rotation(d: Data) -> tuple[list[str], list[int], str]:
     return cycle, anchor, by_name[m.group(1)]
 
 
-def page(d: Data, title: str, panels_html: str, prefix: str, *, extra_cls: str = "") -> str:
+def page(d: Data, title: str, panels_html: str, prefix: str, *, extra_cls: str = "", top: bool = False) -> str:
     cycle, anchor, anchor_rule = rotation(d)
     js = (
         JS.replace("__W__", str(CANVAS_W)).replace("__H__", str(CANVAS_H))
         .replace("__CYCLE__", json.dumps(cycle)).replace("__ANCHOR__", json.dumps(anchor))
         .replace("__ANCHOR_RULE__", json.dumps(anchor_rule)).replace("__MAX__", str(MYJOB_MAX))
+        .replace("__TODAY__", json.dumps(L("今日"), ensure_ascii=False))
     )
+    redirect = ""  # 言語の振り分けは入口のページ（entry_page）だけ
     svg = SVG_DEFS_PATH.read_text(encoding="utf-8")
     return (
-        '<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
-        f'<title>{esc(title)}</title><link rel="stylesheet" href="{prefix}assets/site.css"></head>'
+        f'<!doctype html>\n<html lang="{i18n.lang()}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
+        f'<title>{esc(title)}</title>{redirect}<link rel="stylesheet" href="{ap(prefix)}assets/site.css"></head>'
         f'<body class="{extra_cls}">{svg}<div id="stage">{panels_html}</div>{js}</body></html>\n'
     )
 
 
-def rule_panel(d: Data, rule: str, prefix: str) -> str:
+def rule_panel(d: Data, rule: str, prefix: str, here: str) -> str:
     import pages
 
     spec = pages.SPECS[rule]
     left = spec["blocks"](d, prefix)
     return (
-        f'<div class="panel" data-rule="{rule}">{header(d, rule, spec, prefix)}'
+        f'<div class="panel" data-rule="{rule}">{header(d, rule, spec, prefix, here)}'
         f'<main class="main"><section class="col rule">{left}</section>'
-        f'<section class="col common">{common_column(d, prefix)}</section></main>{footer(d)}</div>'
+        f'<section class="col common">{common_column(d, prefix)}</section></main>{footer(d, here, prefix)}</div>'
     )
 
 
@@ -649,31 +712,32 @@ def jobs_page(d: Data, prefix: str) -> str:
     for half in (JOB_GROUPS[:2] + [JOB_GROUPS[3]], [JOB_GROUPS[2], JOB_GROUPS[4]]):
         trs = []
         for role, img, codes in half:
-            trs.append(f'<tr class="role"><td colspan="5"><img src="{prefix}assets/img/{img}" alt="">{esc(role)}</td></tr>')
+            trs.append(f'<tr class="role"><td colspan="5"><img src="{ap(prefix)}assets/img/{img}" alt="">{esc(L(role))}</td></tr>')
             for code in codes:
                 dmg, taken, lb = job_cells(cd, code)
-                lb_name = "／".join(d.row(b).condition.removeprefix("LB: ") for b in lb_ids(code))
                 trs.append(
-                    f'<tr data-job="{code}"><td class="jn"><img src="{prefix}assets/img/job_{code}.png" alt="">{esc(job_name(d, code))}</td>'
-                    f'<td>{dmg}</td><td>{taken}</td><td>{lb}</td><td class="lbn">{esc(lb_name)}</td></tr>'
+                    f'<tr data-job="{code}"><td class="jn"><img src="{ap(prefix)}assets/img/job_{code}.png" alt="">{esc(job_name(d, code))}</td>'
+                    f'<td>{dmg}</td><td>{taken}</td><td>{lb}</td><td class="lbn">{esc(lb_name(d, code))}</td></tr>'
                 )
         tables.append(
-            f'<table class="jobtable"><tr><th>ジョブ</th><th>与ダメ</th><th>被ダメ</th>{lb_header(d)}<th>リミットブレイク</th></tr>{"".join(trs)}</table>'
+            f'<table class="jobtable"><tr><th>{H("ジョブ")}</th><th>{H("与ダメ")}</th><th>{H("被ダメ")}</th>{lb_header(d)}'
+            f'<th>{H("リミットブレイク")}</th></tr>{"".join(trs)}</table>'
         )
     body = (
-        '<p class="lead">与ダメ・被ダメはフロントラインでのジョブ補正。LB は基準の蓄積時間に補正を足した秒数（順位による倍率は含まない）。'
-        f'行を押すと自分のジョブとして記憶し、各ルールのページに出ます（<span data-ui="{MYJOB_MAX}">{MYJOB_MAX}</span>つまで）。</p>'
+        '<p class="lead">' + H("与ダメ・被ダメはフロントラインでのジョブ補正。LB は基準の蓄積時間に補正を足した秒数（順位による倍率は含まない）。"
+                               "行を押すと自分のジョブとして記憶し、各ルールのページに出ます（{0}つまで）。",
+                               f'<span data-ui="{MYJOB_MAX}">{MYJOB_MAX}</span>') + "</p>"
         f'<div class="jobtables">{"".join(tables)}</div>'
     )
     hdr = (
-        f'<header class="hdr"><div class="title"><h1>ジョブ補正<small>フロントライン共通</small></h1></div>'
-        f"{nav(d, 'jobs', prefix)}</header>"
+        f'<header class="hdr"><div class="title"><h1>{H("ジョブ補正")}<small>{H("フロントライン共通")}</small></h1></div>'
+        f"{nav(d, 'jobs', prefix, 'jobs/')}</header>"
     )
-    return f'<div class="panel jobs">{hdr}<main class="main one">{body}</main>{footer(d)}</div>'
-
+    return f'<div class="panel jobs">{hdr}<main class="main one">{body}</main>{footer(d, "jobs/", prefix)}</div>'
 
 def sources_page(d: Data, prefix: str) -> str:
     used = sorted({s for rid in d.used for s in d.rows[rid].sources})
+    foreign = i18n.lang() != "ja"
     trs = []
     for sid in used:
         s = d.sources.get(sid, {})
@@ -681,35 +745,90 @@ def sources_page(d: Data, prefix: str) -> str:
         name = esc(s.get("名称", sid))
         link = f'<a href="{esc(url)}" rel="noopener">{name}</a>' if url.startswith("https://") else name
         trs.append(
-            f'<tr><td class="sid">{esc(sid)}</td><td>{esc(s.get("種別", ""))}</td><td>{link}</td>'
-            f'<td>{esc(s.get("公開・更新", ""))}</td><td>{esc(s.get("取得日", ""))}</td></tr>'
+            f'<tr><td class="sid">{esc(sid)}</td><td class="kind">{esc(L(s.get("種別", "")) if s.get("種別") else "")}</td>'
+            # 名称は出典の原文のまま（引用）。公開・更新の欄は日本語の注記なので、日本語のページにだけ出す
+            f'<td class="cite" lang="ja">{link}</td>'
+            + ("" if foreign else f'<td>{esc(s.get("公開・更新", ""))}</td>')
+            # 取得日の欄の注記（取得不可など）は日本語なので、ほかの言語では日付だけ
+            + f'<td>{esc(s.get("取得日", "") if not foreign else ", ".join(re.findall(r"\d{4}-\d{2}-\d{2}", s.get("取得日", ""))))}</td></tr>'
         )
     body = (
-        '<p class="lead">このサイトの値の出典（ページに出している値が使うものだけ）。公式は株式会社スクウェア・エニックスの公表、'
-        "外部はファンの資料（数値の出典として引用。文章は写していない）、ゲーム内は管理者のゲーム内確認。</p>"
-        f'<div class="srcwrap"><table class="srcs"><tr><th>ID</th><th>種別</th><th>名称</th><th>公開・更新</th><th>取得日</th></tr>{"".join(trs)}</table></div>'
+        '<p class="lead">' + H("このサイトの値の出典（ページに出している値が使うものだけ）。公式は株式会社スクウェア・エニックスの公表、"
+                               "外部はファンの資料（数値の出典として引用。文章は写していない）、ゲーム内は管理者のゲーム内確認。") + "</p>"
+        f'<div class="srcwrap"><table class="srcs"><tr><th>ID</th><th>{H("種別")}</th><th>{H("名称")}</th>'
+        + ("" if foreign else f'<th>{H("公開・更新")}</th>')
+        + f'<th>{H("取得日")}</th></tr>{"".join(trs)}</table></div>'
     )
     hdr = (
-        f'<header class="hdr"><div class="title"><h1>出典<small>フロントライン早見表</small></h1></div>'
-        f"{nav(d, 'sources', prefix)}</header>"
+        f'<header class="hdr"><div class="title"><h1>{H("出典")}<small>{H("フロントライン早見表")}</small></h1></div>'
+        f"{nav(d, 'sources', prefix, 'sources/')}</header>"
     )
-    return f'<div class="panel sources">{hdr}<main class="main one">{body}</main>{footer(d)}</div>'
+    return f'<div class="panel sources">{hdr}<main class="main one">{body}</main>{footer(d, "sources/", prefix)}</div>'
 
-
-def build(d: Data) -> dict[Path, str]:
-    """生成するファイルの中身を返す（書き込みはしない）。"""
+def build_lang(d: Data, base: Path) -> dict[Path, str]:
+    """今の言語（i18n.lang()）のページ一式。base は frontline/ か frontline/<lang>/。"""
     out: dict[Path, str] = {}
-    out[FRONT / "index.html"] = page(
-        d, "フロントライン早見表（今日のルール）", "".join(rule_panel(d, r, "") for r in RULE_ORDER), ""
+    out[base / "index.html"] = page(
+        d, L("フロントライン早見表（今日のルール）"), "".join(rule_panel(d, r, "", "") for r in RULE_ORDER), "", top=True
     )
     for r in RULE_ORDER:
         name, sub = rule_names(r)
-        out[FRONT / r / "index.html"] = page(d, f"{name}（{sub}）｜フロントライン早見表", rule_panel(d, r, "../"), "../")
-    out[FRONT / "jobs" / "index.html"] = page(d, "ジョブ補正｜フロントライン早見表", jobs_page(d, "../"), "../")
+        out[base / r / "index.html"] = page(d, F("{0}（{1}）｜フロントライン早見表", name, sub),
+                                            rule_panel(d, r, "../", f"{r}/"), "../")
+    out[base / "jobs" / "index.html"] = page(d, L("ジョブ補正｜フロントライン早見表"), jobs_page(d, "../"), "../")
     # 出典一覧は最後に作る（ほかのページで使った行の出典を集めるため）
-    out[FRONT / "sources" / "index.html"] = page(d, "出典｜フロントライン早見表", sources_page(d, "../"), "../", extra_cls="scroll")
+    out[base / "sources" / "index.html"] = page(d, L("出典｜フロントライン早見表"), sources_page(d, "../"), "../", extra_cls="scroll")
     rng = fetched_range(d)
     return {path: text.replace(FETCHED_MARK, esc(rng)) for path, text in out.items()}
+
+
+OLD_JA_PAGES = [*RULE_ORDER, "jobs", "sources"]  # 2026-10-29 まで frontline/ の直下にあった日本語のページ
+
+
+def entry_page() -> str:
+    """入口: 言語を選ぶ（スクリプトが動けば、すぐ選んだ言語かブラウザの言語の版へ移る）。"""
+    svg = SVG_DEFS_PATH.read_text(encoding="utf-8")
+    links = "".join(
+        f'<li><a href="{lg}/" data-lang="{lg}" lang="{lg}" hreflang="{lg}">{flag(lg)}{esc(i18n.LANG_NAMES[lg])}</a></li>'
+        for lg in i18n.LANGS
+    )
+    return (
+        '<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
+        '<title>FF14 Frontline</title>'
+        + LANG_REDIRECT.replace("__LANGS__", json.dumps(i18n.LANGS))
+        + '<link rel="stylesheet" href="assets/site.css"></head>'
+        f'<body class="entry">{svg}<main><h1>FF14 Frontline</h1><ul class="entry-langs">{links}</ul>'
+        '<p class="ftr-entry">© SQUARE ENIX</p></main>'
+        "<script>document.querySelectorAll('[data-lang]').forEach(function (a) { a.addEventListener('click', function () {"
+        " try { localStorage.setItem('fl-lang', a.dataset.lang); } catch (e) {} }); });</script></body></html>\n"
+    )
+
+
+def moved_page(path: str) -> str:
+    """前の日本語のページの場所に置く案内（ja/ の同じページへ移る）。"""
+    to = f"../ja/{path}/"
+    return (
+        '<!doctype html>\n<html lang="ja"><head><meta charset="utf-8">'
+        f'<meta http-equiv="refresh" content="0; url={to}"><link rel="canonical" href="{to}">'
+        '<title>フロントライン早見表</title>'
+        f"<script>location.replace({json.dumps(to)} + location.search + location.hash);</script></head>"
+        f'<body><p><a href="{to}">フロントライン早見表（日本語）へ</a></p></body></html>\n'
+    )
+
+
+def build(d: Data) -> dict[Path, str]:
+    """生成するファイルの中身を返す（書き込みはしない）。各言語は frontline/<lang>/、入口は frontline/index.html。"""
+    out: dict[Path, str] = {FRONT / "index.html": entry_page()}
+    out.update({FRONT / name / "index.html": moved_page(name) for name in OLD_JA_PAGES})
+    try:
+        for lg in i18n.LANGS:
+            i18n.set_lang(lg)
+            out.update(build_lang(d, FRONT / lg))
+    except i18n.I18nError as exc:
+        raise BuildError(str(exc)) from exc
+    finally:
+        i18n.set_lang("ja")
+    return out
 
 
 def load() -> Data:

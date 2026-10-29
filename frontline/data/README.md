@@ -63,11 +63,26 @@
 
 ## ページの作り方
 
-- `python frontline/tools/build.py` … 台帳から公開ページ（`frontline/index.html`・`frontline/<ルール>/`・`frontline/jobs/`・`frontline/sources/`）を作る。採否が ○ の行しか使わない。
+- `python frontline/tools/build.py` … 台帳から公開ページを作る。各言語（ja・en・de・fr）の `frontline/<言語>/` の下に、トップ（今日のルール）・`<ルール>/`・`jobs/`・`sources/`。`frontline/index.html` は言語を振り分ける入口、`frontline/<ルール>/` などは前の日本語のページの場所の案内（`ja/` へ移る）。採否が ○ の行しか使わない。
 - `python frontline/tools/build.py --check` … 生成物が台帳と合っているかだけを確かめる。
 - ページの中身（どの行をどこに出すか）は `frontline/tools/pages.py`、見た目は `frontline/assets/site.css`。
 - 等級（公式・外部・実測・計算・未確認）は台帳にだけ残し、ページには印も凡例も出さない（2026-10-29 の指示。情報のノイズになるため。間違いは指摘を受けたら直す）。出すときは `build.py` の `SHOW_GRADES` を True にする。
 - ページの下の「このサイトについて」は [../README.md](../README.md)（公開向けの説明・権利・出典・間違いの知らせ方）にリンクする。「© SQUARE ENIX」はスクウェア・エニックスの著作物利用条件 3-1 で各ページに1か所必要なので、ページの下に残す。
+
+## 多言語（英語・ドイツ語・フランス語）
+
+ページは日本語（`frontline/ja/`）・英語・ドイツ語・フランス語（`frontline/en/`・`de/`・`fr/`）で作る。訳は [i18n/](i18n/) の表に置く。
+
+| ファイル | 中身 |
+|---|---|
+| [i18n/terms.md](i18n/terms.md) | ゲームの用語（マップ名・ルール名・ジョブ名・LB 名・オブジェクト名など）。各言語の公式サイトの表記をそのまま写す（出典の URL つき） |
+| [i18n/ui.md](i18n/ui.md) | 画面の言い回し。キーは日本語の雛形（{0} などに値が入る）。∅ は「その言語では何も出さない」 |
+| [i18n/text.md](i18n/text.md) | 台帳の文章の値（表示文）の訳。行 ID で引き、訳したときの日本語（元の文）を持つ |
+
+- 日本語の表示文や言い回しを変えると、訳が古くなって生成が止まる。`python frontline/tools/i18n.py collect` で足りない行を表に足し、訳を書いてから、`text.md` の「元の文」を今の日本語に書き換える。
+- 訳には元の日本語にない数を書けない。{0} などの差し込みは元と同じものを使う（`python frontline/tools/i18n.py check`）。
+- 英語・ドイツ語・フランス語の文は自動翻訳（ページの下に明記）。ゲームの用語だけは各言語の公式の表記。
+- 入口（`frontline/index.html`）は、言語を選んだことがなければブラウザの言語の版に移る（対応していない言語は英語）。各ページの下の JA / EN / DE / FR で選ぶと記憶する。
 
 ## 機械検査
 

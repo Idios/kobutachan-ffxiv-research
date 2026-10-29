@@ -8,12 +8,15 @@
 - 見出しや「1分あたり」などの言葉は、同じカードに出す行の項目名・条件を言い換えたものに限る。
   台帳にない事実を書き足さない。
 - 文字はモックの倍（最小 24px）。1画面に収まるように、載せる行を選んでいる（plan.md §15）。
+- 言い回しは H("日本語の雛形 {0}", 値の HTML) か L("日本語") で書く（英・独・仏の訳は frontline/data/i18n/ に置く。i18n.py）。
+  単位（suffix）は Card が訳を引く。訳で語順が変わるので、値をはさむ文は1つの雛形にまとめる。
 """
 
 from __future__ import annotations
 
 import re
 
+import i18n
 from build import (
     BuildError,
     Card,
@@ -29,6 +32,7 @@ from build import (
     mmss,
     rank_tiles,
 )
+from i18n import F, H, L, dur, man
 
 PER_UNIT_HP = 100_000  # 「10万HPあたり」の基準（見やすさのための換算。ゲームの値ではない）
 CLOCK = "残り時間（分:秒）"
@@ -44,11 +48,6 @@ def ui(n: int, text: str) -> str:
     return f'<span data-ui="{n}">{esc(text)}</span>'
 
 
-def man(n: int) -> str:
-    """10万 のような表記（PER_UNIT_HP から作る）。"""
-    return f"{n // 10_000:,}万" if n % 10_000 == 0 else f"{n:,}"
-
-
 def plus(x: float) -> str:
     return "+" + fmt(x)
 
@@ -57,10 +56,12 @@ def times(x: float) -> str:
     return "×" + fmt(x)
 
 
-def dur(sec: float) -> str:
-    """長さ・待ち時間の書き方。2分以上で割り切れれば「N分」、それ以外は「N秒」。"""
-    s = round(sec)
-    return f"{s // 60}分" if s >= 120 and s % 60 == 0 else f"{s}秒"
+def listing(items: list[str]) -> str:
+    """数の並び（日本語「4・7」、英語「4 and 7」など）。訳は ui.md の「数の並び: {0}・{1}」。"""
+    out = items[0]
+    for x in items[1:]:
+        out = i18n.HC("数の並び", "{0}・{1}", out, x)
+    return out
 
 
 def seg_cap(cb: Card, cap_id: str, switch_ids: list[str], unit: str) -> str:
@@ -86,24 +87,24 @@ def secure(d: Data, prefix: str) -> str:
     for i, (rid, v) in enumerate(zip(rates, vals), 1):
         jump = i > 1 and inc[i - 1] > step
         if jump:
-            jumps.append(f'<span data-src="{rid}">{i}</span>')
+            jumps.append(f'<span class="n" data-src="{rid}">{i}</span>')
         cols.append(
             f'<div class="bc{" jump" if jump else ""}"><div class="lab">{cb.c(v * 60 / tick, [rid, "SEC-FLAG-TICK"], suffix="/分")}'
-            f'<small>{cb.v(rid, unit=rate_unit)}/{cb.v("SEC-FLAG-TICK", unit="秒", suffix="秒毎")}</small></div>'
+            f'<small>{H("{0}/{1}", cb.v(rid, unit=rate_unit), cb.v("SEC-FLAG-TICK", unit="秒", suffix="秒毎"))}</small></div>'
             f'<div class="bar" style="height:{round(80 * v / top)}px"></div><div class="xl" data-src="{rid}">{i}</div></div>'
         )
     jump_line = (
-        f'<span class="big2">{"・".join(jumps)}<small>か所目で大きく伸びる（青）</small></span>' if jumps else ""
+        f'<span class="big2">{H("{0}か所目で大きく伸びる（青）", listing(jumps))}</span>' if jumps else ""
     )  # 増え方が一定なら出さない
     below = (
         f'<div class="below">{jump_line}'
-        f'<span>全 {cb.v("SEC-FLAG-COUNT", unit="か所", suffix="か所")}</span>'
-        f'<span>{cb.t("SEC-SHEER-WILL")}（{cb.v("SEC-SHEER-WILL-MULT", unit="倍", show=times)}）</span></div>'
+        f'<span>{H("全 {0}", cb.v("SEC-FLAG-COUNT", unit="か所", suffix="か所"))}</span>'
+        f'<span>{H("{0}（{1}）", cb.t("SEC-SHEER-WILL"), cb.v("SEC-SHEER-WILL-MULT", unit="倍", show=times))}</span></div>'
     )
     bases = card(
         "拠点の占拠",
         f'<div class="bases"><div class="chart">{"".join(cols)}</div></div>{below}',
-        sub="横: 占拠している拠点の数 ・ 部隊全体に入る戦術値",
+        sub=H("横: 占拠している拠点の数 ・ 部隊全体に入る戦術値"),
         badge=cb.badge(),
     )
 
@@ -121,38 +122,39 @@ def secure(d: Data, prefix: str) -> str:
     events = [
         {
             "svg": "i-drone", "name": "邀撃ドローン", "note": ce.t("SEC-DRONE-DIST"),
-            "big": ce.v("SEC-DRONE-PTS", unit="戦術値") + "<small>戦術値/体</small>",
+            "big": ce.v("SEC-DRONE-PTS", unit="戦術値") + f"<small>{H('戦術値/体')}</small>",
             "lines": [
-                (f'{ce.v("SEC-DRONE-COUNT", unit="体", suffix="体")}で 計 '
-                 f'{ce.c(d.num("SEC-DRONE-PTS", "戦術値") * drone_n, ["SEC-DRONE-PTS", "SEC-DRONE-COUNT"], suffix="戦術値")}'),
-                f'戦意値 {ce.v("SEC-BH-DRONE", unit="戦意値", show=plus)}',
+                H("{0}で 計 {1}", ce.v("SEC-DRONE-COUNT", unit="体", suffix="体"),
+                  ce.c(d.num("SEC-DRONE-PTS", "戦術値") * drone_n, ["SEC-DRONE-PTS", "SEC-DRONE-COUNT"], suffix=i18n.C("合計の単位", "戦術値"))),
+                H("戦意値 {0}", ce.v("SEC-BH-DRONE", unit="戦意値", show=plus)),
             ],
         },
         {
-            "svg": "i-drone-alpha", "name": "邀撃ドローンα", "note": "金色・" + ce.t("SEC-DRONE-DIST"),
-            "big": ce.v("SEC-DRONE-ALPHA-PTS", unit="戦術値") + "<small>戦術値/体</small>",
+            "svg": "i-drone-alpha", "name": "邀撃ドローンα", "note": H("金色・{0}", ce.t("SEC-DRONE-DIST")),
+            "big": ce.v("SEC-DRONE-ALPHA-PTS", unit="戦術値") + f"<small>{H('戦術値/体')}</small>",
             "lines": [
-                f'戦意値 {ce.v("SEC-BH-ALPHA", unit="戦意値", show=plus)}',
+                H("戦意値 {0}", ce.v("SEC-BH-ALPHA", unit="戦意値", show=plus)),
             ],
         },
         {
-            "svg": "i-commander", "name": "邀撃コマンダー", "note": ce.t("SEC-CMDR-PTS-UNIT") + "・" + ce.t("SEC-CMDR-DIST"),
-            "big": ce.v("SEC-CMDR-PTS", unit="戦術値") + "<small>戦術値/か所</small>",
+            "svg": "i-commander", "name": "邀撃コマンダー", "note": H("{0}・{1}", ce.t("SEC-CMDR-PTS-UNIT"), ce.t("SEC-CMDR-DIST")),
+            "big": ce.v("SEC-CMDR-PTS", unit="戦術値") + f"<small>{H('戦術値/か所')}</small>",
             "lines": [
-                (f'{ce.v("SEC-CMDR-SPOTS", unit="か所", suffix="か所")}で 計 '
-                 f'{ce.c(d.num("SEC-CMDR-PTS", "戦術値") * cmdr_n, ["SEC-CMDR-PTS", "SEC-CMDR-SPOTS"], suffix="戦術値")}'),
-                f'戦意値 {ce.v("SEC-BH-CMDR", unit="戦意値", show=plus)}',
+                H("{0}で 計 {1}", ce.v("SEC-CMDR-SPOTS", unit="か所", suffix="か所"),
+                  ce.c(d.num("SEC-CMDR-PTS", "戦術値") * cmdr_n, ["SEC-CMDR-PTS", "SEC-CMDR-SPOTS"], suffix=i18n.C("合計の単位", "戦術値"))),
+                H("戦意値 {0}", ce.v("SEC-BH-CMDR", unit="戦意値", show=plus)),
             ],
         },
         {
             "svg": "i-system", "name": "邀撃システム", "note": ce.t("SEC-NODE-DIST"),
             # 「HP0」の 0 は SEC-NODE-PTS-UNIT（HPが0になるたびに入る）から
             "big": ce.v("SEC-NODE-PTS", unit="戦術値")
-            + f'<small>{ce.raw("SEC-NODE-PTS-UNIT", "戦術値/HP0", unit="テキスト", cls="u")}</small>',
+            + f'<small>{ce.raw("SEC-NODE-PTS-UNIT", L("戦術値/HP0"), unit="テキスト", cls="u")}</small>',
             "lines": [
-                (f'最大{ce.c(node_n, ["SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"], suffix="回")}で 計 '
-                 f'{ce.c(d.num("SEC-NODE-PTS", "戦術値") * node_n, ["SEC-NODE-PTS", "SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"], suffix="戦術値")}'),
-                f'HP {ce.v("SEC-NODE-HP", unit="HP", suffix="（1本）")}',
+                H("最大{0}で 計 {1}", ce.c(node_n, ["SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"], suffix="回"),
+                  ce.c(d.num("SEC-NODE-PTS", "戦術値") * node_n, ["SEC-NODE-PTS", "SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"],
+                       suffix=i18n.C("合計の単位", "戦術値"))),
+                H("HP {0}", ce.v("SEC-NODE-HP", unit="HP", suffix="（1本）")),
             ],
         },
     ]
@@ -163,18 +165,18 @@ def secure(d: Data, prefix: str) -> str:
     first = d.num("SEC-EVT-FIRST", "秒（試合開始からの経過）")
     lead = d.num("SEC-EVT-PANEL-LEAD", "秒（出現の前）")
     timing = chips([
-        f'最初は 残り <b>{ce.c(total - first, ["COM-MATCH-TIME", "SEC-EVT-FIRST"], show=mmss)}</b>（{ce.t("SEC-EVT-FIRST-KIND")}）',
-        f'2回目から: {ce.t("SEC-EVT-HUD-NEXT")}',
-        (
-            f'転移装置: 出現の {ce.v("SEC-EVT-PANEL-LEAD", unit="秒（出現の前）", suffix="秒前")}〜{ce.t("SEC-EVT-PANEL-STOP")}'
-            f'（最初は 残り <b>{ce.c(total - first + lead, ["COM-MATCH-TIME", "SEC-EVT-FIRST", "SEC-EVT-PANEL-LEAD"], show=mmss)}</b> から）'
-            f'・{ce.t("SEC-EVT-PANEL-ONEWAY")}・着いて無敵 {ce.v("SEC-EVT-PANEL-INVULN", unit="秒", suffix="秒")}'
-        ),
+        H("最初は 残り {0}（{1}）", f'<b>{ce.c(total - first, ["COM-MATCH-TIME", "SEC-EVT-FIRST"], show=mmss)}</b>',
+          ce.t("SEC-EVT-FIRST-KIND")),
+        H("2回目から: {0}", ce.t("SEC-EVT-HUD-NEXT")),
+        H("転移装置: 出現の {0}〜{1}（最初は 残り {2} から）・{3}・着いて無敵 {4}",
+          ce.v("SEC-EVT-PANEL-LEAD", unit="秒（出現の前）", suffix="秒前"), ce.t("SEC-EVT-PANEL-STOP"),
+          f'<b>{ce.c(total - first + lead, ["COM-MATCH-TIME", "SEC-EVT-FIRST", "SEC-EVT-PANEL-LEAD"], show=mmss)}</b>',
+          ce.t("SEC-EVT-PANEL-ONEWAY"), ce.v("SEC-EVT-PANEL-INVULN", unit="秒", suffix="秒")),
     ])
     center = card(
         "中央の中立モンスター",
         event_tiles(events) + timing,
-        sub=f'戦意値: ドローン・αは{both}、コマンダーは{ce.t("SEC-BH-CMDR-WHO")}',
+        sub=H("戦意値: ドローン・αは{0}、コマンダーは{1}", both, ce.t("SEC-BH-CMDR-WHO")),
         badge=ce.badge(),
     )
     return bases + center
@@ -196,12 +198,12 @@ def seize(d: Data, prefix: str) -> str:
             "rank": k, "total": cr.v(tot, unit="情報値"), "unit": "情報値",
             "lines": [
                 (f'{cr.c(k_v * 60 / iv, [tk, "SEI-TOME-TICK-SEC"], suffix="/分")}'
-                f'<small>（{cr.v(tk, unit="情報値/回")}/{cr.v("SEI-TOME-TICK-SEC", unit="秒", suffix="秒毎")}）</small>'),
-                f'停止まで {cr.c(t_v / k_v * iv, [tot, tk, "SEI-TOME-TICK-SEC"], show=dur)}',
+                 f'<small>{H("（{0}/{1}）", cr.v(tk, unit="情報値/回"), cr.v("SEI-TOME-TICK-SEC", unit="秒", suffix="秒毎"))}</small>'),
+                H("停止まで {0}", cr.c(t_v / k_v * iv, [tot, tk, "SEI-TOME-TICK-SEC"], show=dur)),
             ],
         })
     tomes = card("アラガントームリス", rank_tiles(d, ["SEI-RANK-MAP-SYMBOL", "SEI-RANK-COLOR"], tiles),
-                 sub="占拠している部隊だけに入る（1基の合計。停止までは、占拠し続けた場合）", badge=cr.badge())
+                 sub=H("占拠している部隊だけに入る（1基の合計。停止までは、占拠し続けた場合）"), badge=cr.badge())
 
     sw = d.clock("SEI-CAP-SWITCH", CLOCK)
     late = d.row("SEI-RANK-NO-B-LATE")
@@ -214,17 +216,17 @@ def seize(d: Data, prefix: str) -> str:
     bandhtml = band(
         d,
         segments=[
-            (f'上限 {seg_cap(cb, "SEI-CAP-1", ["SEI-CAP-SWITCH"], "基")}', total, sw),
-            (f'上限 {seg_cap(cb, "SEI-CAP-2", ["SEI-CAP-SWITCH"], "基")} ・ {cb.t("SEI-RANK-NO-B-LATE")}', sw, 0),
+            (H("上限 {0}", seg_cap(cb, "SEI-CAP-1", ["SEI-CAP-SWITCH"], "基")), total, sw),
+            (H("上限 {0} ・ {1}", seg_cap(cb, "SEI-CAP-2", ["SEI-CAP-SWITCH"], "基"), cb.t("SEI-RANK-NO-B-LATE")), sw, 0),
         ],
-        marks=[((f'最初 {cb.v("SEI-SPAWN-FIRST-COUNT", unit="基", suffix="基")} '
-                f'{cb.raw("SEI-SPAWN-FIRST-TIME", d.row("SEI-SPAWN-FIRST-TIME").value, unit=CLOCK)}'), first)],
+        marks=[(H("最初 {0} {1}", cb.v("SEI-SPAWN-FIRST-COUNT", unit="基", suffix="基"),
+                  cb.raw("SEI-SPAWN-FIRST-TIME", d.row("SEI-SPAWN-FIRST-TIME").value, unit=CLOCK)), first)],
     )
     timing = card(
         "同時に起動するアラガントームリスの数（残り時間）",
         bandhtml + chips([
-            f'停止してから {cb.v("SEI-SPAWN-REFILL-SEC", unit="秒", suffix="秒後")}に次が起動（場所はランダム）',
-            f'上限が変わるのは 残り {cb.raw("SEI-CAP-SWITCH", d.row("SEI-CAP-SWITCH").value, unit=CLOCK)}',
+            H("停止してから {0}に次が起動（場所はランダム）", cb.v("SEI-SPAWN-REFILL-SEC", unit="秒", suffix="秒後")),
+            H("上限が変わるのは 残り {0}", cb.raw("SEI-CAP-SWITCH", d.row("SEI-CAP-SWITCH").value, unit=CLOCK)),
         ]),
         badge=cb.badge(),
     )
@@ -235,7 +237,7 @@ def seize(d: Data, prefix: str) -> str:
     rules = card(
         "占拠のしかた",
         bullets([
-            f'占拠に 約{co.v("SEI-OCC-CAST-SEC", unit="秒", suffix="秒")}・{co.t("SEI-OCC-INTERRUPT")}',
+            H("占拠に 約{0}・{1}", co.v("SEI-OCC-CAST-SEC", unit="秒", suffix="秒"), co.t("SEI-OCC-INTERRUPT")),
             co.t("SEI-OCC-PERSIST"),
             co.t("SEI-OCC-ENEMY"),
             co.t("SEI-OCC-LOCKOUT"),
@@ -262,11 +264,13 @@ def shatter(d: Data, prefix: str) -> str:
         data, hp = d.num(f"SHA-{s}-DATA", "情報値"), d.num(f"SHA-{s}-HP", "HP")
         return {
             "svg": svg, "name": d.row(f"SHA-{s}-DATA").group.split("：")[-1],
-            "big": ci.v(f"SHA-{s}-DATA", unit="情報値") + "<small>情報値</small>",
+            "big": ci.v(f"SHA-{s}-DATA", unit="情報値") + f"<small>{H('情報値')}</small>",
             "lines": [
-                f'HP {ci.v(f"SHA-{s}-HP", unit="HP")}',
-                f'{ui(PER_UNIT_HP, man(PER_UNIT_HP))}HPあたり {ci.c(data / hp * PER_UNIT_HP, [f"SHA-{s}-DATA", f"SHA-{s}-HP"], show=fmt1)}',
-                f'同時に {ci.v(f"SHA-{s}-MAX-ACTIVE", unit="個", suffix="個")}まで ・ 全 {ci.v(f"SHA-{s}-SPOTS", unit="か所", suffix="か所")}',
+                H("HP {0}", ci.v(f"SHA-{s}-HP", unit="HP")),
+                H("{0}HPあたり {1}", ui(PER_UNIT_HP, man(PER_UNIT_HP)),
+                  ci.c(data / hp * PER_UNIT_HP, [f"SHA-{s}-DATA", f"SHA-{s}-HP"], show=fmt1)),
+                H("同時に {0}まで ・ 全 {1}", ci.v(f"SHA-{s}-MAX-ACTIVE", unit="個", suffix="個"),
+                  ci.v(f"SHA-{s}-SPOTS", unit="か所", suffix="か所")),
             ],
         }
 
@@ -290,17 +294,19 @@ def shatter(d: Data, prefix: str) -> str:
                   "SHA-S-MAX-ACTIVE", "SHA-S-SPOTS"])
     bandhtml = band(
         d,
-        whole=f'同時に 大は最大 {cb.v("SHA-L-MAX-ACTIVE", unit="個", suffix="個")} ・ 小は最大 {cb.v("SHA-S-MAX-ACTIVE", unit="個", suffix="個")}',
+        whole=H("同時に 大は最大 {0} ・ 小は最大 {1}", cb.v("SHA-L-MAX-ACTIVE", unit="個", suffix="個"),
+                cb.v("SHA-S-MAX-ACTIVE", unit="個", suffix="個")),
         marks=[
-            (f'大 最初 {cb.c(l_first, ["COM-MATCH-TIME", "SHA-L-FIRST-WARN", "SHA-ICE-WARN-LEAD"], show=mmss)}', l_first),
-            ((f'小 {cb.v("SHA-S-SPOTS", unit="か所", suffix="か所")} 一斉 '
-             f'{cb.raw("SHA-S-FIRST-ACTIVE", d.row("SHA-S-FIRST-ACTIVE").value, unit=CLOCK)}'), s_first),
-            (f'小 2巡目 最速 {cb.c(s_second, ["SHA-S-FIRST-ACTIVE", "SHA-S-REACT", "SHA-ICE-WARN-LEAD", "SHA-S-REACT-RULE"], show=mmss)}', s_second),
+            (H("大 最初 {0}", cb.c(l_first, ["COM-MATCH-TIME", "SHA-L-FIRST-WARN", "SHA-ICE-WARN-LEAD"], show=mmss)), l_first),
+            (H("小 {0} 一斉 {1}", cb.v("SHA-S-SPOTS", unit="か所", suffix="か所"),
+               cb.raw("SHA-S-FIRST-ACTIVE", d.row("SHA-S-FIRST-ACTIVE").value, unit=CLOCK)), s_first),
+            (H("小 2巡目 最速 {0}", cb.c(s_second, ["SHA-S-FIRST-ACTIVE", "SHA-S-REACT", "SHA-ICE-WARN-LEAD", "SHA-S-REACT-RULE"],
+                                      show=mmss)), s_second),
         ],
     )
     steps = [s.strip() for s in d.text("SHA-MAP-STATES").split("→") if s.strip()]
     flow = (
-        f'<div class="note">2Dマップでの表示{cb.wrap("", ["SHA-MAP-STATES"], d.grade("SHA-MAP-STATES"), "t")}</div>'
+        f'<div class="note">{H("2Dマップでの表示")}{cb.wrap("", ["SHA-MAP-STATES"], d.grade("SHA-MAP-STATES"), "t")}</div>'
         '<div class="flow">'
         + "".join(f'<div class="st"><span class="t" data-src="SHA-MAP-STATES">{esc(s)}</span></div>' for s in steps)
         + "</div>"
@@ -308,10 +314,10 @@ def shatter(d: Data, prefix: str) -> str:
     timing = card(
         "アイスドトームリスが起動する時刻（残り時間）",
         bandhtml + chips([
-            f'2Dマップの予告は 起動の {cb.v("SHA-ICE-WARN-LEAD", unit="秒", suffix="秒前")}',
-            f'大: 壊れて {cb.v("SHA-L-REACT", unit="秒", suffix="秒後")}に次の予告',
-            f'壊れてから再出現まで 大 {cb.v("SHA-L-RESPAWN", unit="秒", show=dur)} ・ 小 {cb.v("SHA-S-RESPAWN", unit="秒", show=dur)}',
-            f'小: 壊れて {cb.c(s_react, ["SHA-S-REACT", "SHA-S-REACT-RULE"], show=dur, suffix="後")}に予告（{cb.t("SHA-S-REACT-RULE")}）',
+            H("2Dマップの予告は 起動の {0}", cb.v("SHA-ICE-WARN-LEAD", unit="秒", suffix="秒前")),
+            H("大: 壊れて {0}に次の予告", cb.v("SHA-L-REACT", unit="秒", suffix="秒後")),
+            H("壊れてから再出現まで 大 {0} ・ 小 {1}", cb.v("SHA-L-RESPAWN", unit="秒", show=dur), cb.v("SHA-S-RESPAWN", unit="秒", show=dur)),
+            H("小: 壊れて {0}後に予告（{1}）", cb.c(s_react, ["SHA-S-REACT", "SHA-S-REACT-RULE"], show=dur), cb.t("SHA-S-REACT-RULE")),
             cb.t("SHA-ICE-BH"),
             cb.t("COM-MATCH-DRAW"),
         ]) + flow,
@@ -336,8 +342,8 @@ def naadam(d: Data, prefix: str) -> str:
             "rank": k, "total": cr.v(tot, unit="戦略値"), "unit": "戦略値",
             "lines": [
                 (f'{cr.c(k_v * 60 / iv, [tk, "NAA-OVOO-TICK-SEC"], suffix="/分")}'
-                f'<small>（{cr.v(tk, unit="戦略値/回")}/{cr.v("NAA-OVOO-TICK-SEC", unit="秒", suffix="秒毎")}）</small>'),
-                f'契約 {cr.v("NAA-CLAIM-DURATION", unit="秒", suffix="秒間")}',
+                 f'<small>{H("（{0}/{1}）", cr.v(tk, unit="戦略値/回"), cr.v("NAA-OVOO-TICK-SEC", unit="秒", suffix="秒毎"))}</small>'),
+                H("契約 {0}", cr.v("NAA-CLAIM-DURATION", unit="秒", suffix="秒間")),
             ],
         })
     lands = card("無垢の土地", rank_tiles(d, ["NAA-RANK-SYMBOL"], tiles), sub=cr.t("NAA-OVOO-RECIPIENT"), badge=cr.badge())
@@ -351,15 +357,15 @@ def naadam(d: Data, prefix: str) -> str:
     first = total - (d.num("NAA-SPAWN-FIRST", "秒") + d.num("NAA-WARN-SEC", "秒"))
     bandhtml = band(
         d,
-        segments=[(f'上限 {seg_cap(cb, c, sw_ids[:i][-1:] + sw_ids[i:i + 1], "個")}', edges[i], edges[i + 1])
+        segments=[(H("上限 {0}", seg_cap(cb, c, sw_ids[:i][-1:] + sw_ids[i:i + 1], "個")), edges[i], edges[i + 1])
                   for i, c in enumerate(caps)],
-        marks=[(f'最初に契約できる {cb.c(first, ["COM-MATCH-TIME", "NAA-SPAWN-FIRST", "NAA-WARN-SEC"], show=mmss)}', first)],
+        marks=[(H("最初に契約できる {0}", cb.c(first, ["COM-MATCH-TIME", "NAA-SPAWN-FIRST", "NAA-WARN-SEC"], show=mmss)), first)],
     )
     timing = card(
         "同時に出る無垢の土地の数の上限（残り時間）",
         bandhtml + chips([
-            f'予告の {cb.v("NAA-WARN-SEC", unit="秒", suffix="秒後")}に契約できる',
-            f'契約に {cb.v("NAA-CLAIM-CAST", unit="秒", suffix="秒")}（{cb.t("NAA-CLAIM-MULTI")}）',
+            H("予告の {0}に契約できる", cb.v("NAA-WARN-SEC", unit="秒", suffix="秒後")),
+            H("契約に {0}（{1}）", cb.v("NAA-CLAIM-CAST", unit="秒", suffix="秒"), cb.t("NAA-CLAIM-MULTI")),
             cb.t("NAA-SPAWN-REFILL"),
             cb.t("NAA-NOREPEAT"),
         ]),
@@ -395,17 +401,17 @@ def triumph(d: Data, prefix: str) -> str:
         tiles.append({
             "rank": k, "total": cr.v(tot, unit="戦略値"), "unit": "戦略値",
             "lines": [
-                f'戦略サークル {cr.v(f"TRI-CIRCLE-{k}", unit="か所", suffix="か所")}',
+                H("戦略サークル {0}", cr.v(f"TRI-CIRCLE-{k}", unit="か所", suffix="か所")),
                 (f'{cr.c(t_v * 60 / dur_s, [tot, "TRI-CLAIM-DURATION"], suffix="/分")}'
-                f'<small>（{cr.v("TRI-CLAIM-DURATION", unit="秒", suffix="秒間")}）</small>'),
+                 f'<small>{H("（{0}）", cr.v("TRI-CLAIM-DURATION", unit="秒", suffix="秒間"))}</small>'),
             ],
         })
     rules_html = bullets([
-        (f'記号が出て {cr.v("TRI-ACTIVATING-SEC", unit="秒", suffix="秒後")}に制圧できる'
-        f'（開幕 {cr.v("TRI-SPAWN-OPEN-COUNT", unit="か所", suffix="か所")}）'),
-        f'サークル1つに {cr.v("TRI-CIRCLE-SEC", unit="秒", suffix="秒")}（{cr.t("TRI-CIRCLE-HEADCOUNT")}）',
+        H("記号が出て {0}に制圧できる（開幕 {1}）", cr.v("TRI-ACTIVATING-SEC", unit="秒", suffix="秒後"),
+          cr.v("TRI-SPAWN-OPEN-COUNT", unit="か所", suffix="か所")),
+        H("サークル1つに {0}（{1}）", cr.v("TRI-CIRCLE-SEC", unit="秒", suffix="秒"), cr.t("TRI-CIRCLE-HEADCOUNT")),
         cr.t("TRI-CLAIM-CONDITION"),
-        f'{cr.t("TRI-CIRCLE-CONTEST")}・{cr.t("TRI-CIRCLE-DEFEND")}',
+        H("{0}・{1}", cr.t("TRI-CIRCLE-CONTEST"), cr.t("TRI-CIRCLE-DEFEND")),
         cr.t("TRI-CIRCLE-RESET"),
         cr.t("TRI-CIRCLE-OVERWRITE"),
         cr.t("TRI-CIRCLE-KEEP"),
@@ -428,33 +434,32 @@ def triumph(d: Data, prefix: str) -> str:
 
     def win(rid: str) -> str:
         a, z = d.span(rid, MIN_LEFT)
-        return cb.raw(rid, f"{mmss(a * 60)}〜{mmss(z * 60)}", unit=MIN_LEFT)
+        return cb.raw(rid, F("{0}〜{1}", mmss(a * 60), mmss(z * 60)), unit=MIN_LEFT)
 
     bandhtml = band(
         d,
-        segments=[(f'上限 {seg_cap(cb, c, sw_ids[:i][-1:] + sw_ids[i:i + 1], "か所")}', edges[i], edges[i + 1])
+        segments=[(H("上限 {0}", seg_cap(cb, c, sw_ids[:i][-1:] + sw_ids[i:i + 1], "か所")), edges[i], edges[i + 1])
                   for i, c in enumerate(caps)],
         weather=[
-            ("snow", s_a, s_z - snow_len, f'最初の雪 {cb.v("TRI-WX-SNOW-SEC", unit="秒", show=dur, suffix="間")}', s_z),
-            ("aurora", a_a, a_z - aurora_len, f'オーロラ {cb.v("TRI-WX-AURORA-SEC", unit="秒", show=dur, suffix="間")}', a_z),
+            ("snow", s_a, s_z - snow_len, H("最初の雪 {0}間", cb.v("TRI-WX-SNOW-SEC", unit="秒", show=dur)), s_z),
+            ("aurora", a_a, a_z - aurora_len, H("オーロラ {0}間", cb.v("TRI-WX-AURORA-SEC", unit="秒", show=dur)), a_z),
         ],
     )
     effects = (
         '<div class="wxfx">'
-        f'<div class="fx snow"><svg class="ill" role="img" aria-label="雪"><title>雪</title><use href="#i-snow"/></svg><div>'
-        f'<div class="hd">最初の雪 <small>残り {win("TRI-WX-SNOW-START")} に始まる</small></div>'
-        f'<div class="ln">雪精の祝福: 最大HPの {cb.v("TRI-SNOW-BARRIER-PCT", unit="%（最大HPに対して）", suffix="%")} のバリア'
-        f'（{cb.v("TRI-SNOW-BARRIER-SEC", unit="秒", suffix="秒間")}）</div>'
-        f'<div class="ln">約{cb.v("TRI-SNOW-BLESS-INTERVAL", unit="秒", suffix="秒")}ごと・{cb.t("TRI-SNOW-BLESS-TIMING")}</div>'
+        f'<div class="fx snow"><svg class="ill" role="img" aria-label="{esc(L("雪"))}"><title>{H("雪")}</title><use href="#i-snow"/></svg><div>'
+        f'<div class="hd">{H("最初の雪")} <small>{H("残り {0} に始まる", win("TRI-WX-SNOW-START"))}</small></div>'
+        f'<div class="ln">{H("雪精の祝福: 最大HPの {0} のバリア（{1}）", cb.v("TRI-SNOW-BARRIER-PCT", unit="%（最大HPに対して）", suffix="%"), cb.v("TRI-SNOW-BARRIER-SEC", unit="秒", suffix="秒間"))}</div>'
+        f'<div class="ln">{H("約{0}ごと・{1}", cb.v("TRI-SNOW-BLESS-INTERVAL", unit="秒", suffix="秒"), cb.t("TRI-SNOW-BLESS-TIMING"))}</div>'
         f'<div class="ln">{cb.t("TRI-SNOW-STATUE-CENTER")}</div></div></div>'
-        f'<div class="fx aurora"><svg class="ill" role="img" aria-label="オーロラ"><title>オーロラ</title><use href="#i-aurora"/></svg><div>'
-        f'<div class="hd">最初のオーロラ <small>残り {win("TRI-WX-AURORA-START")} に始まる</small></div>'
-        f'<div class="ln">リミットゲージ {cb.v("TRI-AURORA-LB-RATE", unit="倍（通常時の速さに対して）", show=times)}</div>'
+        f'<div class="fx aurora"><svg class="ill" role="img" aria-label="{esc(L("オーロラ"))}"><title>{H("オーロラ")}</title><use href="#i-aurora"/></svg><div>'
+        f'<div class="hd">{H("最初のオーロラ")} <small>{H("残り {0} に始まる", win("TRI-WX-AURORA-START"))}</small></div>'
+        f'<div class="ln">{H("リミットゲージ {0}", cb.v("TRI-AURORA-LB-RATE", unit="倍（通常時の速さに対して）", show=times))}</div>'
         f'<div class="ln">{cb.t("TRI-AURORA-LB-STACK")}</div>'
-        f'<div class="ln">{cb.t("TRI-AURORA-NO-B")}・{cb.t("TRI-AURORA-HIGHRANK")}</div></div></div>'
+        f'<div class="ln">{H("{0}・{1}", cb.t("TRI-AURORA-NO-B"), cb.t("TRI-AURORA-HIGHRANK"))}</div></div></div>'
         "</div>"
     )
-    timing = card("同時に出る戦略目標地の数の上限と天候（残り時間）", bandhtml + effects, sub="天候の帯は、薄い部分が始まりうる時間帯",
+    timing = card("同時に出る戦略目標地の数の上限と天候（残り時間）", bandhtml + effects, sub=H("天候の帯は、薄い部分が始まりうる時間帯"),
                   badge=cb.badge())
     return objs + timing
 

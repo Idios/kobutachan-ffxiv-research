@@ -65,6 +65,9 @@ h2 .g { width: 28px; height: 28px; vertical-align: -4px; }
 .nav a .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--warning); margin-left: 6px; vertical-align: 3px; }
 .meta { display: flex; align-items: center; gap: 6px; font-size: var(--fs-min); color: var(--text-3); white-space: nowrap; }
 .meta > span { margin-left: 6px; }
+.ftr .langs { display: flex; gap: 4px; }
+.ftr .langs a { text-decoration: none; padding: 1px 8px; border-radius: 8px; background: var(--surface-1); color: var(--text-2); }
+.ftr .langs a.on { background: var(--surface-3); color: var(--text-1); }
 
 /* 本体 */
 .main { display: grid; grid-template-columns: minmax(0, 1fr) 556px; gap: 26px; padding: 10px 0 8px; min-height: 0; }
@@ -110,8 +113,8 @@ h2 .g { width: 28px; height: 28px; vertical-align: -4px; }
 .card .bases + * { margin-top: 0; }
 .card:has(.bases) { padding-bottom: 12px; }
 .card .below { display: flex; flex-wrap: wrap; gap: 4px 24px; align-items: baseline; margin-top: 36px; font-size: var(--fs-s); color: var(--text-2); }
-.card .below .big2 { font-size: var(--fs-l); font-weight: 800; color: var(--accent); }
-.card .below .big2 small { font-size: var(--fs-s); color: var(--text-2); font-weight: 500; margin-left: 6px; }
+.card .below .big2 { font-size: var(--fs-s); color: var(--text-2); font-weight: 500; }
+.card .below .big2 .n { font-size: var(--fs-l); font-weight: 800; color: var(--accent); }
 
 /* イラストつきのタイル */
 .events { display: grid; gap: 14px; }
@@ -228,3 +231,54 @@ body.scroll .panel { height: auto; min-height: 912px; }
 /* フッタ */
 .ftr { display: flex; align-items: center; gap: 22px; font-size: var(--fs-min); color: var(--text-3); border-top: 2px solid var(--line); white-space: nowrap; }
 .ftr .right { margin-left: auto; }
+
+/* 英語・ドイツ語・フランス語（文が日本語より長い）。文字は下限の 24px に寄せ、見出しは名前とルール名を2段に積む。
+   日本語のページは変えない。1画面に収まることは tests/frontline が4言語とも確かめる */
+html:not(:lang(ja)) { --fs-s: 24px; --fs-m: 25px; --fs-l: 28px; --fs-xl: 34px; --fs-num: 50px; }
+html:not(:lang(ja)) .hdr { gap: 16px; }
+html:not(:lang(ja)) .title { gap: 12px; }
+html:not(:lang(ja)) .title .badge { width: 60px; height: 60px; }
+html:not(:lang(ja)) .title h1 { font-size: 32px; display: flex; flex-direction: column; line-height: 1.08; }
+html:not(:lang(ja)) .title h1 small { margin-left: 0; font-size: var(--fs-min); }
+html:not(:lang(ja)) .goal .gnum { font-size: 60px; }
+html:not(:lang(ja)) .ko .k .kv { display: flex; flex-direction: column; line-height: 1.05; }
+html:not(:lang(ja)) .ko .k .kv small { margin-left: 0; }
+html:not(:lang(ja)) .nav a, html:not(:lang(ja)) .meta a { padding: 3px 8px; }
+html:not(:lang(ja)) .nav { gap: 4px; }
+html:not(:lang(ja)) .bh .sep td { white-space: normal; }
+html:not(:lang(ja)) .jobtable td.lbn { white-space: normal; }
+html:not(:lang(ja)) .bh th, html:not(:lang(ja)) .bh td { padding: 1px 1px; }
+/* 英・独・仏: 撃破・被撃破を1つの箱に2段で（単位が長いので横に並べると見出しに入らない） */
+html:not(:lang(ja)) .ko { flex-direction: column; gap: 2px; }
+html:not(:lang(ja)) .ko .k { flex-direction: row; align-items: baseline; gap: 8px; padding: 0 10px; }
+html:not(:lang(ja)) .ko .k .v { font-size: 28px; }
+html:not(:lang(ja)) .ko .k .kv { flex-direction: row; gap: 6px; align-items: baseline; }
+html:not(:lang(ja)) .ev .nm { white-space: normal; }
+html:not(:lang(ja)) .chart { height: 140px; }
+/* 英・独・仏: 長いマップ名（Le Rocher des tréfonds など）は2行に折り返してよい（見出しの高さ 104px に3段まで入る） */
+html:not(:lang(ja)) .title h1 { white-space: normal; font-size: 30px; }
+html:not(:lang(ja)) .today { padding: 2px 8px; }
+html:not(:lang(ja)) .mine tr.empty td { white-space: normal; }
+html:not(:lang(ja)) .bh td .v { font-size: var(--fs-min); }
+/* 英・独・仏: 天候の帯は flex だと語と値の間の空白が消えるので、ふつうの行にする。ランクのタイルの括弧の前を空ける */
+html:not(:lang(ja)) .band .wx { display: block; line-height: 32px; }
+html:not(:lang(ja)) .rk .ln small { margin-left: 6px; }
+
+/* 言語の切り替えの国旗（飾り。言語は隣の JA / EN / DE / FR で示す） */
+.flag { width: 30px; height: 20px; vertical-align: -3px; margin-right: 6px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .25); }
+/* 入口（frontline/index.html）: スクリプトが動かないときに出る言語の一覧 */
+body.entry { overflow: auto; display: grid; place-items: center; }
+body.entry main { text-align: center; }
+body.entry h1 { font-size: 42px; margin-bottom: 24px; }
+.entry-langs { list-style: none; display: flex; gap: 12px; justify-content: center; }
+.entry-langs a { display: inline-block; padding: 10px 18px; border-radius: 10px; background: var(--surface-1); text-decoration: none; font-size: var(--fs-m); }
+.ftr-entry { margin-top: 24px; font-size: var(--fs-min); color: var(--text-3); }
+/* 仏: 天候の説明が長いので、天候の絵（飾り）を出さずに文の幅を取る */
+html:lang(fr) .wxfx .ill { display: none; }
+html:lang(fr) .wxfx .fx { grid-template-columns: minmax(0, 1fr); }
+/* 仏: タブの余白を詰める（時間切れの説明が長く、見出しのマップ名の幅が足りないため） */
+html:lang(fr) .nav a { padding: 3px 6px; }
+/* 英・独・仏: 共通の欄（高さに余裕がある）のカードの見出しの説明は、2行目に折り返してよい */
+html:not(:lang(ja)) .col.common .card h2 { flex-wrap: wrap; row-gap: 0; }
+html:not(:lang(ja)) .col.common .card h2 .sub { white-space: normal; overflow: visible; }
+html:not(:lang(ja)) .title h1 small .today { margin-left: 8px; font-weight: 700; }

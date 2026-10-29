@@ -25,8 +25,10 @@ VIEWPORTS = [
     (1920, 1080, 1.0),  # 全画面（F11）
     (1536, 801, 1.25),  # 表示スケール125%・最大化
 ]
-PAGES = ["index.html", "secure/index.html", "seize/index.html", "shatter/index.html", "naadam/index.html",
-         "triumph/index.html", "jobs/index.html"]
+PAGE_NAMES = ["index.html", "secure/index.html", "seize/index.html", "shatter/index.html", "naadam/index.html",
+              "triumph/index.html", "jobs/index.html"]
+# 4言語とも同じ検査をする（ドイツ語・フランス語は文が長いので、1画面に収まるかを必ず確かめる）
+PAGES = [f"{lg}/{p}" for lg in ("ja", "en", "de", "fr") for p in PAGE_NAMES]
 JST = timezone(timedelta(hours=9))
 
 MEASURE = """() => {
@@ -43,7 +45,7 @@ MEASURE = """() => {
   const out = [];
   for (const e of texts) {
     const r = e.getBoundingClientRect();
-    const box = e.closest('.card, .hdr, .ftr, .panel').getBoundingClientRect();
+    const box = e.closest('.ev, .rk, .card, .hdr, .ftr, .panel').getBoundingClientRect();
     if (r.left < box.left - 1 || r.right > box.right + 1 || r.top < box.top - 1 || r.bottom > box.bottom + 1)
       out.push(e.textContent.trim().slice(0, 30));
   }
@@ -73,7 +75,10 @@ MEASURE = """() => {
   // キャンバスが表示領域からはみ出していないか（縮小が効いていないと、ここで分かる）
   const r = st.getBoundingClientRect();
   const offscreen = r.right > innerWidth + 1 || r.bottom > innerHeight + 1;
-  return {scroll, offscreen, small: small.slice(0, 5), outside: out.slice(0, 5), spill, clash};
+  // 「…」で切れている文字（見出しの説明など。overflow:hidden の欄で、中身が欄より広い）
+  const cut = [...panel.querySelectorAll('.sub, .wx, .seg, .chip, .st')].filter(shown)
+                .filter(e => e.scrollWidth > e.clientWidth + 1).map(e => e.textContent.trim().slice(0, 30));
+  return {scroll, offscreen, small: small.slice(0, 5), outside: out.slice(0, 5), spill, clash, cut};
 }""".replace("__MIN__", str(MIN_PX))
 
 
@@ -94,8 +99,11 @@ def browser():
         b.close()
 
 
-def open_page(browser, rel: str, w: int, h: int, dpr: float, *, jobs: list[str] | None = None, now_ms: int | None = None):
+def open_page(browser, rel: str, w: int, h: int, dpr: float, *, jobs: list[str] | None = None, now_ms: int | None = None,
+              langs: list[str] | None = None):
     ctx = browser.new_context(viewport={"width": w, "height": h}, device_scale_factor=dpr)
+    # ブラウザの言語（指定がなければ日本語。トップでの自動の切り替えが、ほかの検査を邪魔しないように）
+    ctx.add_init_script(f"Object.defineProperty(navigator, 'languages', {{get: function () {{ return {json.dumps(langs or ['ja-JP'])}; }}}});")
     if jobs is not None:
         ctx.add_init_script(f"localStorage.setItem('fl-myjobs', {json.dumps(json.dumps(jobs))});")
     if now_ms is not None:
@@ -120,6 +128,7 @@ def test_fits_one_screen(browser, rel: str, w: int, h: int, dpr: float, jobs: li
         assert r["spill"] == [], f"欄が下にはみ出す: {r['spill']}"
         assert r["outside"] == [], f"文字が欄の外にはみ出す: {r['outside']}"
         assert r["clash"] == [], f"見出しの欄が重なる・あふれる: {r['clash']}"
+        assert r["cut"] == [], f"文字が切れている（…）: {r['cut']}"
         assert r["small"] == [], f"文字が小さすぎる（{MIN_PX}px 未満）: {r['small']}"
         assert errors == []
     finally:
@@ -128,7 +137,7 @@ def test_fits_one_screen(browser, rel: str, w: int, h: int, dpr: float, jobs: li
 
 def test_header_checker_detects_clash(browser) -> None:
     """変異テスト: 見出しのタイトルを長くして隣の欄に重ねると、検査が見つける。"""
-    ctx, page, _ = open_page(browser, "shatter/index.html", 1920, 945, 1.0)
+    ctx, page, _ = open_page(browser, "ja/shatter/index.html", 1920, 945, 1.0)
     try:
         assert page.evaluate(MEASURE)["clash"] == []
         page.evaluate("document.querySelector('.panel .hdr .title h1').textContent = 'フィールド・オブ・グローリー（とても長い名前）'")
@@ -139,7 +148,7 @@ def test_header_checker_detects_clash(browser) -> None:
 
 def test_fit_checker_detects_overflow(browser) -> None:
     """変異テスト: 欄に行を足して画面からあふれさせると、検査が見つける。"""
-    ctx, page, _ = open_page(browser, "triumph/index.html", 1920, 945, 1.0, jobs=["NIN", "WHM", "SMN"])
+    ctx, page, _ = open_page(browser, "ja/triumph/index.html", 1920, 945, 1.0, jobs=["NIN", "WHM", "SMN"])
     try:
         page.evaluate("""() => { const ul = document.querySelector('.panel .rules');
             for (let i = 0; i < 6; i++) { const li = document.createElement('li'); li.textContent = 'あふれさせるための行'; ul.appendChild(li); } }""")
@@ -154,7 +163,7 @@ def test_scroll_checker_detects_unscaled_page(browser) -> None:
 
     2026-10-29 まで、ジョブ補正のページはこの状態で、html だけを見る検査を素通りしていた。
     """
-    ctx, page, _ = open_page(browser, "jobs/index.html", 1536, 801, 1.25)
+    ctx, page, _ = open_page(browser, "ja/jobs/index.html", 1536, 801, 1.25)
     try:
         page.evaluate("document.body.classList.add('scroll')")
         r = page.evaluate(MEASURE)
@@ -165,7 +174,7 @@ def test_scroll_checker_detects_unscaled_page(browser) -> None:
 
 def test_font_checker_detects_small_text(browser) -> None:
     """変異テスト: 文字を下限より小さくすると、検査が見つける。"""
-    ctx, page, _ = open_page(browser, "secure/index.html", 1920, 945, 1.0)
+    ctx, page, _ = open_page(browser, "ja/secure/index.html", 1920, 945, 1.0)
     try:
         page.evaluate("document.querySelector('.card h2 .ttl').style.fontSize = '12px'")
         assert page.evaluate(MEASURE)["small"]
@@ -189,7 +198,7 @@ def jst_ms(y: int, mo: int, d: int, hh: int = 12, mm: int = 0, ss: int = 0) -> i
     ],
 )
 def test_today_rule(browser, when: int, rule: str) -> None:
-    ctx, page, errors = open_page(browser, "index.html", 1920, 945, 1.0, now_ms=when)
+    ctx, page, errors = open_page(browser, "ja/index.html", 1920, 945, 1.0, now_ms=when)
     try:
         visible = page.evaluate("[...document.querySelectorAll('.panel[data-rule]')].filter(p => !p.hidden).map(p => p.dataset.rule)")
         badge = page.evaluate("[...document.querySelectorAll('[data-today-badge]')].filter(b => !b.hidden).map(b => b.dataset.todayBadge)")
@@ -205,7 +214,7 @@ def test_anchor_day_is_secure(browser, data) -> None:
     import build
 
     _, anchor, anchor_rule = build.rotation(data)
-    ctx, page, _ = open_page(browser, "index.html", 1920, 945, 1.0, now_ms=jst_ms(*anchor))
+    ctx, page, _ = open_page(browser, "ja/index.html", 1920, 945, 1.0, now_ms=jst_ms(*anchor))
     try:
         visible = page.evaluate("[...document.querySelectorAll('.panel[data-rule]')].filter(p => !p.hidden).map(p => p.dataset.rule)")
         assert visible == [anchor_rule]
@@ -214,7 +223,7 @@ def test_anchor_day_is_secure(browser, data) -> None:
 
 
 def test_tabs_switch_panels(browser) -> None:
-    ctx, page, errors = open_page(browser, "index.html", 1920, 945, 1.0, now_ms=jst_ms(2026, 10, 28))
+    ctx, page, errors = open_page(browser, "ja/index.html", 1920, 945, 1.0, now_ms=jst_ms(2026, 10, 28))
     try:
         page.click(".panel:not([hidden]) .nav a[data-go='seize']")
         visible = page.evaluate("[...document.querySelectorAll('.panel[data-rule]')].filter(p => !p.hidden).map(p => p.dataset.rule)")
@@ -233,7 +242,7 @@ PICKER_SHOWN = "document.querySelector('.myjobs .picker').getBoundingClientRect(
 
 def test_job_picker_keeps_three(browser) -> None:
     # 新しいコンテキストは記憶が空（初期化スクリプトで空にすると、再読み込みのたびに消えてしまう）
-    ctx, page, errors = open_page(browser, "secure/index.html", 1920, 945, 1.0)
+    ctx, page, errors = open_page(browser, "ja/secure/index.html", 1920, 945, 1.0)
     try:
         assert page.evaluate(PICKER_SHOWN) and page.evaluate(EMPTY_SHOWN)
         assert page.evaluate(SHOWN_JOBS) == []
@@ -266,7 +275,7 @@ def test_job_picker_without_storage(browser) -> None:
     errors: list[str] = []
     page.on("pageerror", lambda e: errors.append(str(e)))
     try:
-        page.goto((FRONT / "secure/index.html").resolve().as_uri())
+        page.goto((FRONT / "ja/secure/index.html").resolve().as_uri())
         page.wait_for_timeout(200)
         for code in ["NIN", "WHM"]:
             page.click(f".myjobs [data-pick='{code}']")
@@ -278,7 +287,7 @@ def test_job_picker_without_storage(browser) -> None:
 
 def test_broken_storage_shows_guide(browser) -> None:
     """記憶が壊れている（知らないジョブの記号だけ）ときは、案内の行を出す（見出しだけの表にしない）。"""
-    ctx, page, errors = open_page(browser, "secure/index.html", 1920, 945, 1.0, jobs=["XXX", "1"])
+    ctx, page, errors = open_page(browser, "ja/secure/index.html", 1920, 945, 1.0, jobs=["XXX", "1"])
     try:
         assert page.evaluate(SHOWN_JOBS) == []
         assert page.evaluate(PICKER_SHOWN) and page.evaluate(EMPTY_SHOWN)
@@ -300,3 +309,70 @@ def test_relative_links_exist() -> None:
             if not target.exists():
                 missing.append(f"{path.relative_to(FRONT).as_posix()}: {ref}")
     assert missing == []
+
+
+
+# ---------------------------------------------------------------- 言語の切り替え
+
+
+@pytest.mark.parametrize(
+    ("langs", "stored", "want"),
+    [
+        (["de-DE", "en-US"], None, "de/index.html"),  # ブラウザの言語
+        (["fr-CA"], None, "fr/index.html"),
+        (["es-ES", "it"], None, "en/index.html"),  # 対応していない言語は英語
+        (["ja-JP"], None, "ja/index.html"),  # 日本語
+        (["en-US"], "ja", "ja/index.html"),  # 選んだ言語（記憶）が優先
+        (["ja-JP"], "fr", "fr/index.html"),
+    ],
+)
+def test_top_follows_browser_language(browser, langs, stored, want) -> None:
+    ctx = browser.new_context(viewport={"width": 1920, "height": 945})
+    ctx.add_init_script(f"Object.defineProperty(navigator, 'languages', {{get: function () {{ return {json.dumps(langs)}; }}}});")
+    if stored:
+        ctx.add_init_script(f"localStorage.setItem('fl-lang', {json.dumps(stored)});")
+    page = ctx.new_page()
+    try:
+        page.goto((FRONT / "index.html").resolve().as_uri())
+        page.wait_for_timeout(300)
+        # ファイルで開くと、言語の版のフォルダ（de/ など）の URL になる（サーバーでは de/index.html が返る）
+        assert page.url.endswith(want) or page.url.endswith(want.removesuffix("index.html")), page.url
+        page.goto(page.url.rstrip("/") + "/index.html" if page.url.endswith("/") else page.url)
+        assert page.evaluate("document.documentElement.lang") == want[:2]
+    finally:
+        ctx.close()
+
+
+def test_language_switch_remembers_choice(browser) -> None:
+    """切り替えで選んだ言語を記憶し、日本語のトップを開き直しても、その言語の版に移る。同じページの別の言語に移る。"""
+    ctx, page, errors = open_page(browser, "ja/secure/index.html", 1920, 945, 1.0)
+    try:
+        page.click(".panel .langs a[data-lang='de']")
+        page.wait_for_timeout(300)
+        assert page.url.endswith("/de/secure/"), page.url
+        assert page.evaluate("localStorage.getItem('fl-lang')") == "de"
+        page.goto((FRONT / "index.html").resolve().as_uri())
+        page.wait_for_timeout(300)
+        assert page.url.endswith("de/index.html") or page.url.endswith("/de/"), page.url
+        assert errors == []
+    finally:
+        ctx.close()
+
+
+def test_moved_page_goes_to_ja(browser) -> None:
+    """前の日本語のページの場所（公開済みの URL）は、ja/ の同じページへ移る。"""
+    ctx, page, _ = open_page(browser, "secure/index.html", 1920, 945, 1.0)
+    try:
+        assert page.url.rstrip("/").endswith("ja/secure") or page.url.endswith("ja/secure/index.html"), page.url
+    finally:
+        ctx.close()
+
+
+def test_flags_in_language_switch(browser) -> None:
+    """言語の切り替えに国旗が出る（4つとも描かれている）。"""
+    ctx, page, _ = open_page(browser, "ja/secure/index.html", 1920, 945, 1.0)
+    try:
+        sizes = page.evaluate("[...document.querySelectorAll('.panel:not([hidden]) .langs .flag')].map(f => f.getBoundingClientRect().width)")
+        assert len(sizes) == 4 and all(w > 10 for w in sizes)
+    finally:
+        ctx.close()

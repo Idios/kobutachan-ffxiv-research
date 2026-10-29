@@ -48,3 +48,31 @@ FINAL FANTASY XIV に関する画像・文章・情報の権利は、スクウ�
 
 - 台帳の見方・確認のしかた・ページの作り方・検査: [data/README.md](data/README.md)
 - パッチ後の更新手順: [.agents/skills/frontline-maintenance/](../.agents/skills/frontline-maintenance/)
+
+## 言語（Languages）
+
+日本語・English・Deutsch・Français で見られます（`/frontline/ja/`・`/en/`・`/de/`・`/fr/`）。入口の `/frontline/` は、ブラウザの言語の版を開きます（対応していない言語なら英語）。各ページの下の JA / EN / DE / FR で切り替えると、その言語を記憶します。英語・ドイツ語・フランス語の文は自動翻訳で、ゲームの用語だけは各言語の公式サイトの表記を使っています。
+
+---
+
+## About this site (English)
+
+A one-screen-per-mode cheat sheet for FINAL FANTASY XIV Frontline (PvP). The top page shows today's mode.
+
+- Pages: <https://idios.github.io/kobutachan-ffxiv-research/frontline/> (日本語: `/frontline/ja/`, English: `/frontline/en/`, Deutsch: `/frontline/de/`, Français: `/frontline/fr/`)
+- An unofficial, non-commercial fan site by an individual player. Not affiliated with Square Enix. No ads, donations or sponsorship.
+- Languages: the entry page `/frontline/` opens the version matching your browser language (English if unsupported). Switching with JA / EN / DE / FR at the bottom of each page is remembered in your browser.
+- Translations of the English, German and French pages are machine-made. Game terms (maps, modes, jobs, Limit Breaks, objects) are copied from each language's official Lodestone guides and job guides.
+- All values are generated from a value ledger ([data/](data/)), mostly from official sources; other values are shown only after the maintainer checked them. Sources: the "Sources" page.
+- Found a mistake? Please open a [GitHub Issue](https://github.com/Idios/kobutachan-ffxiv-research/issues) (any language).
+
+### Rights
+
+Images, text and information about FINAL FANTASY XIV belong to Square Enix.
+
+© SQUARE ENIX
+
+- Used under Square Enix's materials usage policies for FINAL FANTASY XIV ([Japan](https://support.jp.square-enix.com/rule.php?id=5381&la=0&tag=authc); North America and Europe versions effective October 14, 2026), non-commercially, with "© SQUARE ENIX" on every page. Material will be removed promptly on request from Square Enix.
+- Official materials used: mode header images, job/role icons, the Limit Break icon and Battle High icons from the official site (list: [assets/img/SOURCES.tsv](assets/img/SOURCES.tsv)); text and information from the official guides and patch notes. Rank shapes and illustrations of monsters, tomeliths and weather are simple self-made drawings ([assets/icons.svg](assets/icons.svg)).
+- No datamined client data and no third-party tools (ACT, Dalamud, …) are used. Fan resources were consulted only to check values, with citations; their text is not copied.
+- The repository's MIT license covers only the author's code, not Square Enix's or anyone else's material.

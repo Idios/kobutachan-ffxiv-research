@@ -77,12 +77,27 @@ def test_generated_pages_are_up_to_date(site: dict[Path, str]) -> None:
 UI_PHRASES = ["1基の合計", "2回目から", "2巡目", "2Dマップ", "サークル1つ"]
 
 
+def ui_phrases(lang: str) -> list[str]:
+    """例外の言い回し（その言語での形）。訳は、例外を含む日本語の雛形の訳から、差し込み {n} の間の地の文字を取る。"""
+    if lang == "ja":
+        return UI_PHRASES
+    import i18n
+
+    _, ui, _ = i18n._tables()
+    out = []
+    for key, row in ui.items():
+        if any(p in key for p in UI_PHRASES):
+            out += [f.strip() for f in re.split(r"\{\d+\}", row.get(lang, "")) if re.search(r"\d", f)]
+    return sorted(set(out), key=len, reverse=True)
+
+
 def test_every_number_has_a_source(site: dict[Path, str]) -> None:
     """数字を含む文字は、data-src（台帳の行）か data-ui（画面の都合の数）を持つ要素の中にある。"""
     missing = []
     for name, html_text in public_pages(site).items():
+        lang = name.split("/")[0] if name.split("/")[0] in ("en", "de", "fr") else "ja"
         for text, anc in text_nodes(html_text):
-            for phrase in UI_PHRASES:
+            for phrase in ui_phrases(lang):
                 text = text.replace(phrase, "")
             if not re.search(r"\d", text):
                 continue
@@ -237,7 +252,7 @@ def test_retired_checker_detects_injected_values(site: dict[Path, str]) -> None:
     """変異テスト: 旧値をページに入れると、不在検査が見つける（行の範囲と全体の範囲の両方）。"""
     entries = retired_rows()
     pages = public_pages(site)
-    name, html_text = "triumph/index.html", pages["triumph/index.html"]
+    name, html_text = "ja/triumph/index.html", pages["ja/triumph/index.html"]
     for e in entries:
         if e["範囲"] == "全体":
             injected = html_text.replace("</main>", f"<p>{e['旧値']}</p></main>", 1)
@@ -245,7 +260,7 @@ def test_retired_checker_detects_injected_values(site: dict[Path, str]) -> None:
             injected = html_text.replace("</main>", f'<span data-src="{e["行ID"]}">{e["旧値"]}</span></main>', 1)
         assert find_retired({name: injected}, [e]), f"{e['行ID']} の旧値 {e['旧値']!r} を検出できない"
     # 台帳の書き方（桁区切りなし・波線の違い）で登録しても、ページの書き方を検出できる
-    sec = pages["secure/index.html"]
+    sec = pages["ja/secure/index.html"]
     assert find_retired({"secure": sec}, [{"行ID": "SEC-NODE-HP", "旧値": "1500000", "範囲": "行"}])
     assert find_retired({"triumph": html_text}, [{"行ID": "TRI-WX-SNOW-START", "旧値": "16:00～15:00", "範囲": "全体"}])
 
@@ -271,69 +286,69 @@ def test_derived_values_match_ledger(site: dict[Path, str], data: build.Data) ->
     total = n("COM-MATCH-TIME") * 60
     # 外縁遺跡群: 最初の出現の残り時間と、転移装置の起動
     first = total - n("SEC-EVT-FIRST")
-    assert build.mmss(first) in shown(site, "secure/index.html", ["COM-MATCH-TIME", "SEC-EVT-FIRST"])
+    assert build.mmss(first) in shown(site, "ja/secure/index.html", ["COM-MATCH-TIME", "SEC-EVT-FIRST"])
     tele = first + n("SEC-EVT-PANEL-LEAD")
-    assert build.mmss(tele) in shown(site, "secure/index.html", ["COM-MATCH-TIME", "SEC-EVT-FIRST", "SEC-EVT-PANEL-LEAD"])
+    assert build.mmss(tele) in shown(site, "ja/secure/index.html", ["COM-MATCH-TIME", "SEC-EVT-FIRST", "SEC-EVT-PANEL-LEAD"])
     # 拠点の1分あたりと、伸びが大きい拠点の数（増え方が最小の増え方より大きいところ）
     vals = [n(f"SEC-FLAG-RATE-{i}") for i in range(1, 10)]
     for i in range(1, 10):
         rid = f"SEC-FLAG-RATE-{i}"
         want = build.fmt(n(rid) * 60 / n("SEC-FLAG-TICK")) + "/分"  # 単位つき（2026-10-29 ユーザーの指示）
-        assert want in shown(site, "secure/index.html", [rid, "SEC-FLAG-TICK"]), rid
+        assert want in shown(site, "ja/secure/index.html", [rid, "SEC-FLAG-TICK"]), rid
     inc = [b - a for a, b in zip([0.0] + vals[:-1], vals)]
     jumps = [str(i) for i in range(2, 10) if inc[i - 1] > min(inc)]
-    big2 = re.search(r'<span class="big2">(.*?)<small>', public_pages(site)["secure/index.html"]).group(1)
-    assert re.findall(r">(\d+)</span>", big2) == jumps
+    big2 = re.search(r'<span class="big2">(.*?)</div>', public_pages(site)["ja/secure/index.html"]).group(1)
+    assert re.findall(r'<span class="n" data-src="[^"]+">(\d+)</span>', big2) == jumps
     # 中央の1回の合計と、邀撃システムの最大の回数（合計には「戦術値」を付ける）
     drone = build.fmt(n("SEC-DRONE-PTS") * n("SEC-DRONE-COUNT")) + "戦術値"
-    assert drone in shown(site, "secure/index.html", ["SEC-DRONE-PTS", "SEC-DRONE-COUNT"])
+    assert drone in shown(site, "ja/secure/index.html", ["SEC-DRONE-PTS", "SEC-DRONE-COUNT"])
     cmdr = build.fmt(n("SEC-CMDR-PTS") * n("SEC-CMDR-SPOTS")) + "戦術値"
-    assert cmdr in shown(site, "secure/index.html", ["SEC-CMDR-PTS", "SEC-CMDR-SPOTS"])
-    node = shown(site, "secure/index.html", ["SEC-NODE-PTS", "SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"])
+    assert cmdr in shown(site, "ja/secure/index.html", ["SEC-CMDR-PTS", "SEC-CMDR-SPOTS"])
+    node = shown(site, "ja/secure/index.html", ["SEC-NODE-PTS", "SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"])
     assert build.fmt(n("SEC-NODE-PTS") * (n("SEC-NODE-REFILLS") + 1)) + "戦術値" in node
-    assert build.fmt(n("SEC-NODE-REFILLS") + 1) + "回" in shown(site, "secure/index.html", ["SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"])
+    assert build.fmt(n("SEC-NODE-REFILLS") + 1) + "回" in shown(site, "ja/secure/index.html", ["SEC-NODE-REFILLS", "SEC-NODE-PTS-UNIT"])
     # シールロック・オンサル: 1分あたりと、枯れるまで
     for k in "BAS":
         tot, tk, iv = f"SEI-TOME-{k}-TOTAL", f"SEI-TOME-{k}-TICK", "SEI-TOME-TICK-SEC"
-        assert build.fmt(n(tk) * 60 / n(iv)) + "/分" in shown(site, "seize/index.html", [tk, iv])
-        assert pages.dur(n(tot) / n(tk) * n(iv)) in shown(site, "seize/index.html", [tot, tk, iv])
+        assert build.fmt(n(tk) * 60 / n(iv)) + "/分" in shown(site, "ja/seize/index.html", [tk, iv])
+        assert pages.dur(n(tot) / n(tk) * n(iv)) in shown(site, "ja/seize/index.html", [tot, tk, iv])
         tk2, iv2 = f"NAA-OVOO-{k}-TICK", "NAA-OVOO-TICK-SEC"
-        assert build.fmt(n(tk2) * 60 / n(iv2)) + "/分" in shown(site, "naadam/index.html", [tk2, iv2])
+        assert build.fmt(n(tk2) * 60 / n(iv2)) + "/分" in shown(site, "ja/naadam/index.html", [tk2, iv2])
     # オンサル: 最初に契約できる時刻
     first_claim = total - (n("NAA-SPAWN-FIRST") + n("NAA-WARN-SEC"))
-    assert build.mmss(first_claim) in shown(site, "naadam/index.html", ["COM-MATCH-TIME", "NAA-SPAWN-FIRST", "NAA-WARN-SEC"])
+    assert build.mmss(first_claim) in shown(site, "ja/naadam/index.html", ["COM-MATCH-TIME", "NAA-SPAWN-FIRST", "NAA-WARN-SEC"])
     # 演習戦: 制圧中の1分あたり
     for k in "BAS":
         tot = f"TRI-OBJ-{k}-TOTAL"
         want = build.fmt(n(tot) * 60 / n("TRI-CLAIM-DURATION")) + "/分"
-        assert want in shown(site, "triumph/index.html", [tot, "TRI-CLAIM-DURATION"])
+        assert want in shown(site, "ja/triumph/index.html", [tot, "TRI-CLAIM-DURATION"])
     # 砕氷戦: 大の最初の起動、小の2巡目の最速（未確認の規則による）、10万HPあたり
     lead = n("SHA-ICE-WARN-LEAD")
     l_first = total - (n("SHA-L-FIRST-WARN") + lead)
-    assert build.mmss(l_first) in shown(site, "shatter/index.html", ["COM-MATCH-TIME", "SHA-L-FIRST-WARN", "SHA-ICE-WARN-LEAD"])
+    assert build.mmss(l_first) in shown(site, "ja/shatter/index.html", ["COM-MATCH-TIME", "SHA-L-FIRST-WARN", "SHA-ICE-WARN-LEAD"])
     s_first = total - (n("SHA-S-FIRST-DELAY") + lead)
     s_second = s_first - (n("SHA-S-REACT") + lead)
     assert build.mmss(s_second) in shown(
-        site, "shatter/index.html", ["SHA-S-FIRST-ACTIVE", "SHA-S-REACT", "SHA-ICE-WARN-LEAD", "SHA-S-REACT-RULE"])
+        site, "ja/shatter/index.html", ["SHA-S-FIRST-ACTIVE", "SHA-S-REACT", "SHA-ICE-WARN-LEAD", "SHA-S-REACT-RULE"])
     for s_ in "LS":
         want = build.fmt1(n(f"SHA-{s_}-DATA") / n(f"SHA-{s_}-HP") * pages.PER_UNIT_HP)
-        assert want in shown(site, "shatter/index.html", [f"SHA-{s_}-DATA", f"SHA-{s_}-HP"]), s_
+        assert want in shown(site, "ja/shatter/index.html", [f"SHA-{s_}-DATA", f"SHA-{s_}-HP"]), s_
     # ジョブ: LB の秒数（基準＋補正）。召喚士は2つの LB
     for code in ["PLD", "NIN", "BRD", "DNC"]:
         want = build.fmt(n(f"COM-LBB-{code}") + n(f"COM-JOB-{code}-LB")) + "秒"
-        assert want in shown(site, "jobs/index.html", [f"COM-LBB-{code}", f"COM-JOB-{code}-LB"]), code
+        assert want in shown(site, "ja/jobs/index.html", [f"COM-LBB-{code}", f"COM-JOB-{code}-LB"]), code
     smn = {build.fmt(n(b) + n("COM-JOB-SMN-LB")) + "秒" for b in ("COM-LBB-SMN-BAHAMUT", "COM-LBB-SMN-PHOENIX")}
-    got = set(shown(site, "jobs/index.html", ["COM-LBB-SMN-BAHAMUT", "COM-LBB-SMN-PHOENIX", "COM-JOB-SMN-LB"]))
+    got = set(shown(site, "ja/jobs/index.html", ["COM-LBB-SMN-BAHAMUT", "COM-LBB-SMN-PHOENIX", "COM-JOB-SMN-LB"]))
     assert smn <= got
 
 
 def test_band_positions_match_ledger(site: dict[Path, str], data: build.Data) -> None:
     """帯の区切りと天候の位置が、台帳の時刻から計算した位置にある。"""
     total = data.num("COM-MATCH-TIME") * 60
-    seize = public_pages(site)["seize/index.html"]
+    seize = public_pages(site)["ja/seize/index.html"]
     sw = data.clock("SEI-CAP-SWITCH", "残り時間（分:秒）")
     assert re.findall(r'class="seg" style="flex:(\d+)"', seize)[:2] == [str(round(total - sw)), str(round(sw))]
-    tri = public_pages(site)["triumph/index.html"]
+    tri = public_pages(site)["ja/triumph/index.html"]
     a, z = (x * 60 for x in data.span("TRI-WX-SNOW-START", "分（残り時間）"))
     left = 100 * (total - a) / total
     width = 100 * ((total - (z - data.num("TRI-WX-SNOW-SEC"))) - (total - a)) / total
@@ -345,9 +360,9 @@ def test_ui_numbers_match_their_value(site: dict[Path, str]) -> None:
     """data-ui（画面の都合の数）は、表示している文字の数と同じ（「10万」は 100000）。"""
     for name, html_text in public_pages(site).items():
         for val, text in re.findall(r'<span data-ui="(\d+)">([^<]*)</span>', html_text):
-            m = re.fullmatch(r"([\d,]+)(万?)", text)
+            m = re.fullmatch(r"([\d,. ]+)(万?)", text)  # 桁区切りは言語ごと（, . 狭い空白）
             assert m, f"{name}: data-ui の文字 {text!r}"
-            num = int(m.group(1).replace(",", "")) * (10_000 if m.group(2) else 1)
+            num = int(re.sub(r"[,. ]", "", m.group(1))) * (10_000 if m.group(2) else 1)
             assert num == int(val), f"{name}: data-ui={val} と文字 {text!r} が違う"
 
 
@@ -375,3 +390,108 @@ def test_signed_uses_true_minus() -> None:
     assert build.signed(10) == "+10"
     assert build.signed(-10) == "−10"
     assert build.signed(0) == "0"
+
+
+# ---------------------------------------------------------------- 多言語（英・独・仏。frontline/data/i18n/）
+
+import i18n
+
+FOREIGN = ["en", "de", "fr"]
+JA_RE = re.compile(r"[぀-ヿ㐀-鿿！-～]")
+
+
+def test_i18n_tables_have_no_errors(site: dict[Path, str]) -> None:
+    """訳の表: 足りない訳・空の訳・差し込みの食い違い・元にない数・使っていない訳がない。"""
+    used = {"ui": set(i18n.State.used_ui), "text": set(i18n.State.used_text)}
+    assert i18n.check(used) == []
+
+
+def test_every_language_has_every_page(site: dict[Path, str]) -> None:
+    ja = sorted(p.removeprefix("ja/") for p in public_pages(site, include_sources=True) if p.startswith("ja/"))
+    for lg in FOREIGN:
+        assert sorted(p.removeprefix(lg + "/") for p in public_pages(site, include_sources=True) if p.startswith(lg + "/")) == ja
+
+
+def test_foreign_pages_have_no_japanese(site: dict[Path, str]) -> None:
+    """英・独・仏のページに日本語が残っていない（訳し漏れ）。出典一覧の名称などの引用と、言語の切り替えの「日本語」は除く。"""
+    leaks = []
+    for name, html_text in public_pages(site, include_sources=True).items():
+        if name.split("/")[0] not in FOREIGN:
+            continue
+        for text, anc in text_nodes(html_text):
+            if any(a.get("class") == "langs" for _, a in anc):
+                continue
+            if any("cite" in a.get("class", "").split() for _, a in anc):
+                continue  # 出典の名称は原文のまま（引用）
+            if JA_RE.search(text):
+                leaks.append(f"{name}: {text.strip()[:40]!r}")
+        for attr in re.findall(r'(?:title|alt|aria-label)="([^"]*)"', re.sub(r'<span class="langs">.*?</span>', "", html_text)):
+            if JA_RE.search(attr):
+                leaks.append(f"{name}: 属性 {attr[:40]!r}")
+    assert leaks == []
+
+
+def test_foreign_pages_keep_every_source(site: dict[Path, str]) -> None:
+    """訳したページでも、数字の出どころ（data-src）は日本語のページと同じ並び。"""
+    pages = public_pages(site)
+    for name, html_text in pages.items():
+        lg = name.split("/")[0]
+        if lg not in FOREIGN:
+            continue
+        ja = pages["ja/" + name.removeprefix(lg + "/")]
+        assert sorted(re.findall(r'data-src="([^"]*)"', html_text)) == sorted(re.findall(r'data-src="([^"]*)"', ja)), name
+
+
+def _foreign_build(data: build.Data, mutate) -> None:
+    i18n.reload()
+    tables = i18n._tables()
+    saved = copy.deepcopy(tables)
+    try:
+        mutate(*tables)
+        i18n.State._cache = tables
+        build.build(data)
+    finally:
+        i18n.State._cache = saved
+
+
+def test_build_refuses_stale_translation(data: build.Data) -> None:
+    """変異テスト: 日本語の表示文が変わった（訳したときの元の文と違う）行があると、生成が止まる。"""
+    def stale(terms, ui, texts):
+        rid = next(iter(texts))
+        texts[rid]["元の文"] += "（変更）"
+
+    with pytest.raises(build.BuildError, match="古い"):
+        _foreign_build(data, stale)
+
+
+def test_build_refuses_missing_translation(data: build.Data) -> None:
+    """変異テスト: 訳が空の言い回しがあると、生成が止まる（日本語のまま出さない）。"""
+    def missing(terms, ui, texts):
+        key = next(k for k in ui if "{0}" in k)
+        ui[key]["de"] = ""
+
+    with pytest.raises(build.BuildError, match="訳がない"):
+        _foreign_build(data, missing)
+
+
+def test_check_finds_added_number() -> None:
+    """変異テスト: 訳に元の日本語にない数を足すと、検査が見つける。"""
+    i18n.reload()
+    terms, ui, texts = i18n._tables()
+    saved = copy.deepcopy((terms, ui, texts))
+    try:
+        rid = next(iter(texts))
+        texts[rid]["fr"] += " 98765"
+        assert any("98765" in e for e in i18n.check())
+    finally:
+        i18n.State._cache = saved
+
+
+def test_entry_and_moved_pages(site: dict[Path, str]) -> None:
+    """入口は4言語へのリンクと振り分けだけ。前の日本語のページの場所（frontline/secure/ など）は ja/ の同じページへ移る。"""
+    entry = site[FRONT / "index.html"]
+    assert re.findall(r'<a href="(\w+)/" data-lang', entry) == ["ja", "en", "de", "fr"]
+    assert "location.replace" in entry and "© SQUARE ENIX" in entry
+    for name in build.OLD_JA_PAGES:
+        moved = site[FRONT / name / "index.html"]
+        assert f'url=../ja/{name}/' in moved and (FRONT / "ja" / name / "index.html") in site

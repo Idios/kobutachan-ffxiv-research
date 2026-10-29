@@ -39,7 +39,9 @@ def public_pages(site: dict[Path, str], *, include_sources: bool = False) -> dic
     out = {}
     for path, text in site.items():
         rel = path.relative_to(FRONT).as_posix()
-        if rel.startswith("sources/") and not include_sources:
+        if rel.split("/")[0] not in ("ja", "en", "de", "fr"):
+            continue  # 入口（言語の振り分け）と、前の日本語のページの場所の案内。値はない
+        if rel.split("/")[-2:-1] == ["sources"] and not include_sources:  # 各言語の出典一覧（sources/ と <lang>/sources/）
             continue
         out[rel] = text
     return out
