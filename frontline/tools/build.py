@@ -490,7 +490,8 @@ FLAGS = {"ja": "flag-ja", "en": "flag-en", "de": "flag-de", "fr": "flag-fr"}  # 
 
 def flag(lg: str) -> str:
     """言語の切り替えに付ける国旗（飾り。言語は隣の文字で示す）。"""
-    return f'<svg class="flag" aria-hidden="true"><use href="#{FLAGS[lg]}"/></svg>'
+    # 大きさは属性にも書く（スタイルシートが古いままキャッシュされていても、既定の 300×150 で巨大にならないように）
+    return f'<svg class="flag" width="30" height="20" aria-hidden="true"><use href="#{FLAGS[lg]}"/></svg>'
 
 
 def lang_switch(here: str, prefix: str) -> str:
@@ -566,6 +567,14 @@ def footer(d: Data, here: str, prefix: str) -> str:
 
 
 SVG_DEFS_PATH = ASSETS / "icons.svg"
+
+
+def css_version() -> str:
+    """site.css の中身の短いハッシュ。URL に付けて、CSS を変えたら閲覧者のブラウザが必ず新しい版を読むようにする
+    （GitHub Pages は10分キャッシュする。2026-10-29、新しいページと古い CSS の組み合わせで国旗が巨大に表示された）。"""
+    import hashlib
+
+    return hashlib.sha256((ASSETS / "site.css").read_bytes()).hexdigest()[:10]
 
 JS = """<script>
 (function () {
@@ -688,7 +697,7 @@ def page(d: Data, title: str, panels_html: str, prefix: str, *, extra_cls: str =
     svg = SVG_DEFS_PATH.read_text(encoding="utf-8")
     return (
         f'<!doctype html>\n<html lang="{i18n.lang()}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
-        f'<title>{esc(title)}</title>{redirect}<link rel="stylesheet" href="{ap(prefix)}assets/site.css"></head>'
+        f'<title>{esc(title)}</title>{redirect}<link rel="stylesheet" href="{ap(prefix)}assets/site.css?v={css_version()}"></head>'
         f'<body class="{extra_cls}">{svg}<div id="stage">{panels_html}</div>{js}</body></html>\n'
     )
 
@@ -796,7 +805,7 @@ def entry_page() -> str:
         '<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
         '<title>FF14 Frontline</title>'
         + LANG_REDIRECT.replace("__LANGS__", json.dumps(i18n.LANGS))
-        + '<link rel="stylesheet" href="assets/site.css"></head>'
+        + f'<link rel="stylesheet" href="assets/site.css?v={css_version()}"></head>'
         f'<body class="entry">{svg}<main><h1>FF14 Frontline</h1><ul class="entry-langs">{links}</ul>'
         '<p class="ftr-entry">© SQUARE ENIX</p></main>'
         "<script>document.querySelectorAll('[data-lang]').forEach(function (a) { a.addEventListener('click', function () {"

@@ -302,7 +302,7 @@ def test_relative_links_exist() -> None:
         if "data" in path.relative_to(FRONT).parts:
             continue
         html_text = path.read_text(encoding="utf-8")
-        for ref in re.findall(r'(?<![\w-])(?:href|src)="([^"#:]+)"', html_text):
+        for ref in re.findall(r'(?<![\w-])(?:href|src)="([^"#:?]+)', html_text):  # ?v= などは外して比べる
             target = (path.parent / ref).resolve()
             if ref.endswith("/"):
                 target = target / "index.html"
@@ -376,3 +376,23 @@ def test_flags_in_language_switch(browser) -> None:
         assert len(sizes) == 4 and all(w > 10 for w in sizes)
     finally:
         ctx.close()
+
+
+def test_flags_stay_small_without_css(browser) -> None:
+    """スタイルシートが古い（読めない）ままでも国旗は小さい（2026-10-29、公開直後に古い CSS のキャッシュで国旗が巨大になった）。"""
+    ctx, page, _ = open_page(browser, "ja/seize/index.html", 1920, 945, 1.0)
+    try:
+        page.evaluate("document.querySelectorAll('link[rel=stylesheet]').forEach(l => l.remove())")
+        widths = page.evaluate("[...document.querySelectorAll('.langs .flag')].map(f => f.getBoundingClientRect().width)")
+        assert widths and max(widths) <= 31, widths
+    finally:
+        ctx.close()
+
+
+def test_stylesheet_url_changes_with_css(site) -> None:
+    """CSS の URL には中身のハッシュが付く（CSS を変えると URL が変わり、ブラウザのキャッシュを使わない）。"""
+    import build
+
+    for path, text in site.items():
+        if "site.css" in text:  # 前の日本語の URL の案内ページは CSS を読まない
+            assert f"site.css?v={build.css_version()}" in text, path
