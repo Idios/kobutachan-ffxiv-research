@@ -73,6 +73,21 @@ def test_generated_pages_are_up_to_date(site: dict[Path, str]) -> None:
     assert stale == [], f"python frontline/tools/build.py を実行して作り直す: {stale}"
 
 
+def test_analytics_tag_matches_config(site: dict[Path, str]) -> None:
+    """計測タグ（Cloudflare Web Analytics）は、トークンがあるときだけ本文のページの head に1つ入る。
+
+    入口と移転案内には付けない（すぐ移るので、移り先と同じ閲覧を二重に数えてしまう）。
+    トークンが空ならどのページにも出さない。変異テストを兼ねる（HTML を手で書き換えても検出する）。
+    """
+    for path, text in site.items():
+        rel = path.relative_to(FRONT).as_posix()
+        count = text.count(build.CF_BEACON_URL)
+        assert count == (1 if build.CF_BEACON_TOKEN and rel.split("/")[0] in ("ja", "en", "de", "fr") else 0), rel
+        if count:
+            assert text.index(build.CF_BEACON_URL) < text.index("</head>"), f"{rel}: head の外"
+            assert build.CF_BEACON_TOKEN in text, f"{rel}: トークンがない"
+
+
 # 数字を含むが、ゲームの値ではない決まった言い回し（単位の「1」や固有名）。ここに足すときは値でないことを確かめる
 UI_PHRASES = ["1基の合計", "2回目から", "2巡目", "2Dマップ", "サークル1つ"]
 

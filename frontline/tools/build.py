@@ -54,6 +54,13 @@ MINUS = "−"
 SHOW_GRADES = False
 README_URL = "https://github.com/Idios/kobutachan-ffxiv-research/blob/main/frontline/README.md"
 
+# 閲覧数の計測（Cloudflare Web Analytics。Cookie を使わない）。frontline/README.md の「アクセス計測について」が方針。
+# トークンは Cloudflare のダッシュボード → Web Analytics でサイトを追加したときの beacon.min.js の
+# data-cf-beacon にある値。ページのソースに載る公開値なので、ここに書いてよい。
+# 空にすると計測タグを出さない（ビルドは通る）。変えたら build.py を実行してページを作り直す。
+CF_BEACON_URL = "https://static.cloudflareinsights.com/beacon.min.js"
+CF_BEACON_TOKEN = "09ea8c24274f4e4e9434606ca7e08115"
+
 
 class BuildError(Exception):
     """台帳の行が使えない（ない・○でない・数でない・単位が違う）。"""
@@ -685,6 +692,15 @@ def rotation(d: Data) -> tuple[list[str], list[int], str]:
     return cycle, anchor, by_name[m.group(1)]
 
 
+def analytics_tag() -> str:
+    """閲覧数の計測タグ。入口と移転案内のページには付けない（すぐ移るので、移り先と同じ閲覧を二重に数えてしまう）。"""
+    if not CF_BEACON_TOKEN:
+        return ""
+    beacon = json.dumps({"token": CF_BEACON_TOKEN})
+    # 形は Cloudflare が出すスニペットのまま（module はもともと遅延して動く）
+    return f"<script type='module' src='{CF_BEACON_URL}' data-cf-beacon='{beacon}'></script>"
+
+
 def page(d: Data, title: str, panels_html: str, prefix: str, *, extra_cls: str = "", top: bool = False) -> str:
     cycle, anchor, anchor_rule = rotation(d)
     js = (
@@ -697,7 +713,8 @@ def page(d: Data, title: str, panels_html: str, prefix: str, *, extra_cls: str =
     svg = SVG_DEFS_PATH.read_text(encoding="utf-8")
     return (
         f'<!doctype html>\n<html lang="{i18n.lang()}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
-        f'<title>{esc(title)}</title>{redirect}<link rel="stylesheet" href="{ap(prefix)}assets/site.css?v={css_version()}"></head>'
+        f'<title>{esc(title)}</title>{redirect}<link rel="stylesheet" href="{ap(prefix)}assets/site.css?v={css_version()}">'
+        f"{analytics_tag()}</head>"
         f'<body class="{extra_cls}">{svg}<div id="stage">{panels_html}</div>{js}</body></html>\n'
     )
 
@@ -851,6 +868,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="生成物が最新かだけを確かめる")
     args = ap.parse_args()
+    if not CF_BEACON_TOKEN:
+        # 黙って計測なしで公開されると気づけないので、毎回出す
+        print("計測タグは出していない（build.py の CF_BEACON_TOKEN が空）", file=sys.stderr)
     try:
         files = build(load())
     except BuildError as exc:

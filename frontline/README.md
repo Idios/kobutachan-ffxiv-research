@@ -19,6 +19,14 @@ FINAL FANTASY XIV の PvP「フロントライン」の数値を、ルールご�
 - 値ごとの根拠（公式・ゲーム内で確認・外部の資料・計算）と出典は台帳に記録しています。見やすさを優先して、ページには出していません。出典の URL と確認日は、各ページの「出典」から見られます。
 - どのパッチの時点のデータかは各ページ右上の「データ … 時点」に、確認した日付はページの下に出ています。パッチで値が変わることがあります。
 
+## アクセス計測について
+
+- どのページがどれくらい見られているかを知るために、[Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/)（無料）を使っています。
+- 各ページに計測用の小さなスクリプトを1つ置いています。**このサイトで唯一、外部（Cloudflare）へ通信するもの**です。ページを開くと、そのページの URL・参照元・国・ブラウザや端末の種類・表示速度の概要が Cloudflare に送られます。
+- Cookie は使いません。個人を特定する情報は集めていません。広告や宣伝には使いません。
+- スクリプトをブロックしても、ページの表示も機能も変わりません。
+- 入口のページ（`/frontline/`）と、前の日本語ページの場所に残した案内は、すぐに移るため計測していません（移り先で数えます）。
+
 ## 間違いを見つけたら
 
 [GitHub の Issues](https://github.com/Idios/kobutachan-ffxiv-research/issues) で知らせてください。確かめて直します。
@@ -65,6 +73,15 @@ A one-screen-per-mode cheat sheet for FINAL FANTASY XIV Frontline (PvP). The top
 - Translations of the English, German and French pages are machine-made. Game terms (maps, modes, jobs, Limit Breaks, objects) are copied from each language's official Lodestone guides and job guides.
 - All values are generated from a value ledger ([data/](data/)), mostly from official sources; other values are shown only after the maintainer checked them. Sources: the "Sources" page.
 - Found a mistake? Please open a [GitHub Issue](https://github.com/Idios/kobutachan-ffxiv-research/issues) (any language).
+
+### Analytics
+
+The site uses [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) (free) to see roughly how many people read each page.
+
+- Each page loads one small script from Cloudflare — the only external request the site makes. It sends the page URL, the referrer, the country, the browser/device type, and page speed summaries.
+- No cookies and no personal data. It is not used for advertising.
+- Blocking the script does not change how the pages look or work.
+- The entry page (`/frontline/`) and the notes left at the old Japanese URLs are not measured, because they redirect immediately (the destination page is counted instead).
 
 ### Rights
 
