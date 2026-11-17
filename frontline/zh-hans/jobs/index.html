@@ -124,8 +124,9 @@
     document.documentElement.style.setProperty('--scale', s);
   }
   addEventListener('resize', fit); fit();
-  var CYCLE = ["seize", "shatter", "naadam", "triumph", "seize", "secure", "naadam", "triumph"], ANCHOR = [2026, 4, 29], ANCHOR_RULE = "secure";
+  var TODAY = false, CYCLE = ["seize", "shatter", "naadam", "triumph", "seize", "secure", "naadam", "triumph"], ANCHOR = [2026, 4, 29], ANCHOR_RULE = "secure";
   function todayRule() {
+    if (!TODAY) return null;
     // 切替は毎日 0:00 JST（= 15:00 UTC）。閲覧者の時間帯によらず JST の日付で数える
     var day = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000);
     var a = Math.floor(Date.UTC(ANCHOR[0], ANCHOR[1] - 1, ANCHOR[2]) / 86400000);
@@ -135,13 +136,13 @@
   var panels = document.querySelectorAll('.panel[data-rule]');
   function show(rule) { panels.forEach(function (p) { p.hidden = p.dataset.rule !== rule; }); }
   var today = todayRule();
-  document.querySelectorAll('[data-today-badge]').forEach(function (b) { b.hidden = b.dataset.todayBadge !== today; });
+  document.querySelectorAll('[data-today-badge]').forEach(function (b) { b.hidden = today === null || b.dataset.todayBadge !== today; });
   document.querySelectorAll('.nav a').forEach(function (a) {
-    if (a.dataset.go === today) { var d = document.createElement('span'); d.className = 'dot'; d.title = "今日"; a.appendChild(d); }
+    if (today !== null && a.dataset.go === today) { var d = document.createElement('span'); d.className = 'dot'; d.title = "今日"; a.appendChild(d); }
     if (panels.length > 1) a.addEventListener('click', function (e) { e.preventDefault(); show(a.dataset.go); });
   });
   if (panels.length > 1) {
-    var has = Array.prototype.some.call(panels, function (p) { return p.dataset.rule === today; });
+    var has = today !== null && Array.prototype.some.call(panels, function (p) { return p.dataset.rule === today; });
     show(has ? today : panels[0].dataset.rule);
   }
   var KEY = 'fl-myjobs', MAX = 3, mem = null;

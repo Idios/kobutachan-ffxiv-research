@@ -38,6 +38,24 @@ from i18n import F, H, L, U
 FRONT = ledger.ROOT  # frontline/
 ASSETS = FRONT / "assets"
 RULE_ORDER = ["secure", "seize", "shatter", "naadam", "triumph"]
+
+# サービスごとの実装状況（2026-11-17）。台湾版は公式の更新筆記が 7.3／7.25 まで（7.4 以降は無い）で、
+# 7.5 で追加された演習戦（triumph）がまだ無い。確認できるまで、その言語ではページもタブも出さない。
+RULES_BY_LANG = {"zh-hant": ["secure", "seize", "shatter", "naadam"]}
+
+# 「今日」の印と自動選択を出す言語。ko / zh-hans はローテーションの位相が未確認、zh-hant は周期自体が違う
+# （7.5 未実装）ため、ユーザーのゲーム内確認があるまで出さない。
+TODAY_LANGS = {"ja", "en", "de", "fr"}
+
+
+def rules_for(lang: str | None = None) -> list[str]:
+    """その言語で出すルール（未実装のサービスでは減る）。"""
+    return RULES_BY_LANG.get(lang or i18n.lang(), RULE_ORDER)
+
+
+def show_today(lang: str | None = None) -> bool:
+    """その言語で「今日」の印と自動選択を出すか。"""
+    return (lang or i18n.lang()) in TODAY_LANGS
 CANVAS_W, CANVAS_H = 1920, 912  # 最大化したブラウザの表示領域（1920×945 前後）に合わせた固定キャンバス
 
 GRADE_ICON = {"外部": "g-ext", "実測": "g-obs", "計算": "g-calc", "未確認": "g-unk"}
@@ -514,9 +532,12 @@ def flag(lg: str) -> str:
 def lang_switch(here: str, prefix: str) -> str:
     """言語の切り替え（同じページの各言語版へ）。選んだ言語はブラウザに記憶し、トップでの自動の切り替えより優先する。"""
     root = ap(prefix)  # frontline/ への道
+    rule = here.rstrip("/")
     out = []
     for lg in i18n.LANGS:
-        href = root + lg + "/" + here
+        # その言語に無いルールのページ（現在は zh-hant の演習戦）は、その言語のトップへ送る（リンク切れを作らない）
+        fallback = rule in RULE_ORDER and rule not in rules_for(lg)
+        href = root + lg + "/" + ("" if fallback else here)
         on = " on" if lg == i18n.lang() else ""
         out.append(f'<a class="lg{on}" data-lang="{lg}" lang="{lg}" hreflang="{lg}" href="{href}" '
                    f'title="{esc(i18n.LANG_NAMES[lg])}">{flag(lg)}{esc(i18n.LANG_LABELS[lg])}</a>')
@@ -532,7 +553,8 @@ def header(d: Data, rule: str, spec: dict, prefix: str, here: str) -> str:
         raise BuildError(f"{spec['ko']}: 撃破は正、被撃破は負の数で書く")
     ko_gain = c.v(spec["ko"][0], unit=unit, show=signed)
     ko_loss = c.v(spec["ko"][1], unit=unit, show=signed)
-    today = f'<span class="today" data-today-badge="{rule}" hidden>{H("今日")}</span>'
+    today = (f'<span class="today" data-today-badge="{rule}" hidden>{H("今日")}</span>'
+             if show_today() else "")
     return (
         f'<header class="hdr"><div class="title"><img class="badge" src="{ap(prefix)}assets/img/hdr_{rule}.png" alt="">'
         + (f'<h1>{esc(name)}<small>{esc(sub)}</small></h1>{today}</div>' if i18n.lang() == "ja"
@@ -547,7 +569,7 @@ def header(d: Data, rule: str, spec: dict, prefix: str, here: str) -> str:
 
 def nav(d: Data, current: str, prefix: str, here: str) -> str:
     tabs = "".join(
-        f'<a data-go="{r}" class="{"on" if r == current else ""}" href="{prefix}{r}/">{esc(rule_names(r)[1])}</a>' for r in RULE_ORDER
+        f'<a data-go="{r}" class="{"on" if r == current else ""}" href="{prefix}{r}/">{esc(rule_names(r)[1])}</a>' for r in rules_for()
     )
     patch = d.row("COM-META-PATCH").value
     return (
@@ -603,8 +625,9 @@ JS = """<script>
     document.documentElement.style.setProperty('--scale', s);
   }
   addEventListener('resize', fit); fit();
-  var CYCLE = __CYCLE__, ANCHOR = __ANCHOR__, ANCHOR_RULE = __ANCHOR_RULE__;
+  var TODAY = __TODAY_ENABLED__, CYCLE = __CYCLE__, ANCHOR = __ANCHOR__, ANCHOR_RULE = __ANCHOR_RULE__;
   function todayRule() {
+    if (!TODAY) return null;
     // 切替は毎日 0:00 JST（= 15:00 UTC）。閲覧者の時間帯によらず JST の日付で数える
     var day = Math.floor((Date.now() + 9 * 3600 * 1000) / 86400000);
     var a = Math.floor(Date.UTC(ANCHOR[0], ANCHOR[1] - 1, ANCHOR[2]) / 86400000);
@@ -614,13 +637,13 @@ JS = """<script>
   var panels = document.querySelectorAll('.panel[data-rule]');
   function show(rule) { panels.forEach(function (p) { p.hidden = p.dataset.rule !== rule; }); }
   var today = todayRule();
-  document.querySelectorAll('[data-today-badge]').forEach(function (b) { b.hidden = b.dataset.todayBadge !== today; });
+  document.querySelectorAll('[data-today-badge]').forEach(function (b) { b.hidden = today === null || b.dataset.todayBadge !== today; });
   document.querySelectorAll('.nav a').forEach(function (a) {
-    if (a.dataset.go === today) { var d = document.createElement('span'); d.className = 'dot'; d.title = __TODAY__; a.appendChild(d); }
+    if (today !== null && a.dataset.go === today) { var d = document.createElement('span'); d.className = 'dot'; d.title = __TODAY__; a.appendChild(d); }
     if (panels.length > 1) a.addEventListener('click', function (e) { e.preventDefault(); show(a.dataset.go); });
   });
   if (panels.length > 1) {
-    var has = Array.prototype.some.call(panels, function (p) { return p.dataset.rule === today; });
+    var has = today !== null && Array.prototype.some.call(panels, function (p) { return p.dataset.rule === today; });
     show(has ? today : panels[0].dataset.rule);
   }
   var KEY = 'fl-myjobs', MAX = __MAX__, mem = null;
@@ -727,6 +750,7 @@ def page(d: Data, title: str, panels_html: str, prefix: str, *, extra_cls: str =
         JS.replace("__W__", str(CANVAS_W)).replace("__H__", str(CANVAS_H))
         .replace("__CYCLE__", json.dumps(cycle)).replace("__ANCHOR__", json.dumps(anchor))
         .replace("__ANCHOR_RULE__", json.dumps(anchor_rule)).replace("__MAX__", str(MYJOB_MAX))
+        .replace("__TODAY_ENABLED__", "true" if show_today() else "false")
         .replace("__TODAY__", json.dumps(L("今日"), ensure_ascii=False))
     )
     redirect = ""  # 言語の振り分けは入口のページ（entry_page）だけ
@@ -813,11 +837,14 @@ def sources_page(d: Data, prefix: str) -> str:
 
 def build_lang(d: Data, base: Path) -> dict[Path, str]:
     """今の言語（i18n.lang()）のページ一式。base は frontline/ か frontline/<lang>/。"""
+    d.used = set()  # 出典一覧と取得日の範囲は、その言語のページで使った行だけにする
+    rules = rules_for()
+    top_title = L("フロントライン早見表（今日のルール）") if show_today() else L("フロントライン早見表")
     out: dict[Path, str] = {}
     out[base / "index.html"] = page(
-        d, L("フロントライン早見表（今日のルール）"), "".join(rule_panel(d, r, "", "") for r in RULE_ORDER), "", top=True
+        d, top_title, "".join(rule_panel(d, r, "", "") for r in rules), "", top=True
     )
-    for r in RULE_ORDER:
+    for r in rules:
         name, sub = rule_names(r)
         out[base / r / "index.html"] = page(d, F("{0}（{1}）｜フロントライン早見表", name, sub),
                                             rule_panel(d, r, "../", f"{r}/"), "../")

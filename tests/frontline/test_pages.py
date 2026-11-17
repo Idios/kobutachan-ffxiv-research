@@ -16,6 +16,9 @@ from datetime import datetime, timedelta, timezone
 import pytest
 from conftest import FRONT
 
+import build
+import i18n
+
 sync_api = pytest.importorskip("playwright.sync_api")
 
 MIN_PX = 24.0  # 画面上の実寸（CSS px × 表示倍率 × デバイスの倍率）
@@ -27,8 +30,13 @@ VIEWPORTS = [
 ]
 PAGE_NAMES = ["index.html", "secure/index.html", "seize/index.html", "shatter/index.html", "naadam/index.html",
               "triumph/index.html", "jobs/index.html"]
-# 全言語とも同じ検査をする（ドイツ語・フランス語は文が長く、中国語・韓国語は字面が変わるので、1画面に収まるかを必ず確かめる）
-PAGES = [f"{lg}/{p}" for lg in ("ja", "en", "de", "fr", "ko", "zh-hans", "zh-hant") for p in PAGE_NAMES]
+# 全言語で同じ検査をする。ただし、そのサービスに無いルール（現在は zh-hant の演習戦）のページは開かない
+PAGES = [
+    f"{lg}/{p}"
+    for lg in i18n.LANGS
+    for p in PAGE_NAMES
+    if not (p.startswith("triumph/") and "triumph" not in build.rules_for(lg))
+]
 JST = timezone(timedelta(hours=9))
 
 MEASURE = """() => {
@@ -209,10 +217,50 @@ def test_today_rule(browser, when: int, rule: str) -> None:
         ctx.close()
 
 
+@pytest.mark.parametrize("lang", ["en", "de", "fr"])
+def test_today_badge_for_confirmed_languages(browser, lang: str) -> None:
+    """ローテーションを確認済みの言語では、これまで通り「今日」の印と自動選択を出す。"""
+    ctx, page, errors = open_page(browser, f"{lang}/index.html", 1920, 945, 1.0, now_ms=jst_ms(2026, 10, 28))
+    try:
+        visible = page.evaluate("[...document.querySelectorAll('.panel[data-rule]')].filter(p => !p.hidden).map(p => p.dataset.rule)")
+        badge = page.evaluate("[...document.querySelectorAll('[data-today-badge]')].filter(b => !b.hidden).map(b => b.dataset.todayBadge)")
+        assert visible == ["triumph"]
+        assert badge == ["triumph"]
+        assert errors == []
+    finally:
+        ctx.close()
+
+
+@pytest.mark.parametrize("lang", ["ko", "zh-hans", "zh-hant"])
+def test_no_today_badge_for_unconfirmed_languages(browser, lang: str) -> None:
+    """ローテーションが未確認の言語では「今日」の印を出さず、自動選択もせず先頭のルールを出す。"""
+    ctx, page, errors = open_page(browser, f"{lang}/index.html", 1920, 945, 1.0, now_ms=jst_ms(2026, 10, 28))
+    try:
+        visible = page.evaluate("[...document.querySelectorAll('.panel[data-rule]')].filter(p => !p.hidden).map(p => p.dataset.rule)")
+        badge = page.evaluate("[...document.querySelectorAll('[data-today-badge]')].filter(b => !b.hidden).map(b => b.dataset.todayBadge)")
+        dot = page.evaluate("[...document.querySelectorAll('.nav .dot')].length")
+        assert visible == [build.rules_for(lang)[0]]
+        assert badge == []
+        assert dot == 0
+        assert errors == []
+    finally:
+        ctx.close()
+
+
+def test_zh_hant_hides_unimplemented_triumph(browser) -> None:
+    """台湾版にまだ無い演習戦は、パネルもタブも出さない（7.5 未実装）。"""
+    ctx, page, errors = open_page(browser, "zh-hant/index.html", 1920, 945, 1.0)
+    try:
+        assert page.evaluate("[...document.querySelectorAll('.panel[data-rule]')].map(p => p.dataset.rule)") == ["secure", "seize", "shatter", "naadam"]
+        assert page.evaluate("[...document.querySelectorAll('.panel:not([hidden]) .nav a')].map(a => a.dataset.go)") == ["secure", "seize", "shatter", "naadam"]
+        assert page.evaluate("[...document.querySelectorAll('a[href$=\"triumph/\"]')].length") == 0
+        assert errors == []
+    finally:
+        ctx.close()
+
+
 def test_anchor_day_is_secure(browser, data) -> None:
     """台帳の起点の日（COM-ROT-ANCHOR）は、項目名に書かれたルールになる。"""
-    import build
-
     _, anchor, anchor_rule = build.rotation(data)
     ctx, page, _ = open_page(browser, "ja/index.html", 1920, 945, 1.0, now_ms=jst_ms(*anchor))
     try:

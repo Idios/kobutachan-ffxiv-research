@@ -32,7 +32,7 @@ FF14 フロントラインの早見表（ルール別5ページ＋今日のル�
 | `frontline/tools/build.py` | 台帳から公開ページを生成する（○ の行しか使えない。× や空欄の行を参照すると止まる） |
 | `frontline/tools/pages.py` | ルール別のページの中身（どの行をどのカードに出すか）。数を書かない |
 | `frontline/assets/` | 見た目（`site.css`）、自作のアイコン（`icons.svg`）、公式サイトの画像（`img/`、出どころは `img/SOURCES.tsv`） |
-| `frontline/<lang>/` | 生成物（lang は ja / en / de / fr / ko / zh-hans / zh-hant。トップ＝今日のルール、`<rule>/`、`jobs/`、`sources/`）。`frontline/index.html` は言語の振り分けの入口、`frontline/<rule>/` などは前の日本語のページの場所の案内。手で直さない |
+| `frontline/<lang>/` | 生成物（lang は ja / en / de / fr / ko / zh-hans / zh-hant。トップ＝今日のルール、`<rule>/`、`jobs/`、`sources/`）。`frontline/index.html` は言語の振り分けの入口、`frontline/<rule>/` などは前の日本語のページの場所の案内。手で直さない。**zh-hant は演習戦（triumph）を出さない**（台湾版は 7.5 未実装） |
 | `frontline/data/i18n/` | 日本語以外の訳（用語 terms.md・言い回し ui.md・台帳の文 text.md）。`frontline/tools/i18n.py` で検査・足りない行の追加 |
 | `frontline/README.md` | 公開向けの説明（使い方・データの方針・間違いの知らせ方・権利）。各ページの下の「このサイトについて」からリンクする。素材や方針を変えたら直す |
 | `tests/frontline/` | 自動検査（数字の出どころ・× の行と旧値の不在・変異テスト・表示領域ごとのスクロールなしと文字の下限・今日のルール） |
@@ -82,6 +82,8 @@ python frontline/tools/apply_review.py <判定.json>                # 判定を�
 
 16. **訳を日本語に追従させる。** ページは日本語・英語・ドイツ語・フランス語・韓国語・中国語（簡体字・繁体字）の7つ（`frontline/<lang>/`、lang は ko / zh-hans / zh-hant）。日本語の表示文や言い回しを変えたら、`python frontline/tools/i18n.py collect` で足りない訳を表（`frontline/data/i18n/`）に足して6言語とも訳し、`text.md` の「元の文」を書き換える（古い訳があると生成が止まる）。ゲームの用語は各言語の公式サイトの表記を `terms.md` に写す（英語・独・仏は Lodestone、韓国語は `guide.ff14.co.kr`、簡体字は中国版公式 `actff1.web.sdo.com/project/160810event/` の PvP ガイドと `.../20190917jobguid/dateconfig/*.js` の各職 PvP 技能名、繁体字は台湾の公式 PvP ガイド `www.ffxiv.com.tw`。`ff.web.sdo.com` は JavaScript アプリで本文が返らないが、`actff1.web.sdo.com` に静的ページがある。確認できなかった語は `出典` の欄に「未確認（自動翻訳）」と残し、詳細を `reports/` に書く。パッチで名前が変わったら直す）。単位は中国語・韓国語では数に付ける（`i18n.U()` が en / de / fr だけ空ける）。ドイツ語・フランス語は文が長く、中国語・韓国語は字面が変わるので、1画面に収まるかを `tests/frontline` で確かめる。
 
+17. **サービスの実装状況とローテーションを言語ごとに扱う。** ルールの実装有無は `build.RULES_BY_LANG`（現在は台湾版が 7.5 未実装なので zh-hant の演習戦を出さない）、「今日」の印と自動選択は `build.TODAY_LANGS`（現在は ko / zh-hans / zh-hant を出さない。ko / zh-hans は位相が未確認、zh-hant は 7.5 未実装で周期が違う）。ユーザーが各サービスでゲーム内の今日のルールを確認したら、言語別の周期・基準日を台帳に足して戻す。出典一覧と取得日の範囲は `build_lang` で言語ごとに集め直す。
+
 ## 手順書
 
 - 調査のしかた: [references/research-method.md](references/research-method.md)
@@ -93,5 +95,6 @@ python frontline/tools/apply_review.py <判定.json>                # 判定を�
 - [ ] 変えた行の「現行確認」「最終変更」「出典」が更新されている
 - [ ] 公式の行には原文抜粋があり、`frontline/data/official/` に保存されている
 - [ ] 旧値を `frontline/data/retired.md` に足し、`python -m pytest tests/frontline` が通る（旧値の不在・スクロールなし・文字の下限）
+- [ ] 言語ごとのページ集合と「今日」の印が意図どおり（zh-hant は演習戦なし、ko / zh-hans / zh-hant は今日の印なし）
 - [ ] `python frontline/tools/build.py` で作り直し、`--check` が「生成物は最新」
 - [ ] 変えた行の一覧をユーザーに示し、○／× をもらった

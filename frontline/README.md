@@ -59,7 +59,7 @@ FINAL FANTASY XIV に関する画像・文章・情報の権利は、スクウ�
 
 ## 言語（Languages）
 
-日本語・English・Deutsch・Français・한국어・简体中文・繁體中文 で見られます（`/frontline/ja/`・`/en/`・`/de/`・`/fr/`・`/ko/`・`/zh-hans/`・`/zh-hant/`）。入口の `/frontline/` は、ブラウザの言語の版を開きます（中国語はブラウザの字種で簡体字・繁体字を選び、対応していない言語なら英語）。各ページの下の JA / EN / DE / FR / KO / 简 / 繁 で切り替えると、その言語を記憶します。日本語以外の文は自動翻訳で、ゲームの用語だけは各言語の公式サイトの表記を使っています（簡体字は中国版公式ガイド `actff1.web.sdo.com`、繁体字は台湾の公式 PvP ガイド `www.ffxiv.com.tw`。ただし繁体字の一部の演習戦用語は公式に確認できておらず、[reports/20261117_i18n](../reports/20261117_i18n/) に一覧があります）。
+日本語・English・Deutsch・Français・한국어・简体中文・繁體中文 で見られます（`/frontline/ja/`・`/en/`・`/de/`・`/fr/`・`/ko/`・`/zh-hans/`・`/zh-hant/`）。入口の `/frontline/` は、ブラウザの言語の版を開きます（中国語はブラウザの字種で簡体字・繁体字を選び、対応していない言語なら英語）。各ページの下の JA / EN / DE / FR / KO / 简 / 繁 で切り替えると、その言語を記憶します。日本語以外の文は自動翻訳で、ゲームの用語だけは各言語の公式サイトの表記を使っています（簡体字は中国版公式ガイド `actff1.web.sdo.com`、繁体字は台湾の公式 PvP ガイド `www.ffxiv.com.tw`。ただし繁体字の一部の演習戦用語は公式に確認できておらず、[reports/20261117_i18n](../reports/20261117_i18n/) に一覧があります）。韓国語・簡体字・繁体字では、日替わりのローテーションが各サービスで確認できていないため、「今日」の印と自動選択を出していません。繁体字は台湾版が 7.5 未実装のため、演習戦のページ・タブも出していません（確認でき次第戻します）。
 
 ---
 
@@ -71,6 +71,7 @@ A one-screen-per-mode cheat sheet for FINAL FANTASY XIV Frontline (PvP). The top
 - An unofficial, non-commercial fan site by an individual player. Not affiliated with Square Enix. No ads, donations or sponsorship.
 - Languages: the entry page `/frontline/` opens the version matching your browser language (Chinese is split into Simplified/Traditional by the browser's script; English if unsupported). Switching with JA / EN / DE / FR / KO / 简 / 繁 at the bottom of each page is remembered in your browser.
 - All non-Japanese pages are machine-translated. Game terms (maps, modes, jobs, Limit Breaks, objects) are copied from each language's official site (Lodestone guides and job guides for English/German/French, the official Korean guide for Korean, the official Chinese guide and job guide at `actff1.web.sdo.com` for Simplified Chinese, and the official Traditional Chinese PvP guide for Traditional Chinese). A few Traditional Chinese Triumph terms remain unconfirmed and are listed in [reports/20261117_i18n](../reports/20261117_i18n/).
+- The Korean, Simplified Chinese and Traditional Chinese pages do not show the "today" badge or auto-select a rule, because the daily rotation has not been confirmed on those services. The Traditional Chinese pages also omit the Triumph mode, which the Taiwan service has not received yet (its patch notes stop at 7.3/7.25).
 - All values are generated from a value ledger ([data/](data/)), mostly from official sources; other values are shown only after the maintainer checked them. Sources: the "Sources" page.
 - Found a mistake? Please open a [GitHub Issue](https://github.com/Idios/kobutachan-ffxiv-research/issues) (any language).
 

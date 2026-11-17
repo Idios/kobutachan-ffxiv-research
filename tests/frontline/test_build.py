@@ -423,9 +423,27 @@ def test_i18n_tables_have_no_errors(site: dict[Path, str]) -> None:
 
 
 def test_every_language_has_every_page(site: dict[Path, str]) -> None:
-    ja = sorted(p.removeprefix("ja/") for p in public_pages(site, include_sources=True) if p.startswith("ja/"))
+    """各言語のページは、そのサービスで使えるルールぶんだけある（未実装の演習戦は zh-hant に出さない）。"""
+
+    def pages(lg: str) -> set[str]:
+        return {p.removeprefix(lg + "/") for p in public_pages(site, include_sources=True) if p.startswith(lg + "/")}
+
+    common = {"index.html", "jobs/index.html", "sources/index.html"}
+    assert pages("ja") == common | {f"{r}/index.html" for r in build.RULE_ORDER}
     for lg in FOREIGN:
-        assert sorted(p.removeprefix(lg + "/") for p in public_pages(site, include_sources=True) if p.startswith(lg + "/")) == ja
+        assert pages(lg) == common | {f"{r}/index.html" for r in build.rules_for(lg)}
+
+
+def test_unconfirmed_languages_have_no_today_title(site: dict[Path, str]) -> None:
+    """ローテーション未確認の言語のトップは、「今日のルール」を名乗らない。"""
+    for lg in ("ko", "zh-hans", "zh-hant"):
+        title = re.search(r"<title>(.*?)</title>", site[FRONT / lg / "index.html"]).group(1)
+        assert "今日" not in title and "오늘" not in title, (lg, title)
+
+
+def test_zh_hant_has_no_triumph_page(site: dict[Path, str]) -> None:
+    """台湾版は 7.5 未実装なので、演習戦のページを生成しない。"""
+    assert FRONT / "zh-hant" / "triumph" / "index.html" not in site
 
 
 def test_foreign_pages_have_no_japanese(site: dict[Path, str]) -> None:
@@ -454,14 +472,28 @@ def test_foreign_pages_have_no_japanese(site: dict[Path, str]) -> None:
 
 
 def test_foreign_pages_keep_every_source(site: dict[Path, str]) -> None:
-    """訳したページでも、数字の出どころ（data-src）は日本語のページと同じ並び。"""
+    """訳したページでも、数字の出どころ（data-src）は同じ。
+
+    ルール別のページは日本語の同じページと比べる。トップは、その言語で出すルールのページを
+    連結したものと比べる（繁体字は演習戦を出さないので、日本語のトップとは並びが違う）。
+    """
+
+    def srcs(text: str) -> list[str]:
+        return re.findall(r'data-src="([^"]*)"', text)
+
     pages = public_pages(site)
     for name, html_text in pages.items():
         lg = name.split("/")[0]
         if lg not in FOREIGN:
             continue
-        ja = pages["ja/" + name.removeprefix(lg + "/")]
-        assert sorted(re.findall(r'data-src="([^"]*)"', html_text)) == sorted(re.findall(r'data-src="([^"]*)"', ja)), name
+        rel = name.removeprefix(lg + "/")
+        if rel == "index.html":
+            want: list[str] = []
+            for r in build.rules_for(lg):
+                want += srcs(pages[f"{lg}/{r}/index.html"])
+            assert sorted(srcs(html_text)) == sorted(want), name
+        else:
+            assert sorted(srcs(html_text)) == sorted(srcs(pages["ja/" + rel])), name
 
 
 def _foreign_build(data: build.Data, mutate) -> None:
