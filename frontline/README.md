@@ -59,7 +59,7 @@ FINAL FANTASY XIV に関する画像・文章・情報の権利は、スクウ�
 
 ## 言語（Languages）
 
-日本語・English・Deutsch・Français で見られます（`/frontline/ja/`・`/en/`・`/de/`・`/fr/`）。入口の `/frontline/` は、ブラウザの言語の版を開きます（対応していない言語なら英語）。各ページの下の JA / EN / DE / FR で切り替えると、その言語を記憶します。英語・ドイツ語・フランス語の文は自動翻訳で、ゲームの用語だけは各言語の公式サイトの表記を使っています。
+日本語・English・Deutsch・Français・한국어・简体中文・繁體中文 で見られます（`/frontline/ja/`・`/en/`・`/de/`・`/fr/`・`/ko/`・`/zh-hans/`・`/zh-hant/`）。入口の `/frontline/` は、ブラウザの言語の版を開きます（中国語はブラウザの字種で簡体字・繁体字を選び、対応していない言語なら英語）。各ページの下の JA / EN / DE / FR / KO / 简 / 繁 で切り替えると、その言語を記憶します。日本語以外の文は自動翻訳で、ゲームの用語だけは各言語の公式サイトの表記を使っています（簡体字は中国版公式ガイド `actff1.web.sdo.com`、繁体字は台湾の公式 PvP ガイド `www.ffxiv.com.tw`。ただし繁体字の一部の演習戦用語は公式に確認できておらず、[reports/20261117_i18n](../reports/20261117_i18n/) に一覧があります）。
 
 ---
 
@@ -67,10 +67,10 @@ FINAL FANTASY XIV に関する画像・文章・情報の権利は、スクウ�
 
 A one-screen-per-mode cheat sheet for FINAL FANTASY XIV Frontline (PvP). The top page shows today's mode.
 
-- Pages: <https://idios.github.io/kobutachan-ffxiv-research/frontline/> (日本語: `/frontline/ja/`, English: `/frontline/en/`, Deutsch: `/frontline/de/`, Français: `/frontline/fr/`)
+- Pages: <https://idios.github.io/kobutachan-ffxiv-research/frontline/> (日本語: `/frontline/ja/`, English: `/frontline/en/`, Deutsch: `/frontline/de/`, Français: `/frontline/fr/`, 한국어: `/frontline/ko/`, 简体中文: `/frontline/zh-hans/`, 繁體中文: `/frontline/zh-hant/`)
 - An unofficial, non-commercial fan site by an individual player. Not affiliated with Square Enix. No ads, donations or sponsorship.
-- Languages: the entry page `/frontline/` opens the version matching your browser language (English if unsupported). Switching with JA / EN / DE / FR at the bottom of each page is remembered in your browser.
-- Translations of the English, German and French pages are machine-made. Game terms (maps, modes, jobs, Limit Breaks, objects) are copied from each language's official Lodestone guides and job guides.
+- Languages: the entry page `/frontline/` opens the version matching your browser language (Chinese is split into Simplified/Traditional by the browser's script; English if unsupported). Switching with JA / EN / DE / FR / KO / 简 / 繁 at the bottom of each page is remembered in your browser.
+- All non-Japanese pages are machine-translated. Game terms (maps, modes, jobs, Limit Breaks, objects) are copied from each language's official site (Lodestone guides and job guides for English/German/French, the official Korean guide for Korean, the official Chinese guide and job guide at `actff1.web.sdo.com` for Simplified Chinese, and the official Traditional Chinese PvP guide for Traditional Chinese). A few Traditional Chinese Triumph terms remain unconfirmed and are listed in [reports/20261117_i18n](../reports/20261117_i18n/).
 - All values are generated from a value ledger ([data/](data/)), mostly from official sources; other values are shown only after the maintainer checked them. Sources: the "Sources" page.
 - Found a mistake? Please open a [GitHub Issue](https://github.com/Idios/kobutachan-ffxiv-research/issues) (any language).
 

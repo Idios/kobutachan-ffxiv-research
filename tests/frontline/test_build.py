@@ -82,7 +82,7 @@ def test_analytics_tag_matches_config(site: dict[Path, str]) -> None:
     for path, text in site.items():
         rel = path.relative_to(FRONT).as_posix()
         count = text.count(build.CF_BEACON_URL)
-        assert count == (1 if build.CF_BEACON_TOKEN and rel.split("/")[0] in ("ja", "en", "de", "fr") else 0), rel
+        assert count == (1 if build.CF_BEACON_TOKEN and rel.split("/")[0] in i18n.LANGS else 0), rel
         if count:
             assert text.index(build.CF_BEACON_URL) < text.index("</head>"), f"{rel}: head の外"
             assert build.CF_BEACON_TOKEN in text, f"{rel}: トークンがない"
@@ -110,7 +110,7 @@ def test_every_number_has_a_source(site: dict[Path, str]) -> None:
     """数字を含む文字は、data-src（台帳の行）か data-ui（画面の都合の数）を持つ要素の中にある。"""
     missing = []
     for name, html_text in public_pages(site).items():
-        lang = name.split("/")[0] if name.split("/")[0] in ("en", "de", "fr") else "ja"
+        lang = name.split("/")[0] if name.split("/")[0] in i18n.FOREIGN else "ja"
         for text, anc in text_nodes(html_text):
             for phrase in ui_phrases(lang):
                 text = text.replace(phrase, "")
@@ -407,12 +407,13 @@ def test_signed_uses_true_minus() -> None:
     assert build.signed(0) == "0"
 
 
-# ---------------------------------------------------------------- 多言語（英・独・仏。frontline/data/i18n/）
+# ---------------------------------------------------------------- 多言語（英語・ドイツ語・フランス語・韓国語・中国語。frontline/data/i18n/）
 
 import i18n
 
-FOREIGN = ["en", "de", "fr"]
-JA_RE = re.compile(r"[぀-ヿ㐀-鿿！-～]")
+FOREIGN = i18n.FOREIGN
+KANA_RE = re.compile(r"[぀-ヿ]")
+JA_RE = re.compile(r"[぀-ヿ㐀-鿿！-～]")  # ラテン文字の言語に残ってはいけない文字（漢字も日本語の訳し漏れの印）
 
 
 def test_i18n_tables_have_no_errors(site: dict[Path, str]) -> None:
@@ -428,20 +429,26 @@ def test_every_language_has_every_page(site: dict[Path, str]) -> None:
 
 
 def test_foreign_pages_have_no_japanese(site: dict[Path, str]) -> None:
-    """英・独・仏のページに日本語が残っていない（訳し漏れ）。出典一覧の名称などの引用と、言語の切り替えの「日本語」は除く。"""
+    """訳したページに日本語が残っていない（訳し漏れ）。
+
+    英・独・仏は漢字も日本語の印として見る。韓国語・中国語は漢字を正当に使うので、
+    かな（とカタカナの「・」）だけを見る。出典一覧の名称などの引用と言語の切り替えは除く。
+    """
     leaks = []
     for name, html_text in public_pages(site, include_sources=True).items():
-        if name.split("/")[0] not in FOREIGN:
+        lg = name.split("/")[0]
+        if lg not in FOREIGN:
             continue
+        leak_re = JA_RE if lg in ("en", "de", "fr") else KANA_RE
         for text, anc in text_nodes(html_text):
             if any(a.get("class") == "langs" for _, a in anc):
                 continue
             if any("cite" in a.get("class", "").split() for _, a in anc):
                 continue  # 出典の名称は原文のまま（引用）
-            if JA_RE.search(text):
+            if leak_re.search(text):
                 leaks.append(f"{name}: {text.strip()[:40]!r}")
         for attr in re.findall(r'(?:title|alt|aria-label)="([^"]*)"', re.sub(r'<span class="langs">.*?</span>', "", html_text)):
-            if JA_RE.search(attr):
+            if leak_re.search(attr):
                 leaks.append(f"{name}: 属性 {attr[:40]!r}")
     assert leaks == []
 
@@ -502,10 +509,118 @@ def test_check_finds_added_number() -> None:
         i18n.State._cache = saved
 
 
+CHINESE_TEMPLATE_ISSUES = (
+    ("前の二重", re.compile(r"前\s*\d+\s*秒前")),
+    ("後の二重", re.compile(r"[后後]\s*\d+\s*秒[后後]")),
+    ("每秒", re.compile(r"\d每秒")),
+    ("第数列", re.compile(r"第\s*数列|第\s*數列")),
+)
+
+
+def chinese_template_issues(text: str) -> list[str]:
+    """中国語の文に残ってはいけない組み立て（二重の前後・每秒・数列）を返す。"""
+    return [label for label, pat in CHINESE_TEMPLATE_ISSUES if pat.search(text)]
+
+
+def test_chinese_time_words_are_not_doubled(site: dict[Path, str]) -> None:
+    """中国語で「前／後」が二重にならず、tick と数の並びも崩れていない。
+
+    2026-11-17 の査読で、雛形の「前」と差し込み値の「30秒前」が重なって「启动前30秒前」になり、
+    tick が「3每秒」、数の並びが「第数列：4」になっていた（{n} と数の検査は通っていた）。
+    """
+    bad = []
+    for name, html_text in public_pages(site).items():
+        if name.split("/")[0] not in ("zh-hans", "zh-hant"):
+            continue
+        text = " ".join(t for t, _ in text_nodes(html_text))
+        for label in chinese_template_issues(text):
+            bad.append(f"{name}: {label}")
+    assert bad == []
+
+
+def test_chinese_template_checker_detects_old_breaks() -> None:
+    """変異テスト: 直した 4 種の崩れを、検査器が実際に検出できる（簡体字の「后」も含む）。
+
+    正しい「数の並び」（`数列：4 · 7`）は禁止しない（第 3 回査読の指摘）。
+    """
+    for broken in ("启动前30秒前", "停止后15秒后", "停止後15秒後", "3每秒", "第数列：4", "第數列：4"):
+        assert chinese_template_issues(broken), broken
+    assert chinese_template_issues("启动30秒前 · 每3秒：2 · 第4 · 第7处大幅增长（蓝）") == []
+    assert chinese_template_issues("数列：4 · 7") == []  # 正当な語（「数の並び」）
+
+
+# 簡体字の出典の対応表。apply_cn_official.py とは別に、テスト側で独立して持つ（写し間違いを互いに検出するため）
+CN_EVENT_URL = "https://actff1.web.sdo.com/project/160810event/page{}.html"
+CN_JOB_URL = "https://actff1.web.sdo.com/project/20190917jobguid/index.html#/continfo/{}/pvp"
+CN_INDEX_URL = "https://actff1.web.sdo.com/project/20190917jobguid/index.html#/indexpvp"
+CN_PVP_URL = CN_EVENT_URL.format(1)
+CN_LB_JOB = {
+    "lb-PLD": "paladin", "lb-WAR": "warrior", "lb-DRK": "darkknight", "lb-GNB": "gunbreaker",
+    "lb-WHM": "whitemage", "lb-SCH": "scholar", "lb-AST": "astrologian", "lb-SGE": "sage",
+    "lb-MNK": "monk", "lb-DRG": "dragoon", "lb-NIN": "ninja", "lb-SAM": "samurai",
+    "lb-RPR": "reaper", "lb-VPR": "viper", "lb-BRD": "bard", "lb-MCH": "machinist",
+    "lb-DNC": "dancer", "lb-BLM": "blackmage", "lb-SMN-1": "summoner", "lb-SMN-2": "summoner",
+    "lb-RDM": "redmage", "lb-PCT": "pictomancer",
+}
+CN_RULE_PAGE = {
+    "rule-secure-": "4_1", "rule-seize-": "4_2", "rule-shatter-": "4_3",
+    "rule-naadam-": "4_4", "rule-triumph-": "4_5",
+}
+CN_TERM_PAGE = {
+    "term-邀撃ドローン": "4_1", "term-邀撃ドローンα": "4_1", "term-邀撃コマンダー": "4_1",
+    "term-邀撃システム": "4_1", "term-戦術値": "4_1", "term-戦意高揚": "4_1",
+    "term-戦意値": "4_1", "term-アシスト": "4_1",
+    "term-情報値": "4_2", "term-アラガントームリス": "4_2",
+    "term-アイスドトームリス": "4_3",
+    "term-無垢の土地": "4_4", "term-撃破": "4_4", "term-被撃破": "4_4",
+    "term-戦略値": "4_5", "term-雪": "4_5", "term-オーロラ": "4_5",
+}
+
+
+def cn_expected_source(key: str) -> str:
+    for prefix, page in CN_RULE_PAGE.items():
+        if key.startswith(prefix):
+            return CN_EVENT_URL.format(page)
+    if key in CN_LB_JOB:
+        return CN_JOB_URL.format(CN_LB_JOB[key])
+    if key.startswith("job-") or key.startswith("role-"):
+        return CN_INDEX_URL
+    if key in ("term-リミットゲージ", "term-リミットブレイク"):
+        return CN_PVP_URL
+    return CN_EVENT_URL.format(CN_TERM_PAGE[key])
+
+
+def _source_mismatches(rows: list[tuple[str, str]]) -> list[str]:
+    bad = []
+    for key, src in rows:
+        m = re.search(r"zh-hans: ([^;]+)", src)
+        if not m or m.group(1).strip() != cn_expected_source(key):
+            bad.append(key)
+    return bad
+
+
+def test_zh_hans_terms_use_correct_chinese_official_page() -> None:
+    """簡体字の用語の出典は、キーごとに正しい中国版公式ページを指す（同じ URL への寄せを検出する）。"""
+    found = ledger.find_table(i18n.TERMS_MD, i18n.TERM_COLS)
+    assert found is not None
+    rows = [(cells[0], cells[-1]) for cells in found[0]]
+    assert _source_mismatches(rows) == []
+
+
+def test_source_check_detects_wrong_page() -> None:
+    """変異テスト: 職違い・ページ違いの URL を、キーごとの照合が検出する。"""
+    all_4_5 = CN_EVENT_URL.format("4_5")
+    assert _source_mismatches([("lb-PLD", "zh-hans: " + CN_JOB_URL.format("warrior"))]) == ["lb-PLD"]
+    assert _source_mismatches([
+        ("lb-PLD", "zh-hans: " + all_4_5),                              # 職違い
+        ("rule-secure-map", "zh-hans: " + CN_EVENT_URL.format("4_1")),  # 正しい
+    ]) == ["lb-PLD"]
+
+
 def test_entry_and_moved_pages(site: dict[Path, str]) -> None:
-    """入口は4言語へのリンクと振り分けだけ。前の日本語のページの場所（frontline/secure/ など）は ja/ の同じページへ移る。"""
+    """入口は全言語へのリンクと振り分けだけ。前の日本語のページの場所（frontline/secure/ など）は ja/ の同じページへ移る。"""
     entry = site[FRONT / "index.html"]
-    assert re.findall(r'<a href="(\w+)/" data-lang', entry) == ["ja", "en", "de", "fr"]
+    assert re.findall(r'<a href="([\w-]+)/" data-lang', entry) == i18n.LANGS
     assert "location.replace" in entry and "© SQUARE ENIX" in entry
     for name in build.OLD_JA_PAGES:
         moved = site[FRONT / name / "index.html"]

@@ -10,7 +10,7 @@
     frontline/<lang>/<rule>/index.html    ルール別のページ（secure / seize / shatter / naadam / triumph）
     frontline/<lang>/jobs/index.html      ジョブ補正の一覧（自分のジョブを選ぶ）
     frontline/<lang>/sources/index.html   ページに出している値の出典の一覧
-    lang は ja / en / de / fr（訳は frontline/data/i18n/）。2026-10-29 まで日本語版があった frontline/<rule>/ などは、
+    lang は ja / en / de / fr / ko / zh-hans / zh-hant（訳は frontline/data/i18n/）。2026-10-29 まで日本語版があった frontline/<rule>/ などは、
     ja/ の同じページへ移る案内のページにする（公開済みの URL を切らない）
 
 守ること（frontline-maintenance スキル、リポジトリの AGENTS.md 規約1）:
@@ -414,7 +414,9 @@ def common_column(d: Data, prefix: str) -> str:
     c2 = Card(d, bh_rows)
     roman = ["I", "II", "III", "IV", "V"]
     head = f'<th></th><th class="none">{H("なし")}</th>' + "".join(
-        f'<th><img src="{ap(prefix)}assets/img/bh{i}.png" alt="{esc(F("戦意高揚{0}", roman[i - 1]))}"></th>' for i in levels
+        # 韓国語の公式は「투쟁심 상승 1」のようにアラビア数字。ほかの言語はローマ数字
+        f'<th><img src="{ap(prefix)}assets/img/bh{i}.png" alt="{esc(F("戦意高揚{0}", str(i) if i18n.lang() == "ko" else roman[i - 1]))}"></th>'
+        for i in levels
     )
     eff = f'<th>{H("効果")}</th><td class="none">—</td>' + "".join(
         f'<td>{c2.v(f"COM-BH-L{i}-EFF", unit="%", show=lambda x: "+" + fmt(x), suffix="%")}</td>' for i in levels
@@ -492,7 +494,15 @@ def ap(prefix: str) -> str:
     return prefix + "../"
 
 
-FLAGS = {"ja": "flag-ja", "en": "flag-en", "de": "flag-de", "fr": "flag-fr"}  # 自作の国旗（icons.svg）。英語は米国旗（ユーザーの指示）
+FLAGS = {  # 自作の国旗（icons.svg）。英語は米国旗（ユーザーの指示）
+    "ja": "flag-ja",
+    "en": "flag-en",
+    "de": "flag-de",
+    "fr": "flag-fr",
+    "ko": "flag-ko",
+    "zh-hans": "flag-zh-hans",
+    "zh-hant": "flag-zh-hant",
+}
 
 
 def flag(lg: str) -> str:
@@ -509,7 +519,7 @@ def lang_switch(here: str, prefix: str) -> str:
         href = root + lg + "/" + here
         on = " on" if lg == i18n.lang() else ""
         out.append(f'<a class="lg{on}" data-lang="{lg}" lang="{lg}" hreflang="{lg}" href="{href}" '
-                   f'title="{esc(i18n.LANG_NAMES[lg])}">{flag(lg)}{lg.upper()}</a>')
+                   f'title="{esc(i18n.LANG_NAMES[lg])}">{flag(lg)}{esc(i18n.LANG_LABELS[lg])}</a>')
     return f'<span class="langs">{"".join(out)}</span>'
 
 
@@ -661,7 +671,17 @@ LANG_REDIRECT = """<script>
   if (LANGS.indexOf(c) < 0) {
     c = null;
     var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'ja'];
-    for (var i = 0; i < prefs.length && !c; i++) { var b = String(prefs[i]).slice(0, 2).toLowerCase(); if (LANGS.indexOf(b) >= 0) c = b; }
+    for (var i = 0; i < prefs.length && !c; i++) {
+      var p = String(prefs[i]).toLowerCase();
+      // 中国語は字種で簡体字と繁体字に分ける（zh-TW / zh-HK / zh-MO と Hant が繁体字）
+      if (p.indexOf('zh') === 0) {
+        c = (/hant|tw|hk|mo/.test(p) ? 'zh-hant' : 'zh-hans');
+        if (LANGS.indexOf(c) < 0) c = null;
+        continue;
+      }
+      var b = p.slice(0, 2);
+      if (LANGS.indexOf(b) >= 0) c = b;
+    }
     if (!c) c = 'en';
   }
   location.replace(c + '/' + location.search + location.hash);

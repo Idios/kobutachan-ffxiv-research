@@ -66,7 +66,7 @@ h2 .g { width: 28px; height: 28px; vertical-align: -4px; }
 .meta { display: flex; align-items: center; gap: 6px; font-size: var(--fs-min); color: var(--text-3); white-space: nowrap; }
 .meta > span { margin-left: 6px; }
 .ftr .langs { display: flex; gap: 4px; }
-.ftr .langs a { text-decoration: none; padding: 1px 8px; border-radius: 8px; background: var(--surface-1); color: var(--text-2); }
+.ftr .langs a { text-decoration: none; padding: 1px 6px; border-radius: 8px; background: var(--surface-1); color: var(--text-2); }
 .ftr .langs a.on { background: var(--surface-3); color: var(--text-1); }
 
 /* 本体 */
@@ -264,8 +264,9 @@ html:not(:lang(ja)) .bh td .v { font-size: var(--fs-min); }
 html:not(:lang(ja)) .band .wx { display: block; line-height: 32px; }
 html:not(:lang(ja)) .rk .ln small { margin-left: 6px; }
 
-/* 言語の切り替えの国旗（飾り。言語は隣の JA / EN / DE / FR で示す） */
-.flag { width: 30px; height: 20px; vertical-align: -3px; margin-right: 6px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .25); }
+/* 言語の切り替えの国旗（飾り。言語は隣の JA / EN / DE / FR / KO / 简 / 繁 で示す）。
+   7言語ぶん並ぶので、フッタが1画面の幅に収まる大きさにする */
+.flag { width: 24px; height: 16px; vertical-align: -3px; margin-right: 4px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .25); }
 /* 入口（frontline/index.html）: スクリプトが動かないときに出る言語の一覧 */
 body.entry { overflow: auto; display: grid; place-items: center; }
 body.entry main { text-align: center; }
@@ -281,4 +282,12 @@ html:lang(fr) .nav a { padding: 3px 6px; }
 /* 英・独・仏: 共通の欄（高さに余裕がある）のカードの見出しの説明は、2行目に折り返してよい */
 html:not(:lang(ja)) .col.common .card h2 { flex-wrap: wrap; row-gap: 0; }
 html:not(:lang(ja)) .col.common .card h2 .sub { white-space: normal; overflow: visible; }
-html:not(:lang(ja)) .title h1 small .today { margin-left: 8px; font-weight: 700; }
+/* 英・独・仏など: マップ名・モード名・「今日」の札の間に改行の機会を作る（札があると語が離れず、見出しの幅を超えていた） */
+html:not(:lang(ja)) .title h1 small { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
+html:not(:lang(ja)) .title h1 small .today { font-weight: 700; }
+/* 韓国語: 語が長く行が増えるので、行間を詰める（文字は24pxの下限のまま）。1画面に収まるかは tests/frontline が見る */
+html:lang(ko), html:lang(ko) body { line-height: 1.2; }
+/* 韓国語: 天候の箱（雪・オーロラ）は行が増えるので、行間と余白を詰める */
+html:lang(ko) .wxfx { gap: 12px; }
+html:lang(ko) .wxfx .fx { padding: 6px 10px 8px; gap: 10px; }
+html:lang(ko) .wxfx .ln { line-height: 1.2; }

@@ -1,4 +1,4 @@
-"""ページの多言語化（日本語・英語・ドイツ語・フランス語）。
+"""ページの多言語化（日本語・英語・ドイツ語・フランス語・韓国語・中国語簡体字・中国語繁体字）。
 
 訳はすべて frontline/data/i18n/ の表に置く（ページやコードに訳を書かない）:
     terms.md  ゲームの用語（マップ名・ジョブ名・LB 名・オブジェクト名など）。各言語の公式サイトの表記をそのまま写す
@@ -27,15 +27,25 @@ from typing import ClassVar
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ledger
 
-LANGS = ["ja", "en", "de", "fr"]
-LANG_NAMES = {"ja": "日本語", "en": "English", "de": "Deutsch", "fr": "Français"}
+LANGS = ["ja", "en", "de", "fr", "ko", "zh-hans", "zh-hant"]
+LANG_NAMES = {
+    "ja": "日本語",
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français",
+    "ko": "한국어",
+    "zh-hans": "简体中文",
+    "zh-hant": "繁體中文",
+}
+# 言語の切り替えに出す短い印（中国語は字数を取らないよう漢字1字）
+LANG_LABELS = {"ja": "JA", "en": "EN", "de": "DE", "fr": "FR", "ko": "KO", "zh-hans": "简", "zh-hant": "繁"}
 I18N = ledger.DATA / "i18n"
 TERMS_MD = I18N / "terms.md"
 UI_MD = I18N / "ui.md"
 TEXT_MD = I18N / "text.md"
-TERM_COLS = ["キー", "日本語", "en", "de", "fr", "出典"]
-UI_COLS = ["日本語", "en", "de", "fr", "メモ"]
-TEXT_COLS = ["ID", "元の文", "en", "de", "fr"]
+TERM_COLS = ["キー", "日本語", "en", "de", "fr", "ko", "zh-hans", "zh-hant", "出典"]
+UI_COLS = ["日本語", "en", "de", "fr", "ko", "zh-hans", "zh-hant", "メモ"]
+TEXT_COLS = ["ID", "元の文", "en", "de", "fr", "ko", "zh-hans", "zh-hant"]
 FOREIGN = LANGS[1:]
 PLACEHOLDER = re.compile(r"\{(\d+)\}")
 EMPTY = "∅"  # 訳の表で「この言語では何も出さない」（日本語の助数詞「か所」「体」など、雛形の側で言えているとき）
@@ -74,6 +84,10 @@ def _tables() -> tuple[dict[str, dict[str, str]], dict[str, dict[str, str]], dic
                 raise I18nError(f"{path}: 表（{' | '.join(cols)}）がない")
             out = {}
             for cells in found[0]:
+                # 列の数が合わない行はここで止める（cells[1] を読む前に見る）
+                if len(cells) != len(cols):
+                    key = cells[0] if cells else ""
+                    raise I18nError(f"{path.name}: 列が {len(cells)} 個（{len(cols)} 個のはず）: {key!r}")
                 row = dict(zip(cols, cells))
                 out[cells[1] if cols is TERM_COLS else cells[0]] = row
             return out
@@ -140,12 +154,19 @@ def SEP() -> str:
 
 
 def U(suffix: str) -> str:
-    """値の後ろに付ける単位（「秒」「か所」「/分」など）。日本語の文字を含むときだけ訳を引く。"""
+    """値の後ろに付ける単位（「秒」「か所」「/分」など）。訳の表にある単位だけ訳す。
+
+    C() が返した訳済みの語をそのまま受け取ることがあるので、表にない語は訳さない（二重に訳さない）。
+    """
     if not suffix:
         return suffix
-    v = L(suffix) if JA_CHARS.search(suffix) else suffix
-    # 用語の表の語（「Siegpunkte」など）を単位に使うときは、数との間を空ける
-    return " " + v if State.lang != "ja" and (v[:1].isalpha() or v[:1] == "(") else v
+    v = suffix
+    if JA_CHARS.search(suffix):
+        terms, ui, _ = _tables()
+        if suffix in terms or suffix in ui:
+            v = L(suffix)
+    # ラテン文字の言語（単位が語）だけ数との間を空ける。中国語・韓国語の単位は数に付ける
+    return " " + v if State.lang in ("en", "de", "fr") and (v[:1].isalpha() or v[:1] == "(") else v
 
 
 def H(key: str, *args: str) -> str:
@@ -320,12 +341,12 @@ def append_missing(found: dict[str, set]) -> list[str]:
     _, ui, texts = (_tables() if State._cache else (reload() or _tables()))
     new_ui = sorted(k for k in found["ui"] if k not in ui)
     if new_ui:
-        write_rows(UI_MD, UI_COLS, [[k, "", "", "", ""] for k in new_ui])
+        write_rows(UI_MD, UI_COLS, [[k] + [""] * (len(UI_COLS) - 1) for k in new_ui])
         msgs.append(f"ui.md に {len(new_ui)} 行")
     new_text = sorted(found["text"])
     if new_text:
         stale = [rid for rid, ja in new_text if rid in texts and texts[rid]["元の文"] != ja]
-        fresh = [[rid, ja, "", "", ""] for rid, ja in new_text if rid not in texts]
+        fresh = [[rid, ja] + [""] * (len(TEXT_COLS) - 2) for rid, ja in new_text if rid not in texts]
         if fresh:
             write_rows(TEXT_MD, TEXT_COLS, fresh)
             msgs.append(f"text.md に {len(fresh)} 行")

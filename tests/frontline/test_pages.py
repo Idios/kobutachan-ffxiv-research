@@ -27,8 +27,8 @@ VIEWPORTS = [
 ]
 PAGE_NAMES = ["index.html", "secure/index.html", "seize/index.html", "shatter/index.html", "naadam/index.html",
               "triumph/index.html", "jobs/index.html"]
-# 4言語とも同じ検査をする（ドイツ語・フランス語は文が長いので、1画面に収まるかを必ず確かめる）
-PAGES = [f"{lg}/{p}" for lg in ("ja", "en", "de", "fr") for p in PAGE_NAMES]
+# 全言語とも同じ検査をする（ドイツ語・フランス語は文が長く、中国語・韓国語は字面が変わるので、1画面に収まるかを必ず確かめる）
+PAGES = [f"{lg}/{p}" for lg in ("ja", "en", "de", "fr", "ko", "zh-hans", "zh-hant") for p in PAGE_NAMES]
 JST = timezone(timedelta(hours=9))
 
 MEASURE = """() => {
@@ -302,7 +302,8 @@ def test_relative_links_exist() -> None:
         if "data" in path.relative_to(FRONT).parts:
             continue
         html_text = path.read_text(encoding="utf-8")
-        for ref in re.findall(r'(?<![\w-])(?:href|src)="([^"#:?]+)', html_text):  # ?v= などは外して比べる
+        # ?v= などを外して比べる。絶対 URL（https: など）は対象外
+        for ref in re.findall(r'(?<![\w-])(?:href|src)="(?!\w+:)([^"#:?]+)', html_text):
             target = (path.parent / ref).resolve()
             if ref.endswith("/"):
                 target = target / "index.html"
@@ -322,8 +323,15 @@ def test_relative_links_exist() -> None:
         (["fr-CA"], None, "fr/index.html"),
         (["es-ES", "it"], None, "en/index.html"),  # 対応していない言語は英語
         (["ja-JP"], None, "ja/index.html"),  # 日本語
+        (["ko-KR"], None, "ko/index.html"),  # 韓国語
+        (["zh-CN"], None, "zh-hans/index.html"),  # 中国語（簡体字）
+        (["zh-Hans-CN", "en"], None, "zh-hans/index.html"),
+        (["zh-TW"], None, "zh-hant/index.html"),  # 中国語（繁体字）
+        (["zh-HK"], None, "zh-hant/index.html"),
+        (["zh-Hant"], None, "zh-hant/index.html"),
         (["en-US"], "ja", "ja/index.html"),  # 選んだ言語（記憶）が優先
         (["ja-JP"], "fr", "fr/index.html"),
+        (["ja-JP"], "zh-hant", "zh-hant/index.html"),
     ],
 )
 def test_top_follows_browser_language(browser, langs, stored, want) -> None:
@@ -338,7 +346,7 @@ def test_top_follows_browser_language(browser, langs, stored, want) -> None:
         # ファイルで開くと、言語の版のフォルダ（de/ など）の URL になる（サーバーでは de/index.html が返る）
         assert page.url.endswith(want) or page.url.endswith(want.removesuffix("index.html")), page.url
         page.goto(page.url.rstrip("/") + "/index.html" if page.url.endswith("/") else page.url)
-        assert page.evaluate("document.documentElement.lang") == want[:2]
+        assert page.evaluate("document.documentElement.lang") == want.split("/")[0]
     finally:
         ctx.close()
 
@@ -369,11 +377,11 @@ def test_moved_page_goes_to_ja(browser) -> None:
 
 
 def test_flags_in_language_switch(browser) -> None:
-    """言語の切り替えに国旗が出る（4つとも描かれている）。"""
+    """言語の切り替えに国旗が出る（すべての言語のぶん描かれている）。"""
     ctx, page, _ = open_page(browser, "ja/secure/index.html", 1920, 945, 1.0)
     try:
         sizes = page.evaluate("[...document.querySelectorAll('.panel:not([hidden]) .langs .flag')].map(f => f.getBoundingClientRect().width)")
-        assert len(sizes) == 4 and all(w > 10 for w in sizes)
+        assert len(sizes) == 7 and all(w > 10 for w in sizes)
     finally:
         ctx.close()
 
